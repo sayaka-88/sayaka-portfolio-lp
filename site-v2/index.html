@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+<title>SAYAKA — デザインに愛を。【B案】</title>
+<meta name="description" content="グラフィックデザイナー SAYAKA のポートフォリオ B案。釣りで深海へ、宇宙へ、地上へ。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- 共通シェイプ定義 (黒輪郭なし、色面で表現) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="kStar" viewBox="0 0 24 24">
+      <polygon points="12,2 14.6,9.2 22,9.2 16,13.7 18.5,21 12,16.5 5.5,21 8,13.7 2,9.2 9.4,9.2"/>
+    </symbol>
+    <symbol id="kHeart" viewBox="0 0 24 24">
+      <path d="M 12 21 C 12 21 3 14 3 8 C 3 5 5 3 8 3 C 10 3 12 5 12 7 C 12 5 14 3 16 3 C 19 3 21 5 21 8 C 21 14 12 21 12 21 Z"/>
+    </symbol>
+    <symbol id="kCircle" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9"/>
+    </symbol>
+    <!-- 顔つき太陽 (輪郭線なし、色面のみ) -->
+    <symbol id="kSun" viewBox="0 0 80 80">
+      <circle cx="40" cy="40" r="26" fill="#FFD93D"/>
+      <circle cx="40" cy="40" r="20" fill="#FFE873"/>
+      <circle cx="32" cy="36" r="3" fill="#1a1a1a"/>
+      <circle cx="48" cy="36" r="3" fill="#1a1a1a"/>
+      <path d="M 32 46 Q 40 52, 48 46" stroke="#A0680B" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      <circle cx="26" cy="46" r="2.4" fill="#FFB3C7"/>
+      <circle cx="54" cy="46" r="2.4" fill="#FFB3C7"/>
+      <g fill="#FFD93D">
+        <rect x="38" y="4" width="4" height="10" rx="2"/>
+        <rect x="38" y="66" width="4" height="10" rx="2"/>
+        <rect x="4" y="38" width="10" height="4" rx="2"/>
+        <rect x="66" y="38" width="10" height="4" rx="2"/>
+      </g>
+      <g fill="#F2A93D">
+        <rect x="14" y="14" width="4" height="10" rx="2" transform="rotate(-45 16 19)"/>
+        <rect x="62" y="14" width="4" height="10" rx="2" transform="rotate(45 64 19)"/>
+        <rect x="14" y="56" width="4" height="10" rx="2" transform="rotate(45 16 61)"/>
+        <rect x="62" y="56" width="4" height="10" rx="2" transform="rotate(-45 64 61)"/>
+      </g>
+    </symbol>
+    <!-- 顔つき月 -->
+    <symbol id="kMoon" viewBox="0 0 60 60">
+      <circle cx="30" cy="30" r="22" fill="#FFE066"/>
+      <path d="M 22 18 Q 14 26, 18 38 Q 24 30, 32 26 Q 30 20, 22 18 Z" fill="#FFD93D"/>
+      <circle cx="36" cy="26" r="2.4" fill="#1a1a1a"/>
+      <path d="M 30 36 Q 34 40, 40 38" stroke="#A0680B" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <circle cx="38" cy="38" r="2" fill="#FFB3C7"/>
+    </symbol>
+    <!-- 浮き(うき) -->
+    <symbol id="kFloat" viewBox="0 0 24 36">
+      <ellipse cx="12" cy="18" rx="9" ry="11" fill="#F2806E"/>
+      <ellipse cx="12" cy="18" rx="9" ry="3.5" fill="#FFFFFF"/>
+      <ellipse cx="12" cy="11" rx="9" ry="2" fill="#D85F4C"/>
+      <rect x="11" y="0" width="2" height="6" fill="#3A2E1F" rx="1"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- 00. Header -->
+<header class="site-header">
+  <a class="logo" href="/"><span class="logo-text">SAYAKA</span></a>
+  <nav class="site-nav">
+    <a href="#about">About</a>
+    <a href="#works">Works</a>
+    <a href="#voice">Voice</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<!-- ルアー＋糸: 表情豊かにキャラクター化、輪郭線なし -->
+<div class="lure-trail" aria-hidden="true">
+  <div class="trail-line"></div>
+  <svg class="trail-lure" viewBox="0 0 80 60">
+    <!-- 接続リング (色面のみ) -->
+    <circle cx="10" cy="28" r="3" fill="none" stroke="#E8B928" stroke-width="2"/>
+    <line x1="13" y1="28" x2="18" y2="28" stroke="#E8B928" stroke-width="2"/>
+    <!-- リップ -->
+    <path d="M 18 32 L 8 42 L 14 46 L 24 36 Z" fill="#FFE8C8"/>
+    <!-- ボディ -->
+    <ellipse cx="44" cy="30" rx="26" ry="20" fill="#FFD93D"/>
+    <!-- 上面アクセント -->
+    <path d="M 18 22 Q 44 14, 70 22 L 70 14 Q 44 4, 18 14 Z" fill="#F2A93D"/>
+    <!-- ストライプ模様 (濃い同系色で色面分割) -->
+    <path d="M 22 30 Q 44 22, 66 30 L 66 36 Q 44 28, 22 36 Z" fill="#F2A93D"/>
+    <!-- 下面 (お腹) -->
+    <ellipse cx="44" cy="44" rx="20" ry="6" fill="#FFEC8F"/>
+    <!-- 目 (大きく、瞳のみ) -->
+    <circle cx="34" cy="22" r="6" fill="#FFFFFF"/>
+    <circle cx="35" cy="23" r="3.6" fill="#1a1a1a"/>
+    <circle cx="36" cy="22" r="1.2" fill="#FFFFFF"/>
+    <circle cx="54" cy="22" r="6" fill="#FFFFFF"/>
+    <circle cx="55" cy="23" r="3.6" fill="#1a1a1a"/>
+    <circle cx="56" cy="22" r="1.2" fill="#FFFFFF"/>
+    <!-- ニコ口 (口紅っぽい濃い色) -->
+    <path d="M 38 36 Q 44 42, 50 36" stroke="#A0680B" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+    <!-- ホッペ -->
+    <circle cx="28" cy="34" r="3" fill="#FFB3C7"/>
+    <circle cx="60" cy="34" r="3" fill="#FFB3C7"/>
+    <!-- フック -->
+    <line x1="44" y1="50" x2="44" y2="56" stroke="#666" stroke-width="1.4" stroke-linecap="round"/>
+    <path d="M 44 56 Q 40 57, 40 53" stroke="#666" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    <path d="M 44 56 Q 48 57, 48 53" stroke="#666" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    <circle cx="68" cy="30" r="2.4" fill="none" stroke="#888" stroke-width="1.4"/>
+    <line x1="70" y1="30" x2="76" y2="30" stroke="#666" stroke-width="1.4" stroke-linecap="round"/>
+    <path d="M 76 30 Q 78 32, 75 33" stroke="#666" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+  </svg>
+</div>
+
+<!-- 01. Hero -->
+<section class="hero" id="about">
+  <div class="hero-bg" aria-hidden="true">
+    <svg class="bg-item bg-star-1"><use href="#kStar" fill="#FFD93D"/></svg>
+    <svg class="bg-item bg-star-2"><use href="#kStar" fill="#FF8FA3"/></svg>
+    <svg class="bg-item bg-star-3"><use href="#kStar" fill="#5DD3C5"/></svg>
+    <svg class="bg-item bg-heart-1"><use href="#kHeart" fill="#FF8FA3"/></svg>
+    <svg class="bg-item bg-heart-2"><use href="#kHeart" fill="#FFD93D"/></svg>
+    <svg class="bg-item bg-dot-1"><use href="#kCircle" fill="#C9B6FF"/></svg>
+    <svg class="bg-item bg-dot-2"><use href="#kCircle" fill="#5DD3C5"/></svg>
+    <svg class="bg-item bg-dot-3"><use href="#kCircle" fill="#FFB347"/></svg>
+    <svg class="bg-item bg-float-1"><use href="#kFloat"/></svg>
+    <svg class="bg-item bg-float-2"><use href="#kFloat"/></svg>
+    <svg class="bg-item bg-sun"><use href="#kSun"/></svg>
+  </div>
+  <div class="hero-inner">
+    <h1 class="hero-title"><span class="hero-title-line">デザインに愛を。</span></h1>
+    <p class="hero-sub">思い出に残るものを、つくります。</p>
+  </div>
+  <div class="scroll-prompt" aria-hidden="true">
+    <span class="scroll-prompt-text">Scroll</span>
+    <span class="scroll-prompt-arrow"></span>
+  </div>
+</section>
+
+<!-- Scroll Narrative -->
+<main class="narrative" id="narrative">
+
+  <!-- 釣り竿 (色面で表現、グリップにストライプ模様) -->
+  <div class="fishing-rod-wrap" aria-hidden="true">
+    <svg class="fishing-rod" viewBox="0 0 280 260">
+      <!-- グリップ -->
+      <rect x="232" y="2" width="30" height="40" rx="8" fill="#3A2E1F"/>
+      <rect x="232" y="2" width="30" height="6" rx="3" fill="#FFD93D"/>
+      <rect x="232" y="14" width="30" height="2" fill="#FFD93D"/>
+      <rect x="232" y="22" width="30" height="2" fill="#FFD93D"/>
+      <rect x="232" y="30" width="30" height="2" fill="#FFD93D"/>
+      <!-- リールシート -->
+      <circle cx="247" cy="56" r="10" fill="#2A2018"/>
+      <circle cx="247" cy="56" r="4.5" fill="#FFD93D"/>
+      <!-- ロッド本体 (細→太、濃いグレーで描画、輪郭線ではなく形そのもの) -->
+      <path d="M 247 65 Q 200 120, 140 170 Q 100 200, 75 225"
+            stroke="#2A2018" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <!-- ガイドリング (色面ドット) -->
+      <circle cx="195" cy="125" r="5" fill="#FF8FA3"/>
+      <circle cx="160" cy="155" r="4.5" fill="#5DD3C5"/>
+      <circle cx="125" cy="185" r="4" fill="#C9B6FF"/>
+      <circle cx="95" cy="210" r="3.6" fill="#FFD93D"/>
+    </svg>
+  </div>
+
+  <!-- Stage 0: Prelude -->
+  <section class="stage stage-prelude" data-stage="0">
+    <div class="stage-text stage-text-prelude">
+      <p class="lead">ちょっと、深いところまで</p>
+      <p class="lead">潜ってみませんか。</p>
+    </div>
+  </section>
+
+  <!-- Stage 1: Sea Surface -->
+  <section class="stage stage-surface" data-stage="1">
+    <div class="ripple-container" aria-hidden="true">
+      <div class="ripple ripple-1"></div>
+      <div class="ripple ripple-2"></div>
+      <div class="ripple ripple-3"></div>
+      <div class="ripple ripple-4"></div>
+      <div class="ripple ripple-5"></div>
+      <div class="ripple ripple-6"></div>
+    </div>
+    <div class="splash" aria-hidden="true">
+      <span class="drop"></span><span class="drop"></span><span class="drop"></span><span class="drop"></span>
+      <span class="drop"></span><span class="drop"></span><span class="drop"></span><span class="drop"></span>
+    </div>
+    <div class="stage-text stage-text-surface">
+      <h2 class="greeting">はじめまして、SAYAKAです。</h2>
+      <p class="role">グラフィックデザイナー / ディレクター</p>
+      <p class="bio">東京を拠点に、デザインの仕事をしています。</p>
+    </div>
+  </section>
+
+  <!-- Stage 2: 海中 (顔つき魚 色面分割) -->
+  <section class="stage stage-undersea" data-stage="2" id="works">
+    <div class="fish-school" aria-hidden="true">
+      <!-- 黄色ストライプ魚 -->
+      <svg class="fish fish-a" viewBox="0 0 120 75">
+        <ellipse cx="44" cy="38" rx="34" ry="24" fill="#FFD93D"/>
+        <path d="M 14 38 Q 44 24, 74 38 L 74 30 Q 44 16, 14 30 Z" fill="#F2A93D"/>
+        <path d="M 14 38 Q 44 52, 74 38 L 74 44 Q 44 58, 14 44 Z" fill="#F2A93D"/>
+        <ellipse cx="44" cy="50" rx="26" ry="6" fill="#FFEC8F"/>
+        <polygon points="76,38 114,16 114,60" fill="#F2A93D"/>
+        <polygon points="80,38 110,24 110,52" fill="#FFD93D"/>
+        <circle cx="28" cy="32" r="7" fill="#FFFFFF"/>
+        <circle cx="30" cy="34" r="4" fill="#1a1a1a"/>
+        <circle cx="31" cy="32" r="1.4" fill="#FFFFFF"/>
+        <path d="M 22 46 Q 28 52, 36 46" stroke="#A0680B" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+        <circle cx="42" cy="48" r="3.5" fill="#FFB3C7"/>
+      </svg>
+      <!-- 水玉ピンクフグ -->
+      <svg class="fish fish-b" viewBox="0 0 100 90">
+        <circle cx="46" cy="46" r="36" fill="#FF8FA3"/>
+        <circle cx="46" cy="56" r="22" fill="#FFD0DC"/>
+        <circle cx="32" cy="30" r="3.2" fill="#E55C75"/>
+        <circle cx="58" cy="32" r="2.8" fill="#E55C75"/>
+        <circle cx="36" cy="60" r="3" fill="#E55C75"/>
+        <circle cx="60" cy="62" r="2.6" fill="#E55C75"/>
+        <polygon points="76,46 92,32 92,60" fill="#E55C75"/>
+        <circle cx="32" cy="42" r="6" fill="#FFFFFF"/>
+        <circle cx="33" cy="44" r="3.2" fill="#1a1a1a"/>
+        <circle cx="56" cy="42" r="6" fill="#FFFFFF"/>
+        <circle cx="57" cy="44" r="3.2" fill="#1a1a1a"/>
+        <path d="M 38 60 Q 46 66, 54 60" stroke="#A0405C" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+        <circle cx="24" cy="20" r="2" fill="#E55C75"/>
+        <circle cx="46" cy="14" r="2" fill="#E55C75"/>
+        <circle cx="68" cy="20" r="2" fill="#E55C75"/>
+      </svg>
+      <!-- 縦縞ティール魚 -->
+      <svg class="fish fish-c" viewBox="0 0 120 75">
+        <ellipse cx="44" cy="38" rx="32" ry="22" fill="#5DD3C5"/>
+        <ellipse cx="44" cy="48" rx="26" ry="8" fill="#9CE5DC"/>
+        <rect x="28" y="22" width="5" height="32" fill="#3DA89B"/>
+        <rect x="42" y="20" width="5" height="36" fill="#3DA89B"/>
+        <rect x="56" y="22" width="5" height="32" fill="#3DA89B"/>
+        <polygon points="74,38 110,16 110,60" fill="#3DA89B"/>
+        <polygon points="78,38 106,24 106,52" fill="#5DD3C5"/>
+        <circle cx="22" cy="32" r="7" fill="#FFFFFF"/>
+        <circle cx="24" cy="34" r="3.8" fill="#1a1a1a"/>
+        <circle cx="25" cy="32" r="1.4" fill="#FFFFFF"/>
+        <path d="M 16 48 Q 22 54, 30 48" stroke="#235048" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      </svg>
+      <!-- パープル星目魚 -->
+      <svg class="fish fish-d" viewBox="0 0 120 75">
+        <ellipse cx="44" cy="38" rx="32" ry="22" fill="#C9B6FF"/>
+        <ellipse cx="44" cy="48" rx="26" ry="8" fill="#E0D2FF"/>
+        <polygon points="74,38 110,16 110,60" fill="#9F86E0"/>
+        <polygon points="78,38 106,24 106,52" fill="#C9B6FF"/>
+        <polygon points="28,20 31,28 39,28 33,32.5 35.5,40 28,35.5 20.5,40 23,32.5 17,28 25,28" fill="#FFE066"/>
+        <path d="M 18 48 Q 28 54, 36 48" stroke="#5A3F8F" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+        <circle cx="44" cy="48" r="3" fill="#FF8FA3"/>
+      </svg>
+      <!-- オレンジ普通魚 -->
+      <svg class="fish fish-e" viewBox="0 0 120 75">
+        <ellipse cx="44" cy="38" rx="34" ry="24" fill="#FFB347"/>
+        <ellipse cx="44" cy="50" rx="26" ry="6" fill="#FFD18F"/>
+        <polygon points="76,38 114,14 114,62" fill="#E89540"/>
+        <polygon points="80,38 110,22 110,54" fill="#FFB347"/>
+        <circle cx="28" cy="30" r="7" fill="#FFFFFF"/>
+        <circle cx="30" cy="32" r="4" fill="#1a1a1a"/>
+        <circle cx="31" cy="30" r="1.4" fill="#FFFFFF"/>
+        <path d="M 22 46 Q 28 54, 36 46" stroke="#7A4612" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+        <circle cx="44" cy="48" r="3.5" fill="#FF6B8B"/>
+      </svg>
+    </div>
+    <div class="stage-text stage-text-undersea">
+      <p class="undersea-lead">こんなものを、つくっています。</p>
+      <ul class="genre-list">
+        <li class="genre">ロゴ</li>
+        <li class="genre">名刺・ショップカード</li>
+        <li class="genre">チラシ・フライヤー</li>
+        <li class="genre">ポスター</li>
+        <li class="genre">パッケージ</li>
+        <li class="genre">販促物・POP</li>
+        <li class="genre">グッズ</li>
+        <li class="genre">SNSバナー</li>
+        <li class="genre">パンフレット</li>
+        <li class="genre">Web・LP</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Stage 3: 深海 (アンコウ、色面分割) -->
+  <section class="stage stage-deep" data-stage="3">
+    <div class="anglerlight" aria-hidden="true"></div>
+    <svg class="anglerfish" viewBox="0 0 280 200" aria-hidden="true">
+      <path d="M 90 60 Q 70 28, 84 8" stroke="#2A2018" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <circle class="bulb-glow" cx="84" cy="8" r="22" fill="#FFE066" opacity="0.45"/>
+      <circle class="bulb" cx="84" cy="8" r="12" fill="#FFE066"/>
+      <circle cx="84" cy="8" r="8" fill="#FFF8B0"/>
+      <circle cx="80" cy="5" r="3" fill="#FFFFFF"/>
+      <path d="M 110 50 Q 80 65, 80 110 Q 80 155, 130 165 Q 200 168, 240 145 Q 230 110, 240 80 Q 200 56, 110 50 Z"
+            fill="#3A2A4F"/>
+      <path d="M 130 120 Q 170 130, 220 122 Q 200 145, 140 155 Q 120 145, 130 120 Z" fill="#5A4470"/>
+      <circle cx="130" cy="92" r="18" fill="#FFFFFF"/>
+      <circle cx="134" cy="96" r="9" fill="#1a1a1a"/>
+      <circle cx="136" cy="93" r="2.8" fill="#FFFFFF"/>
+      <path d="M 90 115 L 100 135 L 110 118 L 120 138 L 130 120 L 140 140 L 150 122 L 160 142 L 170 124 L 180 144 L 195 124 L 200 145 L 215 128"
+            fill="#FFFFFF"/>
+      <polygon points="240,90 270,70 270,170 240,150" fill="#2D2040"/>
+    </svg>
+    <div class="stage-text stage-text-deep">
+      <p class="deep-line">15年、デザインと向き合ってきました。</p>
+      <p class="deep-line">専門学校で、講師もしています。</p>
+      <p class="deep-line">商工会のエキスパートバンクに、登録されています。</p>
+    </div>
+  </section>
+
+  <!-- Stage 4: 宇宙 -->
+  <section class="stage stage-space" data-stage="4">
+    <div class="stars" aria-hidden="true">
+      <svg class="bgstar bs-a"><use href="#kStar" fill="#FFE066"/></svg>
+      <svg class="bgstar bs-b"><use href="#kStar" fill="#FF8FA3"/></svg>
+      <svg class="bgstar bs-c"><use href="#kStar" fill="#5DD3C5"/></svg>
+      <svg class="bgstar bs-d"><use href="#kStar" fill="#C9B6FF"/></svg>
+      <svg class="bgstar bs-e"><use href="#kStar" fill="#FFD93D"/></svg>
+      <svg class="bgstar bs-f"><use href="#kStar" fill="#F2806E"/></svg>
+      <svg class="bgstar bs-g"><use href="#kStar" fill="#FFE066"/></svg>
+      <svg class="bgstar bs-h"><use href="#kStar" fill="#C9B6FF"/></svg>
+      <svg class="bgstar bs-i"><use href="#kStar" fill="#5DD3C5"/></svg>
+      <svg class="bgstar bs-j"><use href="#kStar" fill="#FFB347"/></svg>
+    </div>
+    <svg class="space-moon" aria-hidden="true"><use href="#kMoon"/></svg>
+    <div class="shooting" aria-hidden="true">
+      <span class="shoot shoot-1"></span>
+      <span class="shoot shoot-2"></span>
+    </div>
+    <div class="stage-text stage-text-space">
+      <p class="space-lead">これまで、こんな方々と。</p>
+      <p class="space-link"><a href="/portfolio.html">↓ 詳しい取引先・実績はこちら</a></p>
+    </div>
+  </section>
+
+  <!-- Stage 5: Voice -->
+  <section class="stage stage-dawn" data-stage="5" id="voice">
+    <div class="clouds" aria-hidden="true">
+      <svg class="cloud cloud-1" viewBox="0 0 120 50">
+        <ellipse cx="34" cy="30" rx="22" ry="14" fill="#FFFFFF"/>
+        <ellipse cx="60" cy="26" rx="24" ry="16" fill="#FFFFFF"/>
+        <ellipse cx="86" cy="30" rx="20" ry="13" fill="#FFFFFF"/>
+        <ellipse cx="40" cy="36" rx="14" ry="4" fill="#E5D8C4"/>
+        <ellipse cx="76" cy="36" rx="14" ry="4" fill="#E5D8C4"/>
+      </svg>
+      <svg class="cloud cloud-2" viewBox="0 0 120 50">
+        <ellipse cx="34" cy="30" rx="22" ry="14" fill="#FFFFFF"/>
+        <ellipse cx="60" cy="26" rx="24" ry="16" fill="#FFFFFF"/>
+        <ellipse cx="86" cy="30" rx="20" ry="13" fill="#FFFFFF"/>
+        <ellipse cx="40" cy="36" rx="14" ry="4" fill="#E5D8C4"/>
+        <ellipse cx="76" cy="36" rx="14" ry="4" fill="#E5D8C4"/>
+      </svg>
+      <svg class="cloud cloud-3" viewBox="0 0 100 40">
+        <ellipse cx="28" cy="24" rx="18" ry="11" fill="#FFFFFF"/>
+        <ellipse cx="52" cy="20" rx="20" ry="13" fill="#FFFFFF"/>
+        <ellipse cx="74" cy="24" rx="16" ry="11" fill="#FFFFFF"/>
+      </svg>
+    </div>
+    <svg class="dawn-sun" aria-hidden="true"><use href="#kSun"/></svg>
+    <div class="stage-text stage-text-dawn">
+      <p class="dawn-eyebrow">Voice</p>
+      <ul class="dawn-quotes">
+        <li class="dawn-quote">「他とは違うって感想がもらえて、嬉しかった。」</li>
+        <li class="dawn-quote">「金額以上の仕上がりで、お得な気がした。」</li>
+        <li class="dawn-quote">「思い出に残るものを、つくれた気がする。」</li>
+      </ul>
+      <p class="dawn-close">思い出に残るものを、つくります。</p>
+    </div>
+  </section>
+
+  <!-- Stage 6: 地上 -->
+  <section class="stage stage-landing" data-stage="6" id="contact">
+    <div class="sky-birds" aria-hidden="true">
+      <svg class="bird bird-1" viewBox="0 0 40 24"><path d="M 2 14 Q 10 4, 18 12 Q 26 4, 38 14" stroke="#2A2018" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg class="bird bird-2" viewBox="0 0 40 24"><path d="M 2 14 Q 10 4, 18 12 Q 26 4, 38 14" stroke="#2A2018" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg class="bird bird-3" viewBox="0 0 40 24"><path d="M 2 14 Q 10 4, 18 12 Q 26 4, 38 14" stroke="#2A2018" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="sky-clouds" aria-hidden="true">
+      <svg class="land-cloud lc-1" viewBox="0 0 120 50">
+        <ellipse cx="34" cy="30" rx="22" ry="14" fill="#FFFFFF"/>
+        <ellipse cx="60" cy="26" rx="24" ry="16" fill="#FFFFFF"/>
+        <ellipse cx="86" cy="30" rx="20" ry="13" fill="#FFFFFF"/>
+        <ellipse cx="40" cy="36" rx="14" ry="4" fill="#D8E5F2"/>
+      </svg>
+      <svg class="land-cloud lc-2" viewBox="0 0 100 40">
+        <ellipse cx="28" cy="24" rx="18" ry="11" fill="#FFFFFF"/>
+        <ellipse cx="52" cy="20" rx="20" ry="13" fill="#FFFFFF"/>
+        <ellipse cx="74" cy="24" rx="16" ry="11" fill="#FFFFFF"/>
+      </svg>
+    </div>
+    <div class="stage-text stage-text-landing">
+      <p class="landing-lead">ここまで読んでくださって、ありがとうございます。</p>
+      <p class="landing-cta">ご相談・お見積もり、お気軽にどうぞ。</p>
+      <a class="landing-button" href="#contact-form">
+        <span>お問い合わせはこちら</span>
+        <span class="landing-arrow">→</span>
+      </a>
+    </div>
+    <div class="landscape" aria-hidden="true">
+      <div class="grass"></div>
+      <div class="grass-shadow"></div>
+      <svg class="tree tree-1" viewBox="0 0 70 110">
+        <rect x="28" y="60" width="14" height="44" fill="#8B5A3C"/>
+        <rect x="28" y="60" width="14" height="6" fill="#6B4528"/>
+        <circle cx="20" cy="44" r="18" fill="#7BC97C"/>
+        <circle cx="46" cy="38" r="22" fill="#5DAA5E"/>
+        <circle cx="35" cy="22" r="16" fill="#7BC97C"/>
+      </svg>
+      <svg class="house" viewBox="0 0 130 110">
+        <polygon points="65,12 118,58 12,58" fill="#F2806E"/>
+        <polygon points="65,12 118,58 90,58 65,32" fill="#D85F4C"/>
+        <rect x="18" y="58" width="94" height="50" fill="#FFE873"/>
+        <rect x="18" y="58" width="94" height="6" fill="#E5C935"/>
+        <rect x="56" y="78" width="20" height="30" fill="#8B5A3C"/>
+        <rect x="56" y="78" width="20" height="4" fill="#6B4528"/>
+        <circle cx="71" cy="93" r="1.8" fill="#3A2E1F"/>
+        <rect x="28" y="68" width="16" height="16" fill="#A8E6F2"/>
+        <rect x="36" y="68" width="2" height="16" fill="#FFFFFF"/>
+        <rect x="28" y="76" width="16" height="2" fill="#FFFFFF"/>
+        <rect x="86" y="68" width="16" height="16" fill="#A8E6F2"/>
+        <rect x="94" y="68" width="2" height="16" fill="#FFFFFF"/>
+        <rect x="86" y="76" width="16" height="2" fill="#FFFFFF"/>
+        <rect x="90" y="22" width="10" height="20" fill="#3A2E1F"/>
+        <rect x="90" y="22" width="10" height="4" fill="#5C4632"/>
+      </svg>
+      <svg class="tree tree-2" viewBox="0 0 70 110">
+        <rect x="28" y="60" width="14" height="44" fill="#8B5A3C"/>
+        <rect x="28" y="60" width="14" height="6" fill="#6B4528"/>
+        <circle cx="22" cy="42" r="20" fill="#7BC97C"/>
+        <circle cx="44" cy="34" r="18" fill="#5DAA5E"/>
+        <circle cx="32" cy="20" r="14" fill="#7BC97C"/>
+      </svg>
+      <svg class="cat" viewBox="0 0 60 60">
+        <ellipse cx="30" cy="42" rx="18" ry="13" fill="#FFB347"/>
+        <ellipse cx="30" cy="48" rx="14" ry="6" fill="#FFD18F"/>
+        <circle cx="30" cy="26" r="12" fill="#FFB347"/>
+        <polygon points="20,20 16,8 26,16" fill="#FFB347"/>
+        <polygon points="22,18 19,12 25,16" fill="#FF8FA3"/>
+        <polygon points="40,20 44,8 34,16" fill="#FFB347"/>
+        <polygon points="38,18 41,12 35,16" fill="#FF8FA3"/>
+        <circle cx="25" cy="26" r="1.8" fill="#1a1a1a"/>
+        <circle cx="35" cy="26" r="1.8" fill="#1a1a1a"/>
+        <path d="M 28 32 L 30 30 L 32 32" stroke="#7A4612" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M 46 38 Q 56 32, 54 22" stroke="#FFB347" stroke-width="5" fill="none" stroke-linecap="round"/>
+      </svg>
+      <svg class="rabbit" viewBox="0 0 50 60">
+        <ellipse cx="25" cy="44" rx="15" ry="11" fill="#FFFFFF"/>
+        <ellipse cx="25" cy="50" rx="12" ry="5" fill="#F0F0F0"/>
+        <circle cx="25" cy="32" r="10" fill="#FFFFFF"/>
+        <ellipse cx="18" cy="14" rx="4" ry="11" fill="#FFFFFF"/>
+        <ellipse cx="32" cy="14" rx="4" ry="11" fill="#FFFFFF"/>
+        <ellipse cx="18" cy="14" rx="2" ry="8" fill="#FFB3C7"/>
+        <ellipse cx="32" cy="14" rx="2" ry="8" fill="#FFB3C7"/>
+        <circle cx="21" cy="32" r="1.6" fill="#1a1a1a"/>
+        <circle cx="29" cy="32" r="1.6" fill="#1a1a1a"/>
+        <circle cx="25" cy="36" r="1.4" fill="#FF8FA3"/>
+      </svg>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p class="footer-copy">© SAYAKA 2026</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="main.js"></script>
+
+</body>
+</html>

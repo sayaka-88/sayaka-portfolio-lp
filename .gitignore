@@ -1,0 +1,13 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Vercel
+.vercel/
+
+# クライアント納品物（コミット除外）
+作品/
+
+# Node / build
+node_modules/
+*.log

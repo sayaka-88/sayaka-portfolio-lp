@@ -1,0 +1,1098 @@
+/* ============================================================
+   SAYAKA LP — A案: 生成PNG画像を組み込んだ釣りメインLP
+   ============================================================ */
+
+:root {
+  --paper:        #FFF8E8;
+  --ink:          #1A1A1A;
+  --ink-2:        #3A2E1F;
+  --ink-mute:     #6B6657;
+
+  --yellow:       #FFD93D;
+  --yellow-deep:  #F2A93D;
+  --coral:        #F2806E;
+  --pink:         #FF8FA3;
+  --teal:         #5DD3C5;
+  --purple:       #C9B6FF;
+  --orange:       #FFB347;
+  --sky:          #A8E6F2;
+  --grass:        #7BC97C;
+  --mizuiro:      #8FCEDB;
+  --mizuiro-deep: #6BB8C8;
+
+  --font-jp: 'AXIS Std', 'AxisStd', 'AXIS', 'Noto Sans JP', 'Hiragino Sans', 'YuGothic', sans-serif;
+  --font-en: 'Inter', 'Helvetica Neue', sans-serif;
+
+  --fs-display: clamp(2.6rem, 6.5vw, 5.0rem);
+  --fs-h1:      clamp(2.0rem, 5vw, 3.4rem);
+  --fs-lead:    clamp(1.3rem, 3vw, 2.0rem);
+  --fs-body:    clamp(0.95rem, 1.2vw, 1.05rem);
+
+  --lh-tight: 1.4;
+  --lh-base:  1.85;
+  --tracking: 0.04em;
+
+  --sp-2: 8px;  --sp-3: 16px; --sp-4: 24px; --sp-5: 40px;
+  --sp-6: 64px; --sp-7: 96px; --sp-8: 144px;
+
+  --header-h: 64px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+html, body { overflow-x: hidden; }
+
+body {
+  margin: 0;
+  font-family: var(--font-jp);
+  font-weight: 400;
+  font-size: var(--fs-body);
+  line-height: var(--lh-base);
+  letter-spacing: var(--tracking);
+  color: var(--ink);
+  background-color: var(--paper);
+  background-image:
+    url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'%3E%3Cfilter id='wn'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch' seed='5'/%3E%3CfeColorMatrix values='0 0 0 0 0.62  0 0 0 0 0.50  0 0 0 0 0.30  0 0 0 0.14 0'/%3E%3C/filter%3E%3Cfilter id='wf'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.012 0.6' numOctaves='1' seed='8'/%3E%3CfeColorMatrix values='0 0 0 0 0.55  0 0 0 0 0.42  0 0 0 0 0.22  0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23wn)'/%3E%3Crect width='100%25' height='100%25' filter='url(%23wf)'/%3E%3C/svg%3E");
+  background-attachment: fixed;
+  background-size: 320px 320px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a { color: inherit; text-decoration: none; transition: opacity 0.2s var(--ease-out); }
+a:hover { opacity: 0.7; }
+img, svg { max-width: 100%; height: auto; display: block; }
+ul { list-style: none; padding: 0; margin: 0; }
+
+/* Header */
+.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--header-h);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--sp-5);
+  background: var(--mizuiro);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.35) inset;
+}
+.site-header::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  top: 100%;
+  height: 22px;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 22' preserveAspectRatio='none'%3E%3Cpath d='M0,0 L1200,0 L1200,10 Q1185,20 1170,10 T1140,10 T1110,10 T1080,10 T1050,10 T1020,10 T990,10 T960,10 T930,10 T900,10 T870,10 T840,10 T810,10 T780,10 T750,10 T720,10 T690,10 T660,10 T630,10 T600,10 T570,10 T540,10 T510,10 T480,10 T450,10 T420,10 T390,10 T360,10 T330,10 T300,10 T270,10 T240,10 T210,10 T180,10 T150,10 T120,10 T90,10 T60,10 T30,10 T0,10 Z' fill='%238FCEDB'/%3E%3C/svg%3E");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+.logo-text {
+  font-family: var(--font-en);
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: 0.2em;
+}
+.site-nav {
+  display: flex;
+  gap: var(--sp-5);
+  font-family: var(--font-en);
+  font-weight: 500;
+  font-size: 0.88rem;
+  letter-spacing: 0.14em;
+}
+@media (max-width: 720px) {
+  .site-header { padding: 0 var(--sp-3); }
+  .site-nav { gap: var(--sp-3); font-size: 0.78rem; }
+}
+
+/* 釣り竿（rod-new.png：ルアー無しの竿のみ） */
+.fishing-rod-wrap {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 220px;
+  height: 280px;
+  pointer-events: none;
+  z-index: 40;
+}
+.fishing-rod {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 8px 14px rgba(0, 30, 60, 0.18));
+  animation: rodSway 5.5s ease-in-out infinite;
+  transform-origin: 90% 90%;
+}
+@keyframes rodSway {
+  0%, 100% { transform: rotate(-1.5deg); }
+  50%      { transform: rotate(1.5deg); }
+}
+
+/* ルアー＋糸（黄色／スクロール追従） — 竿先と整列 */
+.lure-trail {
+  position: fixed;
+  top: 0;
+  right: 182px;
+  width: 80px;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 49;
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-out);
+}
+.lure-trail.is-active { opacity: 1; }
+
+.trail-line {
+  position: absolute;
+  top: 0;
+  left: 36px;
+  width: 3px;
+  height: 0;
+  background: var(--yellow);
+  border-radius: 1.5px;
+  box-shadow: 0 0 4px rgba(255, 217, 61, 0.55);
+}
+
+.trail-lure {
+  position: absolute;
+  top: 220px;
+  left: 0;
+  width: 64px;
+  height: auto;
+  object-fit: contain;
+  transform-origin: 50% 12%;
+  animation: lureWobble 2.4s var(--ease-soft) infinite;
+  filter: drop-shadow(0 4px 8px rgba(0, 30, 60, 0.25));
+}
+@keyframes lureWobble {
+  0%, 100% { transform: rotate(-8deg); }
+  50%      { transform: rotate(8deg); }
+}
+
+@media (max-width: 720px) {
+  .fishing-rod-wrap { width: 150px; height: 200px; right: 10px; top: 14px; }
+  .lure-trail { right: 76px; width: 60px; }
+  .trail-line { left: 28px; width: 2.4px; }
+  .trail-lure { width: 52px; }
+}
+
+/* Hero */
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFFFFF;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.bg-item {
+  position: absolute;
+  animation: bgFloat 6s var(--ease-soft) infinite;
+}
+.bg-sun {
+  top: 6%;
+  right: 8%;
+  width: 140px;
+  height: 140px;
+  animation: sunSpin 30s linear infinite, bgFloat 6s var(--ease-soft) infinite;
+}
+.bg-cloud-1 {
+  top: 18%;
+  left: 6%;
+  width: 180px;
+  height: 80px;
+  animation-delay: 0.4s;
+}
+.bg-cloud-2 {
+  top: 64%;
+  right: 12%;
+  width: 200px;
+  height: 90px;
+  animation-delay: 1.2s;
+}
+.bg-star-1 {
+  bottom: 18%;
+  left: 12%;
+  width: 60px;
+  height: 60px;
+  animation: bgFloat 5s var(--ease-soft) infinite, starSpin 12s linear infinite;
+}
+.bg-star-2 {
+  top: 38%;
+  right: 30%;
+  width: 50px;
+  height: 50px;
+  animation: bgFloat 6s var(--ease-soft) infinite 0.8s, starSpin 14s linear infinite reverse;
+}
+
+@keyframes bgFloat {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50%      { transform: translateY(-12px) rotate(4deg); }
+}
+@keyframes sunSpin {
+  0%   { transform: rotate(0); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes starSpin {
+  0%   { transform: rotate(0); }
+  100% { transform: rotate(360deg); }
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 var(--sp-4);
+  transform: translateY(-2vh);
+}
+
+.hero-title {
+  margin: 0 0 var(--sp-5) 0;
+  font-family: var(--font-jp);
+  font-size: var(--fs-display);
+  font-weight: 300;
+  line-height: var(--lh-tight);
+  letter-spacing: 0.08em;
+  color: var(--ink);
+}
+
+.hero-title-line {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(36px);
+  animation: heroFadeUp 1.4s var(--ease-out) 0.3s forwards, heroFloat 6s var(--ease-soft) 2s infinite;
+}
+
+.hero-sub {
+  margin: 0;
+  font-family: var(--font-jp);
+  font-weight: 400;
+  font-size: clamp(1.0rem, 1.6vw, 1.2rem);
+  letter-spacing: 0.14em;
+  color: var(--ink-2);
+  opacity: 0;
+  transform: translateY(24px);
+  animation: heroFadeUp 1.2s var(--ease-out) 0.9s forwards;
+}
+
+@keyframes heroFadeUp { to { opacity: 1; transform: translateY(0); } }
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+.scroll-prompt {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
+  z-index: 3;
+  opacity: 0;
+  animation: heroFadeUp 1s var(--ease-out) 1.8s forwards;
+}
+.scroll-prompt-text {
+  font-family: var(--font-en);
+  font-weight: 500;
+  font-size: 0.75rem;
+  letter-spacing: 0.28em;
+  color: var(--ink-mute);
+}
+.scroll-prompt-arrow {
+  width: 1px;
+  height: 44px;
+  background: linear-gradient(to bottom, transparent, var(--ink-mute));
+  animation: scrollBob 2.2s var(--ease-soft) infinite;
+}
+@keyframes scrollBob {
+  0%, 100% { transform: scaleY(0.7); opacity: 0.5; }
+  50%      { transform: scaleY(1); opacity: 1; }
+}
+
+/* Narrative — グラデーション廃止、各stageにベタ塗り背景、境界に波々SVG */
+.narrative {
+  position: relative;
+  background: #FFFFFF;
+}
+
+.stage {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 各stageのベタ塗り背景色 */
+.stage-prelude  { background: #FFEEC4; }
+.stage-surface  { background: #A8D6E8; }
+.stage-undersea { background: #5BAFD2; }
+.stage-deep     { background: #2670A5; }
+.stage-space    { background: #1A2347; }
+.stage-dawn     { background: #FFC58A; }
+.stage-landing  { background: #BEEEFE; }
+
+/* 波々のセクション分割ライン (各stageの末尾、次のstageの色で塗る) */
+.wave-divider {
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 80px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+@media (max-width: 720px) {
+  .wave-divider { height: 50px; }
+}
+
+.stage-text {
+  position: relative;
+  z-index: 4;
+  text-align: center;
+  padding: 0 var(--sp-4);
+  max-width: 760px;
+}
+
+/* Stage 0 */
+.stage-prelude { min-height: 90vh; }
+.stage-text-prelude {
+  font-family: var(--font-jp);
+  font-weight: 300;
+  font-size: clamp(1.3rem, 3vw, 1.9rem);
+  line-height: 2.0;
+  letter-spacing: 0.12em;
+  color: var(--ink);
+}
+.stage-text-prelude .lead {
+  margin: 0;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* 波紋（viewport固定：JSでleft/topをルアー着水位置に動的設定） */
+.ripple-container {
+  position: fixed;
+  top: -9999px;
+  left: -9999px;
+  z-index: 59;
+  width: 0; height: 0;
+  pointer-events: none;
+}
+.ripple {
+  position: absolute;
+  top: 0; left: 0;
+  border-radius: 50%;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.85);
+  transform: scale(0);
+  opacity: 0;
+}
+.ripple-1 { width: 60px;  height: 22px; margin: -11px 0 0 -30px; border-width: 1.6px; }
+.ripple-2 { width: 120px; height: 38px; margin: -19px 0 0 -60px; border-width: 1.4px; }
+.ripple-3 { width: 200px; height: 64px; margin: -32px 0 0 -100px; border-width: 1.2px; border-color: rgba(255, 255, 255, 0.65); }
+.ripple-4 { width: 290px; height: 86px; margin: -43px 0 0 -145px; border-width: 1.0px; border-color: rgba(255, 255, 255, 0.5); }
+.ripple-5 { width: 380px; height: 110px; margin: -55px 0 0 -190px; border-width: 0.8px; border-color: rgba(255, 255, 255, 0.35); }
+.ripple-6 { width: 470px; height: 130px; margin: -65px 0 0 -235px; border-width: 0.7px; border-color: rgba(255, 255, 255, 0.2); }
+
+.splash {
+  position: fixed;
+  top: -9999px;
+  left: -9999px;
+  width: 0; height: 0;
+  z-index: 60;
+  pointer-events: none;
+}
+.splash .drop {
+  position: absolute;
+  top: 0; left: 0;
+  width: 10px;
+  height: 14px;
+  margin: -7px 0 0 -5px;
+  background: #FFFFFF;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  opacity: 0;
+  transform: translate(0, 0) scale(0);
+}
+
+.stage-text-surface { color: #FFFFFF; }
+.greeting {
+  margin: 0 0 var(--sp-4);
+  font-size: var(--fs-h1);
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0.08em;
+  opacity: 0;
+  transform: translateY(20px);
+}
+.role {
+  margin: 0 0 var(--sp-3);
+  font-size: 1.0rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  opacity: 0;
+  transform: translateY(20px);
+}
+.bio {
+  margin: 0;
+  font-size: 0.98rem;
+  font-weight: 400;
+  line-height: 1.9;
+  letter-spacing: 0.08em;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* ひょっこりひょうたん島 */
+.hyoutan-island {
+  position: absolute;
+  z-index: 4;
+  right: 6%;
+  top: 8%;
+  width: 340px;
+  height: auto;
+  filter: drop-shadow(0 10px 14px rgba(0, 30, 60, 0.18));
+  animation: hyoutanBob 5.5s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes hyoutanBob {
+  0%, 100% { transform: translateY(0) rotate(-1.2deg); }
+  50%      { transform: translateY(-10px) rotate(1.2deg); }
+}
+@media (max-width: 720px) {
+  .hyoutan-island { width: 220px; right: 3%; top: 5%; }
+}
+
+/* Stage 2: 海中 */
+.stage-undersea {
+  min-height: 140vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.fish-school {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.fish { position: absolute; object-fit: contain; filter: drop-shadow(0 6px 12px rgba(0,20,60,0.18)); }
+
+/* === 手前レイヤー（z=3）：くっきり大きく、速め === */
+/* くじら */
+.fish-a { top: 10%; right: -260px; width: 240px; height: 240px; opacity: 1.0; z-index: 3; animation: swimLeftFluffy 28s linear infinite; }
+/* 金魚 */
+.fish-e { top: 78%; right: -200px; width: 160px; height: 160px; opacity: 1.0; z-index: 3; animation: swimLeftFluffy 26s linear infinite 16s; }
+/* かに */
+.fish-f { top: 92%; left: -180px;  width: 130px; height: 130px; opacity: 1.0; z-index: 3; animation: swimRightFluffy 22s linear infinite 5s; }
+
+/* === 中レイヤー（z=2）：ほんのり薄く、少し小さく === */
+/* いるか */
+.fish-b { top: 32%; right: -220px; width: 150px; height: 150px; opacity: 0.78; z-index: 2; animation: swimLeftFluffy 36s linear infinite 3s; filter: drop-shadow(0 4px 9px rgba(0,20,60,0.14)); }
+/* 虹鱒 */
+.fish-d { top: 60%; left: -210px;  width: 145px; height: 145px; opacity: 0.78; z-index: 2; animation: swimRightFluffy 38s linear infinite 11s; filter: drop-shadow(0 4px 9px rgba(0,20,60,0.14)); }
+
+/* === 奥レイヤー（z=1）：透過＋縮小＋スロー＋微ブラー === */
+/* マグロ（奥でゆったり） */
+.fish-c { top: 42%; right: -160px; width: 90px;  height: 90px;  opacity: 0.3;  z-index: 1; animation: swimLeftFluffy 60s linear infinite 12s; filter: blur(1px) drop-shadow(0 3px 6px rgba(0,20,60,0.08)); }
+
+@keyframes swimRightFluffy {
+  0%   { transform: translate(0, 0) rotate(-1deg); }
+  20%  { transform: translate(20vw, -14px) rotate(2deg); }
+  40%  { transform: translate(40vw, 4px)   rotate(-2deg); }
+  60%  { transform: translate(60vw, -10px) rotate(2deg); }
+  80%  { transform: translate(80vw, 8px)   rotate(-2deg); }
+  100% { transform: translate(calc(100vw + 500px), 0) rotate(0deg); }
+}
+@keyframes swimLeftFluffy {
+  0%   { transform: translate(0, 0) rotate(1deg); }
+  20%  { transform: translate(-20vw, -12px) rotate(-2deg); }
+  40%  { transform: translate(-40vw, 6px)   rotate(2deg); }
+  60%  { transform: translate(-60vw, -8px)  rotate(-2deg); }
+  80%  { transform: translate(-80vw, 10px)  rotate(2deg); }
+  100% { transform: translate(calc(-100vw - 500px), 0) rotate(0deg); }
+}
+
+/* 泡 */
+.bubble {
+  position: absolute;
+  object-fit: contain;
+  pointer-events: none;
+  opacity: 0.85;
+  animation: bubbleRise 12s linear infinite;
+}
+.bubble-1 { left: 14%; bottom: -80px; width: 50px;  height: 50px; animation-delay: 0s;  }
+.bubble-2 { left: 62%; bottom: -120px; width: 36px; height: 36px; animation-delay: 3s;  animation-duration: 14s; }
+.bubble-3 { left: 84%; bottom: -100px; width: 42px; height: 42px; animation-delay: 6s;  animation-duration: 11s; }
+@keyframes bubbleRise {
+  0%   { transform: translateY(0) translateX(0) scale(0.9); opacity: 0; }
+  10%  { opacity: 0.85; }
+  100% { transform: translateY(-110vh) translateX(20px) scale(1.05); opacity: 0; }
+}
+
+/* 海中の浮遊スイーツ（SAYAKAらしさの遊び心） */
+.treat {
+  position: absolute;
+  object-fit: contain;
+  pointer-events: none;
+  filter: drop-shadow(0 6px 10px rgba(0,20,60,0.22));
+  animation: treatBob 6s var(--ease-soft) infinite;
+}
+.treat-1 { top: 18%; left: 8%;  width: 80px; height: 80px; animation-delay: 0.5s; }
+.treat-2 { top: 56%; right: 6%; width: 86px; height: 86px; animation-delay: 1.5s; }
+.treat-3 { top: 82%; left: 12%; width: 76px; height: 76px; animation-delay: 2.5s; }
+@keyframes treatBob {
+  0%, 100% { transform: translateY(0) rotate(-5deg); }
+  50%      { transform: translateY(-10px) rotate(5deg); }
+}
+
+/* 奥行きレイヤー（30%透過・縮小・微ブラー） */
+.bg-item {
+  position: absolute;
+  object-fit: contain;
+  pointer-events: none;
+  opacity: 0.3;
+  z-index: 1;
+  filter: blur(1px);
+  animation: treatBob 9s var(--ease-soft) infinite;
+}
+.bg-goldfish { top: 28%; left: 38%; width: 60px;  height: 60px;  animation-delay: 0.8s; }
+.bg-candy    { top: 14%; left: 62%; width: 56px;  height: 56px;  animation-delay: 2.2s; }
+.bg-donut-1  { top: 52%; left: 22%; width: 54px;  height: 54px;  animation-delay: 1.4s; }
+.bg-donut-2  { top: 72%; right: 22%; width: 50px; height: 50px;  animation-delay: 3.0s; }
+
+@media (max-width: 720px) {
+  .bg-goldfish, .bg-candy, .bg-donut-1, .bg-donut-2 { width: 40px; height: 40px; }
+}
+
+@media (max-width: 720px) {
+  .fish-a { width: 160px; height: 160px; }
+  .fish-b { width: 110px; height: 110px; }
+  .fish-c { width: 60px;  height: 60px;  }
+  .fish-d { width: 105px; height: 105px; }
+  .fish-e { width: 105px; height: 105px; }
+  .fish-f { width: 90px;  height: 90px;  }
+  .treat-1, .treat-2, .treat-3 { width: 60px; height: 60px; }
+}
+
+.stage-text-undersea {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+  color: #FFFFFF;
+  margin: 0 auto;
+}
+.undersea-lead {
+  margin: 0 0 var(--sp-6);
+  font-size: clamp(1.5rem, 3.4vw, 2.4rem);
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: 0.12em;
+  opacity: 0;
+  transform: translateY(20px);
+}
+.genre-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-4);
+}
+.genre {
+  font-family: var(--font-jp);
+  font-weight: 400;
+  font-size: clamp(1.2rem, 2.6vw, 1.7rem);
+  letter-spacing: 0.12em;
+  color: #FFFFFF;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: genreFloat 4s var(--ease-soft) infinite;
+}
+.genre-list .genre:nth-child(1)  { animation-delay: 0s; }
+.genre-list .genre:nth-child(2)  { animation-delay: 0.3s; }
+.genre-list .genre:nth-child(3)  { animation-delay: 0.6s; }
+.genre-list .genre:nth-child(4)  { animation-delay: 0.9s; }
+.genre-list .genre:nth-child(5)  { animation-delay: 1.2s; }
+.genre-list .genre:nth-child(6)  { animation-delay: 1.5s; }
+.genre-list .genre:nth-child(7)  { animation-delay: 1.8s; }
+.genre-list .genre:nth-child(8)  { animation-delay: 2.1s; }
+.genre-list .genre:nth-child(9)  { animation-delay: 2.4s; }
+.genre-list .genre:nth-child(10) { animation-delay: 2.7s; }
+@keyframes genreFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+/* Stage 3: 深海 (アンコウ) */
+.stage-deep { min-height: 120vh; position: relative; }
+.anglerlight {
+  position: absolute;
+  top: 14%; right: 18%;
+  width: 600px; height: 600px;
+  transform: translate(50%, -50%);
+  background: radial-gradient(circle, rgba(255, 230, 102, 0.45) 0%, rgba(255, 230, 102, 0.18) 30%, rgba(255, 230, 102, 0.05) 55%, transparent 80%);
+  pointer-events: none;
+  z-index: 1;
+  animation: anglerPulse 4s var(--ease-soft) infinite;
+}
+@keyframes anglerPulse {
+  0%, 100% { opacity: 0.75; transform: translate(50%, -50%) scale(1); }
+  50%      { opacity: 1;    transform: translate(50%, -50%) scale(1.06); }
+}
+.anglerfish {
+  position: absolute;
+  top: 8%; right: 4%;
+  width: 360px;
+  height: 240px;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 2;
+  animation: anglerSway 5s var(--ease-soft) infinite;
+}
+@keyframes anglerSway {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50%      { transform: translateY(-6px) rotate(1deg); }
+}
+.stage-text-deep {
+  color: #FFFFFF;
+  text-align: center;
+  z-index: 3;
+  margin-left: auto;
+  margin-right: auto;
+}
+.deep-line {
+  margin: 0 0 var(--sp-5) 0;
+  font-weight: 300;
+  font-size: clamp(1.1rem, 2.4vw, 1.6rem);
+  line-height: 1.9;
+  letter-spacing: 0.12em;
+  opacity: 0;
+  transform: translateY(20px);
+}
+@media (max-width: 720px) {
+  .anglerfish { width: 240px; height: 160px; right: 0; top: 4%; }
+  .anglerlight { width: 400px; height: 400px; right: 0; top: 10%; }
+}
+
+/* Stage 4: 宇宙 */
+.stage-space {
+  min-height: auto;
+  display: block;
+  padding-top: 22vh;
+  padding-bottom: 12vh;
+}
+.stars { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.stars .star {
+  position: absolute;
+  object-fit: contain;
+  animation: starSpin 9s linear infinite, starTwinkle 3.2s var(--ease-soft) infinite;
+}
+.star-a { top: 6%;  left: 12%; width: 60px; height: 60px; }
+.star-b { top: 14%; left: 78%; width: 50px; height: 50px; animation-delay: 0.4s, 0.4s; }
+.star-c { top: 26%; left: 32%; width: 44px; height: 44px; animation-delay: 0.8s, 0.8s; }
+.star-d { top: 38%; left: 68%; width: 56px; height: 56px; animation-delay: 1.2s, 1.2s; }
+.star-e { top: 48%; left: 18%; width: 50px; height: 50px; animation-delay: 1.6s, 0.6s; }
+.star-f { top: 58%; left: 50%; width: 48px; height: 48px; animation-delay: 0.2s, 1.4s; }
+.star-g { top: 68%; left: 82%; width: 54px; height: 54px; animation-delay: 0.6s, 1.0s; }
+.star-h { top: 78%; left: 22%; width: 46px; height: 46px; animation-delay: 1.0s, 0.3s; }
+.star-i { top: 86%; left: 60%; width: 54px; height: 54px; animation-delay: 1.4s, 0.7s; }
+.star-j { top: 94%; left: 36%; width: 50px; height: 50px; animation-delay: 1.8s, 1.6s; }
+@keyframes starTwinkle {
+  0%, 100% { opacity: 0.85; }
+  50%      { opacity: 1; }
+}
+
+.space-moon {
+  position: absolute;
+  top: 16%;
+  left: 10%;
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  z-index: 2;
+  animation: moonSway 6s var(--ease-soft) infinite;
+}
+@keyframes moonSway {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50%      { transform: translateY(-8px) rotate(2deg); }
+}
+
+.shoot {
+  position: absolute;
+  width: 100px;
+  height: 2.5px;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), #FFFFFF);
+  border-radius: 2px;
+  opacity: 0;
+}
+.shoot-1 { top: 18%; left: -10%; animation: shootStar 5.5s ease-in infinite 1s; }
+.shoot-2 { top: 50%; left: -10%; animation: shootStar 7.5s ease-in infinite 4s; }
+.shoot-3 { top: 76%; left: -10%; animation: shootStar 6.5s ease-in infinite 7s; }
+@keyframes shootStar {
+  0%   { opacity: 0; transform: translate(0, 0) rotate(22deg); }
+  10%  { opacity: 1; }
+  60%  { opacity: 1; }
+  100% { opacity: 0; transform: translate(115vw, 50vh) rotate(22deg); }
+}
+
+.stage-text-space {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  color: #FFFFFF;
+  margin: 0 auto;
+}
+.space-lead {
+  margin: 0 0 var(--sp-5);
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  font-weight: 300;
+  line-height: 1.7;
+  letter-spacing: 0.12em;
+  opacity: 0;
+  transform: translateY(20px);
+}
+.space-link {
+  margin: 0;
+  font-weight: 400;
+  font-size: 0.98rem;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.92);
+}
+.space-link a {
+  padding-bottom: 4px;
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.5);
+}
+.space-link a:hover { color: var(--yellow); border-color: var(--yellow); opacity: 1; }
+
+/* Works grid (Stage 4 内) */
+.works-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-5) var(--sp-5);
+  max-width: 1040px;
+  margin: var(--sp-6) auto 0;
+  padding: 0 var(--sp-4);
+  text-align: left;
+}
+.works-cat-wide { grid-column: span 2; }
+
+.works-cat-title {
+  margin: 0 0 var(--sp-3);
+  padding-bottom: 10px;
+  font-family: var(--font-en);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--yellow);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+.works-cat-title::before {
+  content: "✦ ";
+  color: rgba(255, 217, 102, 0.85);
+  margin-right: 2px;
+}
+
+.works-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.works-list li {
+  font-family: var(--font-jp);
+  font-size: 0.95rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  line-height: 1.9;
+  color: rgba(255, 255, 255, 0.92);
+}
+.works-list-primary li {
+  font-size: 1rem;
+  color: #FFFFFF;
+}
+.works-list-sub {
+  margin-top: 4px;
+}
+.works-list-sub li {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+.works-note-inline {
+  margin-left: 4px;
+  font-size: 0.82em;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.works-footnote {
+  max-width: 880px;
+  margin: var(--sp-6) auto 0;
+  padding: 0 var(--sp-4);
+  font-size: 0.92rem;
+  line-height: 1.8;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.78);
+  text-align: center;
+}
+.works-disclaimer {
+  margin: var(--sp-3) auto 0;
+  font-family: var(--font-en);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.45);
+  text-align: center;
+}
+
+@media (max-width: 720px) {
+  .works-grid {
+    grid-template-columns: 1fr;
+    gap: var(--sp-5);
+    padding: 0 var(--sp-3);
+  }
+  .works-cat-wide { grid-column: span 1; }
+  .works-list li { white-space: normal; font-size: 0.88rem; padding: 7px 12px; }
+  .works-list-primary li { font-size: 0.92rem; padding: 8px 14px; }
+  .works-list-sub li { font-size: 0.82rem; }
+}
+
+/* Stage 5: Voice */
+.stage-dawn { min-height: 110vh; }
+.clouds { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.cloud { position: absolute; object-fit: contain; }
+.cloud-1 { top: 18%; left: 8%; width: 220px; height: 100px; animation: cloudFloat 36s linear infinite; }
+.cloud-2 { top: 50%; right: 10%; width: 260px; height: 120px; animation: cloudFloat 46s linear infinite reverse; }
+.cloud-3 { top: 78%; left: 24%; width: 200px; height: 90px; animation: cloudFloat 40s linear infinite 5s; }
+@keyframes cloudFloat {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(60px); }
+}
+
+.dawn-sun {
+  position: absolute;
+  bottom: 6%;
+  left: 50%;
+  width: 220px;
+  height: 220px;
+  margin-left: -110px;
+  object-fit: contain;
+  z-index: 1;
+  animation: sunSpin 30s linear infinite;
+}
+
+.stage-text-dawn {
+  position: relative;
+  color: #FFFFFF;
+  text-align: center;
+  z-index: 2;
+}
+.dawn-eyebrow {
+  margin: 0 0 var(--sp-5);
+  font-family: var(--font-en);
+  font-size: clamp(1.5rem, 3vw, 2.0rem);
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  color: #FFFFFF;
+}
+.dawn-quotes { margin: 0 0 var(--sp-6); padding: 0; }
+.dawn-quote {
+  margin: 0 0 var(--sp-3);
+  font-size: clamp(1.0rem, 2vw, 1.2rem);
+  font-weight: 300;
+  line-height: 1.9;
+  letter-spacing: 0.08em;
+  color: #FFFFFF;
+  opacity: 0;
+  transform: translateY(15px);
+}
+.dawn-close {
+  margin: 0;
+  font-size: clamp(1.4rem, 3vw, 2.0rem);
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: 0.12em;
+  color: #FFFFFF;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* Stage 6: 地上 */
+.stage-landing {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 15vh;
+  position: relative;
+}
+.sky-birds {
+  position: absolute;
+  top: 10%; left: 0; right: 0;
+  height: 100px;
+  z-index: 2;
+  pointer-events: none;
+}
+.bird { position: absolute; width: 60px; height: 32px; object-fit: contain; }
+.bird-1 { top: 0;   left: 18%; animation: birdFly1 12s linear infinite; }
+.bird-2 { top: 22px; left: 32%; animation: birdFly1 14s linear infinite 2s; }
+.bird-3 { top: 8px;  left: 12%; animation: birdFly1 16s linear infinite 5s; }
+@keyframes birdFly1 {
+  0%   { transform: translateX(0) translateY(0); }
+  50%  { transform: translateX(50vw) translateY(-10px); }
+  100% { transform: translateX(100vw) translateY(0); }
+}
+
+.sky-clouds { position: absolute; top: 6%; left: 0; right: 0; z-index: 1; pointer-events: none; }
+.land-cloud { position: absolute; object-fit: contain; }
+.land-cloud.lc-1 { top: 0;    left: 6%;   width: 220px; height: 100px; animation: cloudFloat 40s linear infinite; }
+.land-cloud.lc-2 { top: 50px; right: 10%; width: 200px; height: 90px; animation: cloudFloat 50s linear infinite reverse; }
+
+.stage-text-landing {
+  position: relative;
+  z-index: 5;
+  color: var(--ink);
+  text-align: center;
+  margin: 8vh auto 0;
+  max-width: 640px;
+}
+.landing-lead {
+  margin: 0 0 var(--sp-3);
+  font-size: clamp(1.0rem, 2vw, 1.2rem);
+  font-weight: 400;
+  line-height: 1.9;
+  opacity: 0;
+  transform: translateY(20px);
+}
+.landing-cta {
+  margin: 0 0 var(--sp-6);
+  font-size: clamp(1.4rem, 3vw, 2.0rem);
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: 0.1em;
+  opacity: 0;
+  transform: translateY(20px);
+}
+.landing-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-4) var(--sp-6);
+  background: var(--yellow);
+  color: var(--ink);
+  font-family: var(--font-jp);
+  font-weight: 500;
+  font-size: 1.05rem;
+  letter-spacing: 0.08em;
+  border-radius: 999px;
+  box-shadow: 0 8px 0 var(--yellow-deep), 0 14px 24px rgba(242, 169, 61, 0.4);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: transform 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
+}
+.landing-button:hover {
+  opacity: 1;
+  transform: translateY(-4px);
+  box-shadow: 0 12px 0 var(--yellow-deep), 0 18px 28px rgba(242, 169, 61, 0.5);
+}
+.landing-arrow {
+  font-family: var(--font-en);
+  font-weight: 700;
+  transition: transform 0.3s var(--ease-out);
+}
+.landing-button:hover .landing-arrow { transform: translateX(4px); }
+
+.landscape {
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+  height: 42vh;
+  z-index: 3;
+  pointer-events: none;
+}
+.grass {
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+  height: 56%;
+  background: linear-gradient(to bottom, #9BD78A 0%, #7BC97C 50%, #6BBB6C 100%);
+}
+
+.tree { position: absolute; object-fit: contain; }
+.tree-1 { bottom: 4%; left: 4%;  width: 180px; height: 240px; }
+.tree-2 { bottom: 3%; right: 4%; width: 160px; height: 220px; }
+
+.house {
+  position: absolute;
+  bottom: 6%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 240px;
+  height: 240px;
+  object-fit: contain;
+}
+
+.cat {
+  position: absolute;
+  bottom: 4%;
+  left: 24%;
+  width: 130px;
+  height: 130px;
+  object-fit: contain;
+}
+
+.rabbit {
+  position: absolute;
+  bottom: 4%;
+  right: 22%;
+  width: 110px;
+  height: 160px;
+  object-fit: contain;
+}
+
+@media (max-width: 720px) {
+  .stage-landing { padding-top: 8vh; }
+  .tree-1 { width: 100px; height: 140px; left: 2%; }
+  .tree-2 { width: 90px;  height: 130px; right: 2%; }
+  .house { width: 160px; height: 160px; }
+  .cat { width: 80px; height: 80px; left: 12%; }
+  .rabbit { width: 70px; height: 100px; right: 12%; }
+}
+
+/* Footer */
+.site-footer {
+  background: #8FCAE1;
+  padding: var(--sp-4);
+  text-align: center;
+}
+.footer-copy {
+  margin: 0;
+  font-family: var(--font-en);
+  font-weight: 500;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  color: var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
