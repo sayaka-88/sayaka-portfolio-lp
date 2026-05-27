@@ -6,15 +6,51 @@ gsap.registerPlugin(ScrollTrigger);
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  const trail     = document.querySelector('.lure-trail');
-  const lure      = document.querySelector('.trail-lure');
-  const line      = document.querySelector('.trail-line');
-  const rodWrap   = document.querySelector('.fishing-rod-wrap');
-  const narrative = document.querySelector('.narrative');
+  const trail      = document.querySelector('.lure-trail');
+  const lure       = document.querySelector('.trail-lure');
+  const line       = document.querySelector('.trail-line');
+  const castCurve  = document.querySelector('.cast-curve');
+  const castPath   = document.querySelector('.cast-curve-path');
+  const rodWrap    = document.querySelector('.fishing-rod-wrap');
+  const narrative  = document.querySelector('.narrative');
 
-  // 竿先（rod-new.png の上端先端付近）と、ルアー画像内のリング位置の相対座標
-  const ROD_TIP_Y_OFFSET = 10;
+  const ROD_TIP_OFFSET_X = 197;
+  const ROD_TIP_OFFSET_Y = 6;
   const LURE_RING_Y = 4;
+
+  const getRodTip = () => {
+    const r = rodWrap.getBoundingClientRect();
+    return { x: r.left + ROD_TIP_OFFSET_X, y: r.top + ROD_TIP_OFFSET_Y };
+  };
+
+  let isCasting = false;
+  let castDone = false;
+  let landingX = 0;
+  let landingY = 0;
+
+  // キャスト中：ロッド先端→ルアー現在地 まで滑らかな二次ベジェ曲線
+  const updateCastCurve = () => {
+    if (!isCasting) return;
+    const tip = getRodTip();
+    const lr = lure.getBoundingClientRect();
+    const lx = (lr.left + lr.right) / 2;
+    const ly = lr.top + LURE_RING_Y;
+    // 制御点：両端の中央 X、両端より 160px 高い位置
+    const apexX = (tip.x + lx) / 2;
+    const apexY = Math.min(tip.y, ly) - 160;
+    castPath.setAttribute('d', `M ${tip.x} ${tip.y} Q ${apexX} ${apexY} ${lx} ${ly}`);
+  };
+
+  // 着水後：垂直線（着水位置→ルアー現在位置）
+  const updateVerticalLine = () => {
+    if (!castDone) return;
+    const lr = lure.getBoundingClientRect();
+    const lx = (lr.left + lr.right) / 2;
+    const ly = lr.top + LURE_RING_Y;
+    line.style.left = (lx - 1.5) + 'px';
+    line.style.top  = landingY + 'px';
+    line.style.height = Math.max(0, ly - landingY) + 'px';
+  };
 
   let splashed = false;
   const splashEl = document.querySelector('.splash');
@@ -71,17 +107,91 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  // ---- Hero抜けたらルアー追従を活性化 ----
-  if (trail) {
-    ScrollTrigger.create({
-      trigger: '.hero',
-      start: 'bottom 80%',
-      onEnter:    () => trail.classList.add('is-active'),
-      onLeaveBack:() => trail.classList.remove('is-active')
-    });
-  }
+  // ---- Hero抜けたら左キャストモーション発動 ----
+  const playCast = () => {
+    if (!rodWrap || !lure || !line || !trail || !castCurve || !castPath) return;
 
-  // ---- ルアー＋糸: scroll進捗に応じて落ちていく ＋ 着水splashトリガー ----
+    const tip = getRodTip();
+    const containerLeft = window.innerWidth - 262;
+    const lureStartXInContainer = tip.x - containerLeft - 30;
+    const lureRestX = 0;
+
+    // 初期：ルアーを竿先付近、糸は曲線で表示開始
+    gsap.set(lure, { left: lureStartXInContainer, top: tip.y - 60, rotation: -25, scale: 0.95 });
+    trail.classList.add('is-active');
+    castCurve.classList.add('is-active');
+    isCasting = true;
+    updateCastCurve();
+    gsap.ticker.add(updateCastCurve);
+
+    const finalize = () => {
+      gsap.set(lure, { left: lureRestX, top: 200, rotation: 0, scale: 1 });
+      // 着水位置を実測（垂直線の上端アンカー）
+      const lr = lure.getBoundingClientRect();
+      landingX = (lr.left + lr.right) / 2;
+      landingY = lr.top + LURE_RING_Y;
+
+      isCasting = false;
+      castDone = true;
+      gsap.ticker.remove(updateCastCurve);
+      castCurve.classList.remove('is-active');
+      line.classList.add('is-active');
+      updateVerticalLine();
+      ScrollTrigger.refresh();
+    };
+
+    const tl = gsap.timeline({ onComplete: finalize });
+
+    // ロッドの振り：振りかぶり→ピュッと振る→収まる
+    tl.set(rodWrap, { rotation: -42 })
+      .to(rodWrap, { rotation: 28, duration: 0.30, ease: 'power3.in' })
+      .to(rodWrap, { rotation: 0, duration: 0.45, ease: 'back.out(1.4)' }, '-=0.05');
+
+    // ルアーの飛行：頂点まで上がる→着水位置に降りる（並列で開始）
+    tl.to(lure, {
+      left: lureStartXInContainer * 0.35,
+      top: tip.y - 220,
+      rotation: 140,
+      scale: 1.0,
+      duration: 0.42,
+      ease: 'power1.out'
+    }, 0.16)
+    .to(lure, {
+      left: lureRestX,
+      top: 200,
+      rotation: 360,
+      duration: 0.46,
+      ease: 'power2.in'
+    });
+
+    // セーフティ：1.6秒で確実に終端
+    setTimeout(() => { if (!castDone) finalize(); }, 1600);
+  };
+
+  // タブが復帰した時、キャスト未完了なら強制完了
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && !castDone && trail && trail.classList.contains('is-active')) {
+      gsap.set(lure, { left: 0, top: 200, rotation: 0, scale: 1 });
+      const lr = lure.getBoundingClientRect();
+      landingX = (lr.left + lr.right) / 2;
+      landingY = lr.top + LURE_RING_Y;
+      isCasting = false;
+      castDone = true;
+      gsap.ticker.remove(updateCastCurve);
+      castCurve.classList.remove('is-active');
+      line.classList.add('is-active');
+      updateVerticalLine();
+    }
+  });
+
+  ScrollTrigger.create({
+    trigger: '.hero',
+    start: 'bottom 80%',
+    once: true,
+    onEnter: playCast
+  });
+
+  // ---- ルアー＋糸: scroll進捗で落ちていく ＋ 着水splashトリガー ----
   if (trail && lure && line && rodWrap && narrative) {
     const surfaceStage = document.querySelector('.stage-surface');
 
@@ -91,29 +201,26 @@ document.addEventListener('DOMContentLoaded', () => {
       end: 'bottom bottom',
       scrub: 0.4,
       onUpdate: (self) => {
+        if (!castDone) return; // キャスト完了まで待機
+
         const progress = self.progress;
         const vh = window.innerHeight;
 
-        const rodRect = rodWrap.getBoundingClientRect();
-        const rodTipY = rodRect.top + ROD_TIP_Y_OFFSET;
-
-        // 一気に落ちる演出：序盤でガッと落ちる
+        // 序盤でガッと落ちるイージング
         const eased = progress < 0.12
-          ? (progress / 0.12) * 0.8
-          : 0.8 + (progress - 0.12) / 0.88 * 0.2;
+          ? (progress / 0.12) * 0.75
+          : 0.75 + (progress - 0.12) / 0.88 * 0.25;
 
-        const startY = Math.max(rodTipY + 16, 140);
+        const startY = 200;
         const endY = vh - 100;
         const lureY = startY + (endY - startY) * eased;
 
         lure.style.top = lureY + 'px';
 
-        const lineTopY = rodTipY;
-        const lineBottomY = lureY + LURE_RING_Y;
-        line.style.top = lineTopY + 'px';
-        line.style.height = Math.max(0, lineBottomY - lineTopY) + 'px';
+        // 黄色糸：着水位置から下に垂直に伸びる
+        updateVerticalLine();
 
-        // 着水splash判定：水面（stage-surface top）がルアー底に追いついた瞬間
+        // 着水splash：stage-surface top がルアー底に届いた瞬間
         if (!splashed && surfaceStage) {
           const surfaceTop = surfaceStage.getBoundingClientRect().top;
           const lureBottomY = lureY + (lure.offsetHeight || 140);
@@ -124,6 +231,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // リサイズ時にも糸の描画を更新
+  window.addEventListener('resize', () => { if (castDone) updateVerticalLine(); });
 
   // ---- Stage 0: 前奏文字 ----
   gsap.utils.toArray('.stage-text-prelude .lead').forEach((el, i) => {
@@ -140,8 +250,8 @@ document.addEventListener('DOMContentLoaded', () => {
     scrollTrigger: { trigger: '.stage-text-surface', start: 'top 75%', toggleActions: 'play none none reverse' }
   })
     .to('.greeting', { opacity: 1, y: 0, duration: 1.0, ease: 'power3.out' })
-    .to('.role',     { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.5')
-    .to('.bio',      { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.4');
+    .to('.role',      { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.5')
+    .to('.info-line', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', stagger: 0.18 }, '-=0.4');
 
   // ---- Stage 2: 海中 ----
   gsap.to('.undersea-lead', {
@@ -154,12 +264,16 @@ document.addEventListener('DOMContentLoaded', () => {
       scrollTrigger: { trigger: el, start: 'top 92%', toggleActions: 'play none none reverse' }
     });
   });
+  gsap.to('.genre-note', {
+    opacity: 1, y: 0, duration: 1.0, ease: 'power3.out',
+    scrollTrigger: { trigger: '.genre-note', start: 'top 92%', toggleActions: 'play none none reverse' }
+  });
 
   // ---- Stage 3: 深海 ----
-  gsap.utils.toArray('.deep-line').forEach((el, i) => {
+  gsap.utils.toArray('.deep-step').forEach((el, i) => {
     gsap.to(el, {
-      opacity: 1, y: 0, duration: 1.0, ease: 'power3.out', delay: i * 0.35,
-      scrollTrigger: { trigger: '.stage-deep', start: 'top 60%', toggleActions: 'play none none reverse' }
+      opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', delay: i * 0.18,
+      scrollTrigger: { trigger: '.stage-deep', start: 'top 65%', toggleActions: 'play none none reverse' }
     });
   });
 
@@ -173,17 +287,90 @@ document.addEventListener('DOMContentLoaded', () => {
   gsap.timeline({
     scrollTrigger: { trigger: '.stage-dawn', start: 'top 60%', toggleActions: 'play none none reverse' }
   })
-    .to('.dawn-quote:nth-child(1)',  { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' })
-    .to('.dawn-quote:nth-child(2)',  { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.5')
-    .to('.dawn-quote:nth-child(3)',  { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.5')
-    .to('.dawn-close',               { opacity: 1, y: 0, duration: 1.0, ease: 'power3.out' }, '-=0.3');
+    .to('.voice-row:nth-child(1)', { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' })
+    .to('.voice-row:nth-child(2)', { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.35')
+    .to('.voice-row:nth-child(3)', { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.35')
+    .to('.voice-row:nth-child(4)', { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.35')
+    .to('.voice-row:nth-child(5)', { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.35')
+    .to('.voice-row:nth-child(6)', { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.35');
 
   // ---- Stage 6: 着水 ----
   gsap.timeline({
     scrollTrigger: { trigger: '.stage-landing', start: 'top 70%', toggleActions: 'play none none reverse' }
   })
-    .to('.landing-lead',   { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' })
-    .to('.landing-cta',    { opacity: 1, y: 0, duration: 1.0, ease: 'power3.out' }, '-=0.4')
-    .to('.landing-button', { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }, '-=0.4');
+    .to('.landing-lead',     { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' })
+    .to('.landing-cta',      { opacity: 1, y: 0, duration: 1.0, ease: 'power3.out' }, '-=0.4')
+    .to('.landing-cta-sub',  { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.6')
+    .to('.contact-form',     { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }, '-=0.4');
+
+  // ---- お問い合わせフォーム送信 ----
+  const contactForm = document.querySelector('#contact-form');
+  if (contactForm) {
+    const statusEl = contactForm.querySelector('.form-status');
+    const submitBtn = contactForm.querySelector('.form-submit');
+
+    // Shift+Enter で改行、Enter単体で送信（textareaのみ）
+    const messageEl = contactForm.querySelector('#cf-message');
+    if (messageEl) {
+      messageEl.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) {
+          e.preventDefault();
+          if (typeof contactForm.requestSubmit === 'function') {
+            contactForm.requestSubmit();
+          } else {
+            contactForm.dispatchEvent(new Event('submit', { cancelable: true }));
+          }
+        }
+      });
+    }
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const action = contactForm.action;
+
+      // 必須項目チェック
+      const name = contactForm.name.value.trim();
+      const email = contactForm.email.value.trim();
+      const message = contactForm.message.value.trim();
+      if (!name || !email || !message) {
+        statusEl.textContent = '※ お名前・メールアドレス・お問い合わせ内容は必須です。';
+        statusEl.className = 'form-status is-error';
+        return;
+      }
+
+      // バックエンド未接続時のフェイルセーフ
+      if (action.includes('REPLACE_WITH_YOUR_FORMSPREE_ID') || !action.startsWith('http')) {
+        statusEl.textContent = '※ 送信先が未設定です。フォーム送信機能の設定をご依頼ください。';
+        statusEl.className = 'form-status is-error';
+        console.warn('Contact form action URL is not configured. Set up Formspree at https://formspree.io and replace the action URL.');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      statusEl.textContent = '送信中…';
+      statusEl.className = 'form-status';
+
+      try {
+        const formData = new FormData(contactForm);
+        const res = await fetch(action, {
+          method: 'POST',
+          body: formData,
+          headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+          statusEl.textContent = 'ありがとうございます！送信完了しました。改めてご連絡いたします。';
+          statusEl.className = 'form-status is-success';
+          contactForm.reset();
+        } else {
+          throw new Error('Submit failed: ' + res.status);
+        }
+      } catch (err) {
+        console.error(err);
+        statusEl.textContent = '送信に失敗しました。少し時間をおいて再度お試しください。';
+        statusEl.className = 'form-status is-error';
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+  }
 
 });

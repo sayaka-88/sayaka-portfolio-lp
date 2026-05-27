@@ -39,6 +39,49 @@
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* 実績(works-grid)の中央1040pxを避けて装飾画像を配置するための基準値
+     値が大きいほど works から離れた外側に配置される (works edge = 50% + 520px) */
+  --side-near: calc(50% + 540px);  /* works端から20px外 */
+  --side-mid:  calc(50% + 580px);  /* works端から60px外 */
+  --side-far:  calc(50% + 620px);  /* works端から100px外 */
+}
+
+@media (max-width: 720px) {
+  :root {
+    --side-near: calc(50% + 80px);
+    --side-mid:  calc(50% + 105px);
+    --side-far:  calc(50% + 130px);
+  }
+  .hero { height: 75vh; min-height: 500px; }
+  .stage-prelude { min-height: 55vh; }
+  .stage-surface { min-height: 70vh; }
+  .stage-undersea { min-height: auto; padding: 80px 0; }
+  .stage-deep { min-height: auto; }
+  .stage-dawn { min-height: auto; padding: 60px 0; }
+  .stage-landing { min-height: auto; }
+
+  /* モバイル：手前・中間レイヤーの静的装飾を非表示（文字・SVGアイコンに被るため） */
+  /* 背景レイヤーと動いてる魚（swimming animation）は残す */
+  .deep-jellyfish, .deep-crown, .deep-diamond, .deep-diamond-2, .deep-treasure { display: none; }
+  .space-planet-pink, .space-planet-striped, .space-moon-rainbow, .space-laptop, .space-shootingstar, .space-ufo, .space-planet-saturn { display: none; }
+  .dawn-cloud-pastel-1, .dawn-cloud-pastel-2, .dawn-sun-decorated, .dawn-shootingstar { display: none; }
+  .ld-cloud-1, .ld-cloud-2 { display: none; }
+
+  /* 海面：浮き輪の女の子は下、ビーチボールは上に配置 */
+  .sf-girl-donut { top: auto; bottom: 6%; right: 4%; left: auto; width: 110px; height: 110px; }
+  .sf-beachball { top: 6%; left: 6%; right: auto; width: 56px; height: 56px; }
+  .sf-shell, .sf-shell-2 { display: none; }
+
+  /* 海中：上の空きすぎを縮小 */
+  .stage-undersea { padding: 32px 0 80px; }
+
+  /* 宇宙：地球と宇宙飛行士はバランス位置で表示 */
+  .space-earth { top: 30px; left: 4%; right: auto; width: 80px; height: 80px; }
+  .space-astronaut { top: 40px; right: 4%; left: auto; width: 80px; height: 100px; }
+  /* パグはわざをぎの横、王冠は鉄道写真家の斜め下 */
+  .space-dog-astro { top: 53%; left: 4%; right: auto; width: 70px; height: 78px; }
+  .space-crown { top: 62%; right: 4%; left: auto; width: 50px; height: 50px; }
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -53,11 +96,7 @@ body {
   line-height: var(--lh-base);
   letter-spacing: var(--tracking);
   color: var(--ink);
-  background-color: var(--paper);
-  background-image:
-    url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'%3E%3Cfilter id='wn'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch' seed='5'/%3E%3CfeColorMatrix values='0 0 0 0 0.62  0 0 0 0 0.50  0 0 0 0 0.30  0 0 0 0.14 0'/%3E%3C/filter%3E%3Cfilter id='wf'%3E%3CfeTurbulence type='turbulence' baseFrequency='0.012 0.6' numOctaves='1' seed='8'/%3E%3CfeColorMatrix values='0 0 0 0 0.55  0 0 0 0 0.42  0 0 0 0 0.22  0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23wn)'/%3E%3Crect width='100%25' height='100%25' filter='url(%23wf)'/%3E%3C/svg%3E");
-  background-attachment: fixed;
-  background-size: 320px 320px;
+  background-color: #FFFFFF;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -86,7 +125,7 @@ ul { list-style: none; padding: 0; margin: 0; }
   left: 0; right: 0;
   top: 100%;
   height: 22px;
-  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 22' preserveAspectRatio='none'%3E%3Cpath d='M0,0 L1200,0 L1200,10 Q1185,20 1170,10 T1140,10 T1110,10 T1080,10 T1050,10 T1020,10 T990,10 T960,10 T930,10 T900,10 T870,10 T840,10 T810,10 T780,10 T750,10 T720,10 T690,10 T660,10 T630,10 T600,10 T570,10 T540,10 T510,10 T480,10 T450,10 T420,10 T390,10 T360,10 T330,10 T300,10 T270,10 T240,10 T210,10 T180,10 T150,10 T120,10 T90,10 T60,10 T30,10 T0,10 Z' fill='%238FCEDB'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 22' preserveAspectRatio='none'%3E%3Cpath d='M0,0 L1200,0 L1200,11 Q1160,4 1120,11 T1040,11 T960,11 T880,11 T800,11 T720,11 T640,11 T560,11 T480,11 T400,11 T320,11 T240,11 T160,11 T80,11 T0,11 Z' fill='%238FCEDB'/%3E%3C/svg%3E");
   background-size: 100% 100%;
   background-repeat: no-repeat;
   pointer-events: none;
@@ -97,6 +136,11 @@ ul { list-style: none; padding: 0; margin: 0; }
   font-size: 1.15rem;
   letter-spacing: 0.2em;
 }
+.site-header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-5);
+}
 .site-nav {
   display: flex;
   gap: var(--sp-5);
@@ -105,35 +149,71 @@ ul { list-style: none; padding: 0; margin: 0; }
   font-size: 0.88rem;
   letter-spacing: 0.14em;
 }
+.site-social {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+.social-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  color: var(--ink);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.social-icon svg {
+  width: 100%;
+  height: 100%;
+}
+.social-icon:hover {
+  opacity: 0.65;
+  transform: translateY(-1px);
+}
+.social-icon-lg {
+  width: 32px;
+  height: 32px;
+}
 @media (max-width: 720px) {
   .site-header { padding: 0 var(--sp-3); }
+  .site-header-right { gap: var(--sp-3); }
   .site-nav { gap: var(--sp-3); font-size: 0.78rem; }
+  .site-social { gap: var(--sp-2); }
+  .social-icon { width: 20px; height: 20px; }
 }
 
-/* 釣り竿（rod-new.png：ルアー無しの竿のみ） */
+/* 釣り竿（左側に配置、横反転して先端を右向きに） */
 .fishing-rod-wrap {
   position: absolute;
   top: 24px;
-  right: 24px;
+  left: 24px;
   width: 220px;
   height: 280px;
   pointer-events: none;
   z-index: 40;
+  transform-origin: 20% 85%; /* 持ち手付近を回転中心に */
 }
 .fishing-rod {
   width: 100%;
   height: 100%;
   object-fit: contain;
   filter: drop-shadow(0 8px 14px rgba(0, 30, 60, 0.18));
-  animation: rodSway 5.5s ease-in-out infinite;
-  transform-origin: 90% 90%;
+  transform: scaleX(-1); /* 右向きに反転 */
+  transform-origin: 22% 88%; /* 持ち手付近を支点に */
+  animation: rodSwayNatural 7s ease-in-out infinite;
 }
-@keyframes rodSway {
-  0%, 100% { transform: rotate(-1.5deg); }
-  50%      { transform: rotate(1.5deg); }
+/* 風と波で不規則に揺れる、自然な動き */
+@keyframes rodSwayNatural {
+  0%   { transform: scaleX(-1) rotate(-2deg); }
+  18%  { transform: scaleX(-1) rotate(0.6deg) translateY(-1px); }
+  35%  { transform: scaleX(-1) rotate(2.4deg); }
+  52%  { transform: scaleX(-1) rotate(1.2deg) translateY(0.5px); }
+  70%  { transform: scaleX(-1) rotate(-1deg) translateY(-0.5px); }
+  85%  { transform: scaleX(-1) rotate(-2.6deg); }
+  100% { transform: scaleX(-1) rotate(-2deg); }
 }
 
-/* ルアー＋糸（黄色／スクロール追従） — 竿先と整列 */
+/* ルアー（viewport固定、scrollで上下移動） — 右側で待機・落下 */
 .lure-trail {
   position: fixed;
   top: 0;
@@ -143,20 +223,8 @@ ul { list-style: none; padding: 0; margin: 0; }
   pointer-events: none;
   z-index: 49;
   opacity: 0;
-  transition: opacity 0.6s var(--ease-out);
 }
-.lure-trail.is-active { opacity: 1; }
-
-.trail-line {
-  position: absolute;
-  top: 0;
-  left: 36px;
-  width: 3px;
-  height: 0;
-  background: var(--yellow);
-  border-radius: 1.5px;
-  box-shadow: 0 0 4px rgba(255, 217, 61, 0.55);
-}
+.lure-trail.is-active { opacity: 1; transition: opacity 0.4s var(--ease-out); }
 
 .trail-lure {
   position: absolute;
@@ -174,11 +242,47 @@ ul { list-style: none; padding: 0; margin: 0; }
   50%      { transform: rotate(8deg); }
 }
 
+/* キャスト中の糸：SVG bezier curve */
+.cast-curve {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 49;
+  opacity: 0;
+}
+.cast-curve.is-active { opacity: 1; transition: opacity 0.2s var(--ease-out); }
+.cast-curve-path {
+  stroke: #FFD93D;
+  stroke-width: 3;
+  stroke-linecap: round;
+  fill: none;
+  filter: drop-shadow(0 0 4px rgba(255, 217, 61, 0.55));
+}
+
+/* 着水後の糸：垂直線（着水位置→ルアー） */
+.trail-line {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 0;
+  background: var(--yellow);
+  border-radius: 1.5px;
+  box-shadow: 0 0 4px rgba(255, 217, 61, 0.55);
+  z-index: 49;
+  pointer-events: none;
+  opacity: 0;
+}
+.trail-line.is-active { opacity: 1; transition: opacity 0.3s var(--ease-out); }
+
 @media (max-width: 720px) {
-  .fishing-rod-wrap { width: 150px; height: 200px; right: 10px; top: 14px; }
-  .lure-trail { right: 76px; width: 60px; }
-  .trail-line { left: 28px; width: 2.4px; }
+  .fishing-rod-wrap { width: 150px; height: 200px; left: 10px; top: 14px; }
+  .lure-trail { right: 60px; width: 60px; }
   .trail-lure { width: 52px; }
+  .trail-line { height: 2.4px; }
 }
 
 /* Hero */
@@ -243,6 +347,145 @@ ul { list-style: none; padding: 0; margin: 0; }
   0%, 100% { transform: translateY(0) rotate(0); }
   50%      { transform: translateY(-12px) rotate(4deg); }
 }
+
+/* === Hero 新アセット：3レイヤー === */
+.hero-bg img[class*="sky-"] { position: absolute; object-fit: contain; }
+
+.prelude-sky {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.prelude-sky img[class*="sky-"] { position: absolute; object-fit: contain; }
+
+/* 手前 */
+.sky-fg { z-index: 3; opacity: 1; filter: drop-shadow(0 6px 12px rgba(40, 80, 130, 0.18)); }
+.sky-seagull         { top: 24%; right: -120px; width: 110px; height: 80px; animation: birdFly 18s linear infinite; }
+.sky-cloud-pastel-1  { top: 12%; right: var(--side-mid); left: auto; width: 160px; height: 90px; animation: cloudDrift 18s ease-in-out infinite; }
+
+/* 中 */
+.sky-mid { z-index: 2; opacity: 0.85; filter: drop-shadow(0 4px 8px rgba(40, 80, 130, 0.15)); }
+.sky-cloud-pastel-2  { top: 56%; right: var(--side-mid); left: auto; width: 140px; height: 80px; animation: cloudDrift 22s ease-in-out infinite reverse; }
+.sky-shootingstar-blue { top: 22%; right: 12%; width: 70px; height: 50px; animation: starShoot 7s ease-in-out infinite; }
+/* 太陽：波の下から2/3顔を出す位置（上1/3はヘッダー/波の後ろに隠れる） */
+.sky-sun-decorated   { top: 36px; left: var(--side-near); right: auto; width: 150px; height: 150px; z-index: 1; animation: sunSpin 28s linear infinite; }
+
+/* 奥 */
+.sky-bg { z-index: 1; opacity: 0.32; filter: blur(1.4px); animation: bgFloat 10s var(--ease-soft) infinite; }
+.sky-sun-pink        { top: 6%;  right: var(--side-near); left: auto; width: 56px; height: 40px; }
+.sky-donut           { top: 22%; left:  calc(50% + 490px); right: auto; width: 46px; height: 46px; }
+.sky-puzzle-blue     { top: 54%; left:  calc(50% + 530px);  right: auto; width: 40px; height: 40px; }
+.sky-puzzle-pink     { top: 70%; right: var(--side-near); left: auto; width: 38px; height: 38px; }
+.sky-icecream        { top: 86%; left:  var(--side-near); right: auto; width: 50px; height: 60px; }
+/* 追加：背景に雲 ×2（薄め、奥に配置／前面の雲の後ろにレイヤー） */
+.sky-cloud-bg-1      { top: 30%; left:  var(--side-near); right: auto; width: 130px; height: 75px; opacity: 0.4; filter: blur(2px); animation: cloudDrift 28s ease-in-out infinite; }
+.sky-cloud-bg-2      { top: 32%; left:  var(--side-near); right: auto; width: 120px; height: 70px; opacity: 0.4; filter: blur(2px); animation: cloudDrift 32s ease-in-out infinite reverse; }
+
+@keyframes birdFly {
+  0%   { transform: translate(0, 0) rotate(-2deg) scale(1, 1); }
+  15%  { transform: translate(-15vw, -30px) rotate(2deg) scale(1, 0.92); }
+  30%  { transform: translate(-35vw, -10px) rotate(-1deg) scale(1, 1.04); }
+  45%  { transform: translate(-55vw, -40px) rotate(2deg) scale(1, 0.92); }
+  60%  { transform: translate(-75vw, -20px) rotate(-2deg) scale(1, 1.04); }
+  80%  { transform: translate(-100vw, -50px) rotate(0deg) scale(1, 1); }
+  100% { transform: translate(-115vw, -40px) rotate(0deg) scale(1, 1); }
+}
+@keyframes cloudDrift {
+  0%, 100% { transform: translateX(0); }
+  50%      { transform: translateX(18px); }
+}
+@keyframes starShoot {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50%      { transform: translate(12px, 8px) rotate(8deg); }
+}
+
+@media (max-width: 720px) {
+  .sky-seagull        { width: 72px; height: 52px; }
+  .sky-cloud-pastel-1 { width: 100px; height: 60px; }
+  .sky-cloud-pastel-2 { width: 90px; height: 50px; }
+  .sky-shootingstar-blue { width: 48px; height: 34px; }
+  .sky-sun-decorated  { width: 60px; height: 60px; }
+  .sky-sun-pink, .sky-puzzle-blue, .sky-puzzle-pink, .sky-rays, .sky-icecream, .sky-donut {
+    width: 28px; height: 28px;
+  }
+}
+
+/* === 海面ステージ 新アセット：3レイヤー === */
+.surface-decor { position: absolute; inset: 0; pointer-events: none; z-index: 3; }
+.surface-decor img { position: absolute; object-fit: contain; }
+
+/* 手前 */
+.surface-fg { z-index: 7; opacity: 1; filter: drop-shadow(0 10px 18px rgba(0, 40, 70, 0.25)); }
+/* 女の子：文字の方（右側）に顔を向けるため反転 */
+.sf-girl-donut { top: 56%; right: calc(50% + 490px); left: auto; width: 180px; height: 180px; transform-origin: center; animation: floatBobFlip 5s var(--ease-soft) infinite; }
+
+/* 中 */
+.surface-mid { z-index: 6; opacity: 0.85; filter: drop-shadow(0 6px 12px rgba(0, 40, 70, 0.18)); }
+/* ビーチボール：右上のエリア（ピンク◯位置）へ移動 */
+.sf-beachball   { top: 8%;  left: var(--side-near); right: auto; width: 70px;  height: 70px;  animation: ballBob 4s var(--ease-soft) infinite; }
+
+/* 反転した女の子用：scaleX(-1)を維持しつつ上下バウンス */
+@keyframes floatBobFlip {
+  0%, 100% { transform: scaleX(-1) translateY(0) rotate(-2deg); }
+  50%      { transform: scaleX(-1) translateY(-12px) rotate(2deg); }
+}
+
+/* ===== prelude の波の上にぷかぷか浮かぶ椰子木＆アヒル ===== */
+.stage-prelude { overflow: visible; }
+.prelude-floater {
+  position: absolute;
+  pointer-events: none;
+  object-fit: contain;
+  z-index: 3; /* wave-divider (z=5) より下：下半分が水色塗りに隠れる */
+}
+.pf-palm {
+  bottom: 0;
+  right: var(--side-near);
+  left: auto;
+  width: 180px;
+  height: 180px;
+  animation: floatBob 6s var(--ease-soft) infinite;
+  filter: drop-shadow(0 4px 8px rgba(0, 30, 60, 0.18));
+}
+.pf-duck {
+  bottom: 8px;
+  right: 26%;
+  width: 90px;
+  height: 80px;
+  animation: floatBob 4.5s var(--ease-soft) infinite 0.6s;
+  filter: drop-shadow(0 4px 8px rgba(0, 30, 60, 0.18));
+}
+@media (max-width: 720px) {
+  .pf-palm { width: 110px; height: 110px; right: 3%; }
+  .pf-duck { width: 60px; height: 55px; right: 24%; }
+}
+
+/* 奥 */
+.surface-bg { z-index: 2; opacity: 0.32; filter: blur(1.4px); animation: floatBob 9s var(--ease-soft) infinite; }
+.sf-shell    { top: 36%; right: var(--side-mid);  left: auto; width: 50px; height: 42px; animation-delay: 1.5s; }
+.sf-shell-2  { top: 86%; left:  var(--side-near); right: auto; width: 46px; height: 38px; animation-delay: 2.8s; }
+
+@keyframes floatBob {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50%      { transform: translateY(-12px) rotate(2deg); }
+}
+@keyframes duckBob {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50%      { transform: translateY(-8px) rotate(3deg); }
+}
+@keyframes ballBob {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-10px) rotate(20deg); }
+}
+
+@media (max-width: 720px) {
+  .sf-girl-donut { width: 110px; height: 110px; top: auto; bottom: 6%; right: 4%; left: auto; }
+  .sf-duck       { width: 60px;  height: 55px; }
+  .sf-palm-island{ width: 100px; height: 100px; top: 68%; right: 3%; }
+  .sf-beachball  { width: 56px;  height: 56px; top: 6%; left: 6%; right: auto; }
+  .sf-shell, .sf-shell-2 { display: none; }
+}
 @keyframes sunSpin {
   0%   { transform: rotate(0); }
   100% { transform: rotate(360deg); }
@@ -295,11 +538,26 @@ ul { list-style: none; padding: 0; margin: 0; }
   50%      { transform: translateY(-6px); }
 }
 
+.hero-social {
+  display: flex;
+  justify-content: center;
+  gap: var(--sp-4);
+  margin-top: var(--sp-5);
+  opacity: 0;
+  transform: translateY(24px);
+  animation: heroFadeUp 1.2s var(--ease-out) 1.2s forwards;
+}
+.hero-social .social-icon {
+  color: var(--ink);
+}
+
 .scroll-prompt {
   position: absolute;
   bottom: 36px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: max-content;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -343,13 +601,13 @@ ul { list-style: none; padding: 0; margin: 0; }
 }
 
 /* 各stageのベタ塗り背景色 */
-.stage-prelude  { background: #FFEEC4; }
-.stage-surface  { background: #A8D6E8; }
-.stage-undersea { background: #5BAFD2; }
-.stage-deep     { background: #2670A5; }
-.stage-space    { background: #1A2347; }
-.stage-dawn     { background: #FFC58A; }
-.stage-landing  { background: #BEEEFE; }
+.stage-prelude  { background: linear-gradient(180deg, #FFF8E0 0%, #FFE8A8 50%, #F2C078 100%); }
+.stage-surface  { background: linear-gradient(180deg, #C5E4F2 0%, #8BC3DC 50%, #4FA0C4 100%); }
+.stage-undersea { background: linear-gradient(180deg, #2C78AE 0%, #1F5E92 50%, #134577 100%); }
+.stage-deep     { background: linear-gradient(180deg, #0F3A66 0%, #0A2A4E 50%, #061B36 100%); }
+.stage-space    { background: linear-gradient(180deg, #0A1530 0%, #1A2347 30%, #2C2858 65%, #5A3D7A 100%); }
+.stage-dawn     { background: linear-gradient(180deg, #FFD580 0%, #FFA47A 35%, #FF8FA3 70%, #B19CD9 100%); }
+.stage-landing  { background: linear-gradient(180deg, #FFD580 0%, #FFE8A8 20%, #BEEEFE 60%, #F0FAFF 100%); }
 
 /* 波々のセクション分割ライン (各stageの末尾、次のstageの色で塗る) */
 .wave-divider {
@@ -442,16 +700,27 @@ ul { list-style: none; padding: 0; margin: 0; }
   font-weight: 400;
   line-height: 1.6;
   letter-spacing: 0.08em;
+  text-indent: 0.08em; /* letter-spacing による右ズレを補正 */
   opacity: 0;
   transform: translateY(20px);
 }
 .role {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
   margin: 0 0 var(--sp-3);
   font-size: 1.0rem;
   font-weight: 400;
   letter-spacing: 0.18em;
   opacity: 0;
   transform: translateY(20px);
+}
+.role-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: #FFFFFF;
 }
 .bio {
   margin: 0;
@@ -463,25 +732,37 @@ ul { list-style: none; padding: 0; margin: 0; }
   transform: translateY(20px);
 }
 
-/* ひょっこりひょうたん島 */
-.hyoutan-island {
-  position: absolute;
-  z-index: 4;
-  right: 6%;
-  top: 8%;
-  width: 340px;
-  height: auto;
-  filter: drop-shadow(0 10px 14px rgba(0, 30, 60, 0.18));
-  animation: hyoutanBob 5.5s ease-in-out infinite;
-  pointer-events: none;
+/* 拠点・ツールのインフォライン（アイコン＋テキスト、中央寄せ） */
+.info-line {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 var(--sp-3);
+  font-size: 0.98rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  line-height: 1.7;
+  color: #FFFFFF;
+  opacity: 0;
+  transform: translateY(20px);
 }
-@keyframes hyoutanBob {
-  0%, 100% { transform: translateY(0) rotate(-1.2deg); }
-  50%      { transform: translateY(-10px) rotate(1.2deg); }
+.info-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: #FFFFFF;
 }
-@media (max-width: 720px) {
-  .hyoutan-island { width: 220px; right: 3%; top: 5%; }
+
+/* AI推し行：少しアクセントカラー */
+.info-line-ai {
+  margin-top: 6px;
+  font-weight: 500;
 }
+.info-line-ai .info-icon {
+  color: var(--yellow);
+}
+
 
 /* Stage 2: 海中 */
 .stage-undersea {
@@ -502,15 +783,15 @@ ul { list-style: none; padding: 0; margin: 0; }
 /* くじら */
 .fish-a { top: 10%; right: -260px; width: 240px; height: 240px; opacity: 1.0; z-index: 3; animation: swimLeftFluffy 28s linear infinite; }
 /* 金魚 */
-.fish-e { top: 78%; right: -200px; width: 160px; height: 160px; opacity: 1.0; z-index: 3; animation: swimLeftFluffy 26s linear infinite 16s; }
+.fish-e { top: 78%; right: -200px; width: 110px; height: 110px; opacity: 1.0; z-index: 3; animation: swimLeftFluffy 26s linear infinite 16s; }
 /* かに */
 .fish-f { top: 92%; left: -180px;  width: 130px; height: 130px; opacity: 1.0; z-index: 3; animation: swimRightFluffy 22s linear infinite 5s; }
 
 /* === 中レイヤー（z=2）：ほんのり薄く、少し小さく === */
 /* いるか */
-.fish-b { top: 32%; right: -220px; width: 150px; height: 150px; opacity: 0.78; z-index: 2; animation: swimLeftFluffy 36s linear infinite 3s; filter: drop-shadow(0 4px 9px rgba(0,20,60,0.14)); }
+.fish-b { top: 32%; left: -220px; right: auto; width: 150px; height: 150px; opacity: 0.78; z-index: 2; animation: swimRightFlipped 36s linear infinite 3s; filter: drop-shadow(0 4px 9px rgba(0,20,60,0.14)); }
 /* 虹鱒 */
-.fish-d { top: 60%; left: -210px;  width: 145px; height: 145px; opacity: 0.78; z-index: 2; animation: swimRightFluffy 38s linear infinite 11s; filter: drop-shadow(0 4px 9px rgba(0,20,60,0.14)); }
+.fish-d { top: 60%; left: -210px;  width: 110px; height: 110px; opacity: 0.4; z-index: 1; animation: swimRightFluffy 52s linear infinite 11s; filter: blur(1.2px) drop-shadow(0 3px 6px rgba(0,20,60,0.1)); }
 
 /* === 奥レイヤー（z=1）：透過＋縮小＋スロー＋微ブラー === */
 /* マグロ（奥でゆったり） */
@@ -531,6 +812,15 @@ ul { list-style: none; padding: 0; margin: 0; }
   60%  { transform: translate(-60vw, -8px)  rotate(-2deg); }
   80%  { transform: translate(-80vw, 10px)  rotate(2deg); }
   100% { transform: translate(calc(-100vw - 500px), 0) rotate(0deg); }
+}
+/* 右へ泳ぐが、画像が左向きの場合に水平反転して進行方向を向く */
+@keyframes swimRightFlipped {
+  0%   { transform: translate(0, 0) rotate(1deg) scaleX(-1); }
+  20%  { transform: translate(20vw, -14px) rotate(-2deg) scaleX(-1); }
+  40%  { transform: translate(40vw, 4px)   rotate(2deg) scaleX(-1); }
+  60%  { transform: translate(60vw, -10px) rotate(-2deg) scaleX(-1); }
+  80%  { transform: translate(80vw, 8px)   rotate(2deg) scaleX(-1); }
+  100% { transform: translate(calc(100vw + 500px), 0) rotate(0deg) scaleX(-1); }
 }
 
 /* 泡 */
@@ -558,16 +848,16 @@ ul { list-style: none; padding: 0; margin: 0; }
   filter: drop-shadow(0 6px 10px rgba(0,20,60,0.22));
   animation: treatBob 6s var(--ease-soft) infinite;
 }
-.treat-1 { top: 18%; left: 8%;  width: 80px; height: 80px; animation-delay: 0.5s; }
-.treat-2 { top: 56%; right: 6%; width: 86px; height: 86px; animation-delay: 1.5s; }
-.treat-3 { top: 82%; left: 12%; width: 76px; height: 76px; animation-delay: 2.5s; }
+.treat-1 { top: 18%; right: var(--side-near); left: auto; width: 80px; height: 80px; animation-delay: 0.5s; }
+.treat-2 { top: 64%; left:  var(--side-mid);  right: auto; width: 86px; height: 86px; animation-delay: 1.5s; }
+.treat-3 { top: 82%; right: var(--side-mid);  left: auto; width: 76px; height: 76px; animation-delay: 2.5s; }
 @keyframes treatBob {
   0%, 100% { transform: translateY(0) rotate(-5deg); }
   50%      { transform: translateY(-10px) rotate(5deg); }
 }
 
-/* 奥行きレイヤー（30%透過・縮小・微ブラー） */
-.bg-item {
+/* 奥行きレイヤー（30%透過・縮小・微ブラー） — 海中に scope */
+.fish-school .bg-item {
   position: absolute;
   object-fit: contain;
   pointer-events: none;
@@ -576,10 +866,10 @@ ul { list-style: none; padding: 0; margin: 0; }
   filter: blur(1px);
   animation: treatBob 9s var(--ease-soft) infinite;
 }
-.bg-goldfish { top: 28%; left: 38%; width: 60px;  height: 60px;  animation-delay: 0.8s; }
-.bg-candy    { top: 14%; left: 62%; width: 56px;  height: 56px;  animation-delay: 2.2s; }
-.bg-donut-1  { top: 52%; left: 22%; width: 54px;  height: 54px;  animation-delay: 1.4s; }
-.bg-donut-2  { top: 72%; right: 22%; width: 50px; height: 50px;  animation-delay: 3.0s; }
+.bg-candy    { top: 10%; left:  var(--side-near); right: auto; width: 56px;  height: 56px;  animation-delay: 2.2s; }
+.bg-goldfish { top: 32%; right: calc(50% + 480px); left: auto;  width: 60px;  height: 60px;  animation-delay: 0.8s; }
+.bg-donut-1  { top: 50%; left:  var(--side-mid);  right: auto; width: 54px;  height: 54px;  animation-delay: 1.4s; }
+.bg-donut-2  { top: 72%; right: var(--side-near); left: auto;  width: 50px;  height: 50px;  animation-delay: 3.0s; }
 
 @media (max-width: 720px) {
   .bg-goldfish, .bg-candy, .bg-donut-1, .bg-donut-2 { width: 40px; height: 40px; }
@@ -603,7 +893,7 @@ ul { list-style: none; padding: 0; margin: 0; }
   margin: 0 auto;
 }
 .undersea-lead {
-  margin: 0 0 var(--sp-6);
+  margin: var(--sp-7) 0 var(--sp-6);
   font-size: clamp(1.5rem, 3.4vw, 2.4rem);
   font-weight: 400;
   line-height: 1.7;
@@ -619,8 +909,8 @@ ul { list-style: none; padding: 0; margin: 0; }
 }
 .genre {
   font-family: var(--font-jp);
-  font-weight: 400;
-  font-size: clamp(1.2rem, 2.6vw, 1.7rem);
+  font-weight: 500;
+  font-size: clamp(1rem, 1.7vw, 1.3rem);
   letter-spacing: 0.12em;
   color: #FFFFFF;
   opacity: 0;
@@ -637,36 +927,124 @@ ul { list-style: none; padding: 0; margin: 0; }
 .genre-list .genre:nth-child(8)  { animation-delay: 2.1s; }
 .genre-list .genre:nth-child(9)  { animation-delay: 2.4s; }
 .genre-list .genre:nth-child(10) { animation-delay: 2.7s; }
+.genre-list .genre:nth-child(11) { animation-delay: 3.0s; }
 @keyframes genreFloat {
   0%, 100% { transform: translateY(0); }
   50%      { transform: translateY(-8px); }
 }
 
+.genre-pinterest {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin: var(--sp-4) auto var(--sp-8);
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: #FFFFFF;
+  color: #2670A5;
+  font-family: var(--font-jp);
+  font-weight: 500;
+  font-size: 0.92rem;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(0, 30, 80, 0.18);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.genre-pinterest svg {
+  width: 18px;
+  height: 18px;
+  color: #E60023;
+}
+.genre-pinterest:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(0, 30, 80, 0.26);
+}
+
+.genre-note {
+  margin: var(--sp-6) auto var(--sp-3);
+  font-size: 0.96rem;
+  line-height: 1.9;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.88);
+  opacity: 0;
+  transform: translateY(15px);
+}
+
 /* Stage 3: 深海 (アンコウ) */
 .stage-deep { min-height: 120vh; position: relative; }
+
+/* アンコウのルアー光：アンコウの黄色い球の位置を中心に */
+.angler-light-bulb {
+  position: absolute;
+  top: 100px; right: 21%;
+  width: 70px; height: 70px;
+  background: radial-gradient(circle,
+    rgba(255, 250, 220, 1) 0%,
+    rgba(255, 235, 150, 0.85) 25%,
+    rgba(255, 220, 100, 0.5) 50%,
+    rgba(255, 200, 60, 0.2) 75%,
+    transparent 100%);
+  border-radius: 50%;
+  filter: blur(3px);
+  pointer-events: none;
+  z-index: 3;
+  transform: translate(50%, -50%);
+  animation: anglerBulbPulse 2.4s ease-in-out infinite;
+}
+@keyframes anglerBulbPulse {
+  0%, 100% { opacity: 0.85; transform: translate(50%, -50%) scale(1); }
+  50%      { opacity: 1;    transform: translate(50%, -50%) scale(1.12); }
+}
+
+/* アンコウのライトコーン：ルアー球から左下に広がる扇形の光（apex = ルアー位置） */
+.angler-light-cone {
+  position: absolute;
+  top: 135px; right: calc(21% + 35px);
+  width: 1100px; height: 1400px;
+  background: linear-gradient(210deg,
+    rgba(255, 235, 140, 0.55) 0%,
+    rgba(255, 230, 120, 0.28) 15%,
+    rgba(255, 225, 100, 0.14) 35%,
+    rgba(255, 220, 90, 0.06) 60%,
+    transparent 100%);
+  clip-path: polygon(100% 0%, 0% 30%, 0% 90%);
+  filter: blur(12px);
+  pointer-events: none;
+  z-index: 1;
+  animation: anglerConePulse 4.5s ease-in-out infinite;
+  transform-origin: 100% 0%;
+}
+@keyframes anglerConePulse {
+  0%, 100% { opacity: 0.7;  transform: scale(1); }
+  50%      { opacity: 0.95; transform: scale(1.04); }
+}
+
+/* 既存の柔らかい全体グロー（ルアー位置を中心に） */
 .anglerlight {
   position: absolute;
-  top: 14%; right: 18%;
+  top: 100px; right: 21%;
   width: 600px; height: 600px;
   transform: translate(50%, -50%);
-  background: radial-gradient(circle, rgba(255, 230, 102, 0.45) 0%, rgba(255, 230, 102, 0.18) 30%, rgba(255, 230, 102, 0.05) 55%, transparent 80%);
+  background: radial-gradient(circle, rgba(255, 230, 102, 0.35) 0%, rgba(255, 230, 102, 0.14) 30%, rgba(255, 230, 102, 0.04) 55%, transparent 80%);
   pointer-events: none;
   z-index: 1;
   animation: anglerPulse 4s var(--ease-soft) infinite;
 }
 @keyframes anglerPulse {
-  0%, 100% { opacity: 0.75; transform: translate(50%, -50%) scale(1); }
-  50%      { opacity: 1;    transform: translate(50%, -50%) scale(1.06); }
+  0%, 100% { opacity: 0.55; transform: translate(50%, -50%) scale(1); }
+  50%      { opacity: 0.85; transform: translate(50%, -50%) scale(1.06); }
 }
+
 .anglerfish {
   position: absolute;
-  top: 8%; right: 4%;
-  width: 360px;
-  height: 240px;
+  top: 30px; right: 2%;
+  width: 320px;
+  height: 320px;
   object-fit: contain;
   pointer-events: none;
-  z-index: 2;
+  z-index: 4;
   animation: anglerSway 5s var(--ease-soft) infinite;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 30, 0.4));
 }
 @keyframes anglerSway {
   0%, 100% { transform: translateY(0) rotate(-1deg); }
@@ -674,23 +1052,251 @@ ul { list-style: none; padding: 0; margin: 0; }
 }
 .stage-text-deep {
   color: #FFFFFF;
-  text-align: center;
   z-index: 3;
   margin-left: auto;
   margin-right: auto;
+  padding-top: var(--sp-7);
+  padding-bottom: var(--sp-7);
+  position: relative;
 }
-.deep-line {
-  margin: 0 0 var(--sp-5) 0;
-  font-weight: 300;
-  font-size: clamp(1.1rem, 2.4vw, 1.6rem);
-  line-height: 1.9;
-  letter-spacing: 0.12em;
+
+/* === 深海タイムライン（プロフィール） === */
+.deep-timeline {
+  position: relative;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 var(--sp-4);
+  list-style: none;
+}
+.deep-timeline::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  left: 50%;
+  width: 2px;
+  background-image: linear-gradient(to bottom, rgba(255, 217, 61, 0.55) 50%, transparent 0%);
+  background-size: 2px 12px;
+  background-repeat: repeat-y;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.deep-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 84px 1fr;
+  grid-template-rows: auto;
+  align-items: start;
+  margin-bottom: var(--sp-6);
   opacity: 0;
   transform: translateY(20px);
 }
+.deep-step:last-child { margin-bottom: 0; }
+.deep-step-icon {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: center;
+  align-self: start;
+  margin-top: 4px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  display: grid;
+  place-items: center;
+  color: #1A3A5A;
+  z-index: 2;
+}
+.deep-step-icon svg {
+  width: 30px;
+  height: 30px;
+}
+.deep-step-card {
+  position: relative;
+  padding: 0;
+  grid-row: 1;
+}
+.deep-step:nth-child(odd) .deep-step-card {
+  grid-column: 1;
+  text-align: right;
+  padding-right: var(--sp-5);
+}
+.deep-step:nth-child(even) .deep-step-card {
+  grid-column: 3;
+  text-align: left;
+  padding-left: var(--sp-5);
+}
+.deep-step-eyebrow {
+  margin: 0 0 var(--sp-2) 0;
+  font-family: var(--font-en);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #FFD93D;
+}
+.deep-step-title {
+  margin: 0 0 var(--sp-3) 0;
+  font-size: clamp(1.05rem, 1.7vw, 1.3rem);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: #FFFFFF;
+  line-height: 1.55;
+}
+.deep-step-body {
+  margin: 0;
+  font-size: clamp(0.88rem, 1.1vw, 0.98rem);
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.95;
+}
+.deep-step-eyebrow-final {
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: none;
+  font-style: italic;
+}
+.deep-step-final .deep-step-title {
+  font-size: clamp(1.15rem, 2vw, 1.5rem);
+  font-weight: 500;
+}
+.deep-step-final .deep-step-body {
+  font-weight: 500;
+  color: #FFFFFF;
+}
+.deep-step-final .deep-step-icon {
+  background: #FFFFFF;
+  color: #C84A6A;
+}
+
 @media (max-width: 720px) {
-  .anglerfish { width: 240px; height: 160px; right: 0; top: 4%; }
-  .anglerlight { width: 400px; height: 400px; right: 0; top: 10%; }
+  .stage-text-deep {
+    padding-top: var(--sp-6);
+    padding-bottom: var(--sp-6);
+  }
+  .deep-timeline {
+    padding: 0 var(--sp-3);
+  }
+  .deep-timeline::before {
+    left: 24px;
+    transform: none;
+  }
+  .deep-step {
+    grid-template-columns: 56px 1fr;
+    gap: var(--sp-3);
+    min-height: 0;
+    margin-bottom: var(--sp-5);
+  }
+  .deep-step-icon {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+    width: 44px;
+    height: 44px;
+    margin-top: 2px;
+  }
+  .deep-step-icon svg { width: 22px; height: 22px; }
+  .deep-step:nth-child(odd) .deep-step-card,
+  .deep-step:nth-child(even) .deep-step-card {
+    grid-column: 2;
+    text-align: left;
+    padding: 0;
+  }
+}
+@media (max-width: 720px) {
+  .anglerfish { width: 140px; height: 140px; right: -10px; top: 12px; }
+  .anglerlight { width: 280px; height: 280px; right: calc(16% + 19px); top: 69px; }
+  .angler-light-cone { width: 360px; height: 700px; right: calc(16% + 19px); top: 69px; }
+  .angler-light-bulb { width: 38px; height: 38px; right: 16%; top: 50px; }
+}
+
+/* === 深海ステージ：新アセット 3レイヤー === */
+.deep-decor { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+.deep-decor img { position: absolute; object-fit: contain; }
+
+/* 手前 */
+.deep-fg { z-index: 4; opacity: 1; filter: drop-shadow(0 8px 16px rgba(0, 0, 30, 0.45)); }
+.deep-treasure { bottom: 6%;  right: var(--side-near); left: auto; width: 160px; height: 160px; animation: floatBob 7s var(--ease-soft) infinite; }
+.deep-squid    { top: 45%;    right: -180px; left: auto; width: 150px; height: 150px; animation: squidSwim 32s linear infinite; }
+.deep-oarfish  { top: 70%;    left: -340px; width: 320px; height: 110px; animation: swimRightFluffy 40s linear infinite; }
+
+/* 中 */
+.deep-mid { z-index: 3; opacity: 0.88; filter: drop-shadow(0 5px 12px rgba(0, 0, 30, 0.32)); }
+.deep-jellyfish { top: 16%;   right: var(--side-mid);  left: auto; width: 130px; height: 180px; animation: jellyfishBob 6s var(--ease-soft) infinite; }
+.deep-crown     { bottom: 33%; left:  var(--side-mid);  right: auto; width: 80px;  height: 80px;  animation: floatBob 5s var(--ease-soft) infinite; }
+.deep-diamond   { top: 6%;  right: var(--side-near); left: auto; width: 80px;  height: 80px;  animation: floatBob 6s var(--ease-soft) infinite 1.5s; }
+.deep-diamond-2 { top: 72%; left:  var(--side-near); right: auto; width: 80px;  height: 80px;  animation: floatBob 6.5s var(--ease-soft) infinite 2.4s; }
+
+/* 奥（透過＋blur） */
+.deep-bg { z-index: 2; opacity: 0.32; filter: blur(1.5px) drop-shadow(0 3px 6px rgba(0, 0, 30, 0.2)); animation: floatBob 11s var(--ease-soft) infinite; }
+.deep-jellyfish-small { top: 40%; left:  var(--side-near); right: auto; width: 70px;  height: 90px; animation-delay: 1.5s; }
+.deep-pearl-1         { top: 30%; left:  var(--side-near); right: auto; width: 38px;  height: 38px; animation-delay: 0.5s; }
+.deep-pearl-2         { top: 78%; right: var(--side-near); left: auto;  width: 28px;  height: 28px; animation-delay: 2.0s; }
+.deep-pearl-3         { top: 52%; left:  var(--side-mid);  right: auto; width: 32px;  height: 32px; animation-delay: 2.8s; }
+.deep-star            { bottom: 32%; right: var(--side-mid);  left: auto;  width: 36px; height: 36px; animation-delay: 3.5s; }
+.deep-crystal         { top: 88%;  left: var(--side-mid);  right: auto; width: 36px; height: 36px; animation-delay: 1.0s; }
+
+@keyframes squidBob {
+  0%, 100% { transform: translate(0, 0) rotate(-2deg); }
+  50%      { transform: translate(10px, -12px) rotate(2deg); }
+}
+@keyframes squidSwim {
+  /* イカジェット推進（右→左）：translate先→scaleX(-1)で正しく左へ移動 */
+  0%   { transform: translate(0, 0) scaleX(-1) scaleY(1); }
+  6%   { transform: translate(-2vw, 4px) scaleX(-1) scaleY(1.12); }
+  12%  { transform: translate(-13vw, -10px) scaleX(-1) scaleY(0.94); }
+  20%  { transform: translate(-18vw, -4px) scaleX(-1) scaleY(1); }
+  26%  { transform: translate(-20vw, 2px) scaleX(-1) scaleY(1.12); }
+  32%  { transform: translate(-33vw, -10px) scaleX(-1) scaleY(0.94); }
+  40%  { transform: translate(-38vw, -2px) scaleX(-1) scaleY(1); }
+  46%  { transform: translate(-40vw, 4px) scaleX(-1) scaleY(1.12); }
+  52%  { transform: translate(-53vw, -8px) scaleX(-1) scaleY(0.94); }
+  60%  { transform: translate(-58vw, 0) scaleX(-1) scaleY(1); }
+  66%  { transform: translate(-60vw, 4px) scaleX(-1) scaleY(1.12); }
+  72%  { transform: translate(-73vw, -10px) scaleX(-1) scaleY(0.94); }
+  80%  { transform: translate(-78vw, -2px) scaleX(-1) scaleY(1); }
+  86%  { transform: translate(-82vw, 2px) scaleX(-1) scaleY(1.12); }
+  92%  { transform: translate(-94vw, -8px) scaleX(-1) scaleY(0.94); }
+  100% { transform: translate(calc(-100vw - 240px), 0) scaleX(-1) scaleY(1); }
+}
+@keyframes jellyfishBob {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%      { transform: translateY(-14px) scale(1.04); }
+}
+
+/* 深海：泡が下から上に上がる */
+.deep-bubbles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+.d-bubble {
+  position: absolute;
+  bottom: -80px;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  opacity: 0;
+  animation: bubbleRise 14s linear infinite;
+}
+.d-bubble-1 { left: 12%; width: 50px; height: 50px; animation-delay: 0s;  animation-duration: 14s; }
+.d-bubble-2 { left: 38%; width: 32px; height: 32px; animation-delay: 3s;  animation-duration: 11s; }
+.d-bubble-3 { left: 56%; width: 44px; height: 44px; animation-delay: 5s;  animation-duration: 16s; }
+.d-bubble-4 { left: 78%; width: 36px; height: 36px; animation-delay: 7s;  animation-duration: 13s; }
+.d-bubble-5 { left: 24%; width: 28px; height: 28px; animation-delay: 9s;  animation-duration: 15s; }
+
+@media (max-width: 720px) {
+  .deep-treasure { width: 90px; height: 90px; }
+  .deep-squid    { width: 90px; height: 90px; }
+  .deep-oarfish  { width: 180px; height: 65px; }
+  .deep-jellyfish{ width: 80px; height: 110px; }
+  .deep-crown    { width: 50px; height: 50px; }
+  .deep-diamond  { width: 44px; height: 44px; }
+  .deep-jellyfish-small { width: 44px; height: 56px; }
+  .deep-bg img, .deep-pearl-1, .deep-pearl-2, .deep-pearl-3, .deep-star, .deep-crystal { width: 22px; height: 22px; }
 }
 
 /* Stage 4: 宇宙 */
@@ -714,21 +1320,120 @@ ul { list-style: none; padding: 0; margin: 0; }
 .star-f { top: 58%; left: 50%; width: 48px; height: 48px; animation-delay: 0.2s, 1.4s; }
 .star-g { top: 68%; left: 82%; width: 54px; height: 54px; animation-delay: 0.6s, 1.0s; }
 .star-h { top: 78%; left: 22%; width: 46px; height: 46px; animation-delay: 1.0s, 0.3s; }
-.star-i { top: 86%; left: 60%; width: 54px; height: 54px; animation-delay: 1.4s, 0.7s; }
-.star-j { top: 94%; left: 36%; width: 50px; height: 50px; animation-delay: 1.8s, 1.6s; }
 @keyframes starTwinkle {
   0%, 100% { opacity: 0.85; }
   50%      { opacity: 1; }
 }
 
+/* === 宇宙ステージ：新アセット（手前/中/奥の3レイヤー） === */
+.space-decor {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.space-decor img {
+  position: absolute;
+  object-fit: contain;
+}
+
+/* 手前レイヤー：くっきり大きく */
+.space-fg {
+  z-index: 4;
+  opacity: 1;
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 30, 0.35));
+}
+.space-ufo           { top: 4%;  right: calc(50% + 480px); left: auto;  width: 150px; height: 150px; animation: ufoFloat 8s var(--ease-soft) infinite; }
+.space-earth         { top: 6%;  left:  var(--side-near); right: auto; width: 140px; height: 140px; animation: planetSpin 22s linear infinite; }
+.space-planet-saturn { bottom: 6%; left:  calc(50% + 480px); right: auto; width: 200px; height: 150px; animation: planetWobble 12s var(--ease-soft) infinite; }
+.space-shootingstar  { top: 42%; right: var(--side-near); left: auto;  width: 240px; height: 160px; animation: shootingstarBob 9s var(--ease-soft) infinite; transform-origin: center; }
+.space-astronaut     { top: 38%; left:  var(--side-near); right: auto; width: 140px; height: 180px; animation: astroFloat 6s var(--ease-soft) infinite; }
+.space-dog-astro     { top: 71%; right: calc(50% + 480px); left: auto;  width: 110px; height: 120px; animation: astroFloat 7s var(--ease-soft) infinite 1.5s; }
+@keyframes astroFloat {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50%      { transform: translateY(-14px) rotate(3deg); }
+}
+
+/* 中レイヤー：少し小さく、わずかに透過 */
+.space-mid {
+  z-index: 3;
+  opacity: 0.85;
+  filter: drop-shadow(0 5px 12px rgba(0, 0, 30, 0.25));
+}
+.space-crown         { top: 16%; right: var(--side-mid);  left: auto;  width: 72px;  height: 72px;  animation: crownBob 6s var(--ease-soft) infinite; }
+.space-moon-rainbow  { top: 58%; left:  calc(50% + 530px); right: auto; width: 100px; height: 100px; animation: planetSpin 16s linear infinite reverse; }
+.space-planet-pink   { top: 24%; left:  var(--side-near); right: auto; width: 110px; height: 88px;  animation: planetSpin 18s linear infinite; }
+.space-planet-striped{ top: 56%; right: var(--side-mid);  left: auto;  width: 86px;  height: 86px;  animation: planetSpin 20s linear infinite reverse; }
+.space-laptop        { bottom: 10%; right: var(--side-near); left: auto; width: 110px; height: 90px;  animation: laptopFloat 7s var(--ease-soft) infinite; }
+
+/* 奥レイヤー：小さく、30%透過、blur */
+.space-bg {
+  z-index: 1;
+  opacity: 0.32;
+  filter: blur(1.4px) drop-shadow(0 3px 6px rgba(0, 0, 30, 0.15));
+  animation: bgFloat 11s var(--ease-soft) infinite;
+}
+/* 王冠（top:16%, left:18%）と縞惑星（top:56%, left:8%）の間に均等配置 */
+.space-macaron-green   { top: 29%; right: var(--side-near); left: auto;  width: 50px; height: 40px; animation-delay: 0.5s; }
+.space-macaron-yellow  { top: 86%; left:  var(--side-near); right: auto; width: 48px; height: 38px; animation-delay: 1.5s; }
+/* 飴（ロリポップ）：左は王冠〜縞惑星の間、右はピンク惑星〜黄マカロンの間 */
+.space-lollipop-round  { top: 55%; left:  var(--side-mid);  right: auto; width: 44px; height: 44px; animation-delay: 2.2s; }
+.space-lollipop-spiral { top: 43%; right: var(--side-mid);  left: auto;  width: 50px; height: 56px; animation-delay: 3.0s; }
+.space-star-pale       { top: 22%; right: 22%; width: 50px; height: 50px; animation-delay: 1.0s; }
+.space-star-pale-2     { top: 90%; right: 22%; width: 42px; height: 42px; animation-delay: 2.4s; }
+
+@keyframes ufoFloat {
+  0%, 100% { transform: translate(0, 0) rotate(-3deg); }
+  50%      { transform: translate(18px, -12px) rotate(3deg); }
+}
+@keyframes planetSpin {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes planetWobble {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50%      { transform: translateY(-10px) rotate(2deg); }
+}
+@keyframes shootingstarBob {
+  0%, 100% { transform: translate(0, 0) rotate(-4deg); }
+  50%      { transform: translate(25px, -15px) rotate(4deg); }
+}
+@keyframes crownBob {
+  0%, 100% { transform: translateY(0) rotate(-6deg); }
+  50%      { transform: translateY(-8px) rotate(6deg); }
+}
+@keyframes laptopFloat {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50%      { transform: translateY(-8px) rotate(2deg); }
+}
+@keyframes bgFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+
+@media (max-width: 720px) {
+  .space-ufo { width: 90px; height: 90px; }
+  .space-planet-saturn { width: 130px; height: 100px; }
+  .space-shootingstar  { width: 160px; height: 105px; }
+  .space-moon-rainbow, .space-planet-pink, .space-planet-striped, .space-laptop { width: 70px; height: 70px; }
+  .space-bg img, .space-macaron-green, .space-macaron-yellow, .space-lollipop-round, .space-lollipop-spiral, .space-star-pale, .space-star-pale-2 {
+    width: 34px; height: 34px;
+  }
+  /* モバイル：地球・宇宙飛行士は上、パグはわざをぎ横、王冠は鉄道写真家斜め下 */
+  .space-earth     { top: 24px; left: 4%; right: auto; width: 70px; height: 70px; }
+  .space-astronaut { top: 24px; right: 4%; left: auto; width: 70px; height: 90px; }
+  .space-dog-astro { top: 54%; left: 4%; right: auto; width: 64px; height: 72px; }
+  .space-crown     { top: 72%; right: 4%; left: auto; width: 48px; height: 48px; }
+}
+
 .space-moon {
   position: absolute;
-  top: 16%;
-  left: 10%;
-  width: 120px;
-  height: 120px;
+  bottom: 22%;
+  left: 5%;
+  width: 110px;
+  height: 110px;
   object-fit: contain;
-  z-index: 2;
+  z-index: 3;
   animation: moonSway 6s var(--ease-soft) infinite;
 }
 @keyframes moonSway {
@@ -925,6 +1630,93 @@ ul { list-style: none; padding: 0; margin: 0; }
   opacity: 0;
   transform: translateY(15px);
 }
+
+/* Voice: LINE風吹き出し（お客様からの一方的コメント） */
+.voice-chat {
+  list-style: none;
+  margin: 0 auto var(--sp-6);
+  padding: 0;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  text-align: left;
+}
+.voice-row {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 14px;
+  opacity: 0;
+  transform: translateY(15px);
+}
+/* HTMLの記述順で左右が決まるので、flex-directionは触らない（row のまま） */
+
+.voice-icon {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: rgba(255, 255, 255, 0.92);
+  border: 2.5px solid #FFFFFF;
+  box-shadow: 0 4px 10px rgba(140, 80, 40, 0.22);
+}
+/* 顔がしっかり出るよう object-position を個別指定 */
+.vi-cat       { object-position: 50% 32%; }
+.vi-dog       { object-position: 50% 30%; }
+.vi-dolphin   { object-position: 35% 45%; }
+.vi-goldfish  { object-position: 35% 50%; }
+.vi-crab      { object-position: 50% 38%; }
+.vi-duck      { object-position: 50% 35%; }
+
+.voice-bubble {
+  position: relative;
+  flex: 0 1 auto;
+  max-width: 100%;
+  background: #FFFFFF;
+  border: none;
+  border-radius: 18px;
+  padding: 12px 20px;
+  color: var(--ink);
+  font-family: var(--font-jp);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: 0.04em;
+  text-align: center;
+  box-shadow: 0 4px 14px rgba(140, 80, 40, 0.18);
+}
+
+/* 左にアイコン：尻尾は左外側、白ベタ三角 */
+.voice-row-left .voice-bubble::before {
+  content: '';
+  position: absolute;
+  top: 16px;
+  left: -8px;
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-right: 10px solid #FFFFFF;
+}
+/* 右にアイコン：尻尾は右外側、白ベタ三角 */
+.voice-row-right .voice-bubble::before {
+  content: '';
+  position: absolute;
+  top: 16px;
+  right: -8px;
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-left: 10px solid #FFFFFF;
+}
+
+@media (max-width: 720px) {
+  .voice-icon { width: 50px; height: 50px; }
+  .voice-bubble { font-size: 0.92rem; padding: 10px 14px; }
+}
 .dawn-close {
   margin: 0;
   font-size: clamp(1.4rem, 3vw, 2.0rem);
@@ -934,6 +1726,35 @@ ul { list-style: none; padding: 0; margin: 0; }
   color: #FFFFFF;
   opacity: 0;
   transform: translateY(20px);
+}
+
+/* === 夕焼けセクション 新アセット 3レイヤー === */
+.dawn-decor { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.dawn-decor img { position: absolute; object-fit: contain; }
+
+/* 手前（コーナーのみ） */
+.dawn-fg { z-index: 3; opacity: 0.95; filter: drop-shadow(0 6px 14px rgba(140, 80, 40, 0.18)); }
+.dawn-cloud-pastel-1 { bottom: 12%; right: var(--side-near); left: auto; width: 170px; height: 95px; animation: cloudDrift 22s ease-in-out infinite; }
+.dawn-sun-decorated  { top: 6%;  right: var(--side-near); left: auto; width: 110px; height: 110px; animation: sunSpin 32s linear infinite; }
+
+/* 中（フォーム外周） */
+.dawn-mid { z-index: 2; opacity: 0.8; filter: drop-shadow(0 4px 10px rgba(140, 80, 40, 0.14)); }
+.dawn-cloud-pastel-2 { bottom: 14%; left: var(--side-near); right: auto; width: 170px; height: 95px; animation: cloudDrift 26s ease-in-out infinite reverse; }
+.dawn-shootingstar   { top: 28%; left: 12%;  width: 70px;  height: 50px; animation: starShoot 7s ease-in-out infinite; }
+
+/* 奥（30%透過＋blur、文字に被ってもOK） */
+.dawn-bg { z-index: 1; opacity: 0.3; filter: blur(1.4px); animation: bgFloat 11s var(--ease-soft) infinite; }
+.dawn-puzzle-blue { top: 18%; left:  var(--side-near); right: auto; width: 40px; height: 40px; animation-delay: 0.5s; }
+.dawn-rays        { top: 36%; right: var(--side-mid);  left: auto;  width: 40px; height: 40px; animation-delay: 2.4s; }
+.dawn-sun-pink    { top: 52%; left:  var(--side-mid);  right: auto; width: 56px; height: 40px; animation-delay: 3.0s; }
+.dawn-puzzle-pink { top: 70%; right: var(--side-near); left: auto;  width: 38px; height: 38px; animation-delay: 1.5s; }
+
+@media (max-width: 720px) {
+  .dawn-cloud-pastel-1 { width: 110px; height: 65px; }
+  .dawn-cloud-pastel-2 { width: 95px; height: 55px; }
+  .dawn-sun-decorated  { width: 70px; height: 70px; }
+  .dawn-shootingstar   { width: 44px; height: 32px; }
+  .dawn-bg img { width: 26px; height: 26px; }
 }
 
 /* Stage 6: 地上 */
@@ -964,8 +1785,8 @@ ul { list-style: none; padding: 0; margin: 0; }
 
 .sky-clouds { position: absolute; top: 6%; left: 0; right: 0; z-index: 1; pointer-events: none; }
 .land-cloud { position: absolute; object-fit: contain; }
-.land-cloud.lc-1 { top: 0;    left: 6%;   width: 220px; height: 100px; animation: cloudFloat 40s linear infinite; }
-.land-cloud.lc-2 { top: 50px; right: 10%; width: 200px; height: 90px; animation: cloudFloat 50s linear infinite reverse; }
+.land-cloud.lc-1 { top: 0;    right: var(--side-near); left: auto; width: 220px; height: 100px; animation: cloudFloat 40s linear infinite; }
+.land-cloud.lc-2 { top: 50px; left:  var(--side-near); right: auto; width: 200px; height: 90px; animation: cloudFloat 50s linear infinite reverse; }
 
 .stage-text-landing {
   position: relative;
@@ -973,7 +1794,10 @@ ul { list-style: none; padding: 0; margin: 0; }
   color: var(--ink);
   text-align: center;
   margin: 8vh auto 0;
-  max-width: 640px;
+  width: 100%;
+  max-width: 760px;
+  padding: 0 var(--sp-4);
+  box-sizing: border-box;
 }
 .landing-lead {
   margin: 0 0 var(--sp-3);
@@ -984,42 +1808,133 @@ ul { list-style: none; padding: 0; margin: 0; }
   transform: translateY(20px);
 }
 .landing-cta {
-  margin: 0 0 var(--sp-6);
+  margin: 0 0 6px;
   font-size: clamp(1.4rem, 3vw, 2.0rem);
-  font-weight: 400;
-  line-height: 1.7;
-  letter-spacing: 0.1em;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.12em;
   opacity: 0;
   transform: translateY(20px);
 }
-.landing-button {
+.landing-cta-sub {
+  margin: 0 0 var(--sp-5);
+  font-size: clamp(1.0rem, 2vw, 1.2rem);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--ink-mute);
+  opacity: 0;
+  transform: translateY(20px);
+}
+/* お問い合わせフォーム（インライン） */
+.contact-form {
+  display: block;
+  max-width: 1000px;
+  margin: var(--sp-5) auto 0;
+  padding: var(--sp-6) var(--sp-7) var(--sp-5);
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 18px;
+  box-shadow: 0 12px 32px rgba(20, 70, 110, 0.12), 0 2px 0 rgba(255, 255, 255, 0.6) inset;
+  text-align: left;
+  opacity: 0;
+  transform: translateY(20px);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+.form-row {
+  margin-bottom: var(--sp-3);
+}
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  font-family: var(--font-jp);
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--ink-2);
+}
+.form-required {
+  color: var(--coral);
+  margin-left: 2px;
+  font-size: 0.92em;
+}
+.form-input {
+  display: block;
+  width: 100%;
+  padding: 12px 14px;
+  background: #FFFFFF;
+  border: 1.5px solid rgba(20, 70, 110, 0.14);
+  border-radius: 10px;
+  font-family: var(--font-jp);
+  font-size: 0.98rem;
+  color: var(--ink);
+  letter-spacing: 0.03em;
+  outline: none;
+  transition: border-color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
+  box-sizing: border-box;
+}
+.form-input::placeholder {
+  color: rgba(20, 70, 110, 0.32);
+}
+.form-input:focus {
+  border-color: var(--yellow-deep);
+  box-shadow: 0 0 0 3px rgba(255, 217, 61, 0.22);
+}
+.form-textarea {
+  resize: vertical;
+  min-height: 110px;
+  line-height: 1.7;
+}
+.form-submit {
   display: inline-flex;
   align-items: center;
   gap: var(--sp-3);
-  padding: var(--sp-4) var(--sp-6);
+  margin-top: var(--sp-3);
+  padding: 14px 32px;
   background: var(--yellow);
   color: var(--ink);
   font-family: var(--font-jp);
-  font-weight: 500;
-  font-size: 1.05rem;
+  font-weight: 600;
+  font-size: 1.0rem;
   letter-spacing: 0.08em;
+  border: none;
   border-radius: 999px;
-  box-shadow: 0 8px 0 var(--yellow-deep), 0 14px 24px rgba(242, 169, 61, 0.4);
-  opacity: 0;
-  transform: translateY(20px);
+  cursor: pointer;
+  box-shadow: 0 6px 0 var(--yellow-deep), 0 10px 18px rgba(242, 169, 61, 0.32);
   transition: transform 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
 }
-.landing-button:hover {
-  opacity: 1;
-  transform: translateY(-4px);
-  box-shadow: 0 12px 0 var(--yellow-deep), 0 18px 28px rgba(242, 169, 61, 0.5);
+.form-submit:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 9px 0 var(--yellow-deep), 0 14px 22px rgba(242, 169, 61, 0.42);
 }
-.landing-arrow {
+.form-submit:active {
+  transform: translateY(1px);
+  box-shadow: 0 3px 0 var(--yellow-deep), 0 6px 12px rgba(242, 169, 61, 0.3);
+}
+.form-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+.form-arrow {
   font-family: var(--font-en);
   font-weight: 700;
   transition: transform 0.3s var(--ease-out);
 }
-.landing-button:hover .landing-arrow { transform: translateX(4px); }
+.form-submit:hover .form-arrow { transform: translateX(4px); }
+.form-status {
+  margin: var(--sp-3) 0 0;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  line-height: 1.6;
+  min-height: 1.2em;
+}
+.form-status.is-success { color: #2A8F4E; }
+.form-status.is-error   { color: var(--coral); }
+
+@media (max-width: 720px) {
+  .contact-form { padding: var(--sp-4); }
+  .form-input { font-size: 16px; } /* iOS のズームインを防ぐ */
+}
 
 .landscape {
   position: absolute;
@@ -1032,9 +1947,12 @@ ul { list-style: none; padding: 0; margin: 0; }
 .grass {
   position: absolute;
   bottom: 0;
-  left: 0; right: 0;
+  left: -10%;
+  right: -10%;
   height: 56%;
-  background: linear-gradient(to bottom, #9BD78A 0%, #7BC97C 50%, #6BBB6C 100%);
+  background: #7BC97C;
+  border-top-left-radius: 50% 28%;
+  border-top-right-radius: 50% 28%;
 }
 
 .tree { position: absolute; object-fit: contain; }
@@ -1069,6 +1987,83 @@ ul { list-style: none; padding: 0; margin: 0; }
   object-fit: contain;
 }
 
+/* === 地上ステージ：新アセット 3レイヤー === */
+.land-decor { position: absolute; inset: 0; pointer-events: none; z-index: 4; }
+.land-decor img { position: absolute; object-fit: contain; }
+
+/* 手前（コーナー配置） */
+.land-fg { z-index: 4; opacity: 1; filter: drop-shadow(0 8px 16px rgba(40, 80, 130, 0.18)); }
+.ld-chick-ufo { top: 6%;  left: 8%;   right: auto; width: 130px; height: 110px; animation: ufoFloat 7s var(--ease-soft) infinite; }
+/* 焚き火（黄色マーカー）：右側ボトム */
+.ld-campfire  { bottom: 3%; right: 28%; width: 100px; height: 110px; z-index: 7; animation: floatBob 4s var(--ease-soft) infinite; }
+
+/* 中（空：太陽・雲のみ） */
+.land-mid { z-index: 3; opacity: 0.95; filter: drop-shadow(0 5px 12px rgba(40, 80, 130, 0.14)); }
+.ld-sun         { top: 5%;  right: 4%;  width: 110px; height: 110px; animation: sunSpin 28s linear infinite; }
+.ld-cloud-1     { top: 26%; right: var(--side-near); left: auto; width: 110px; height: 65px;  animation: cloudDrift 18s ease-in-out infinite; }
+.ld-cloud-2     { top: 24%; left:  var(--side-near); right: auto; width: 100px; height: 60px;  animation: cloudDrift 22s ease-in-out infinite reverse; }
+
+/* ===== 地上：3レイヤー（奥行き） ===== */
+.land-ground { position: absolute; object-fit: contain; pointer-events: none; }
+
+/* 手前（fg：くっきり大、地面の最前列） */
+.land-ground-fg {
+  z-index: 8;
+  opacity: 1;
+  filter: drop-shadow(0 8px 14px rgba(40, 80, 60, 0.28));
+}
+/* 木 fg：左右の端 */
+.ld-tree-fg-1   { bottom: 0;   left: -1%;  width: 200px; height: 240px; }
+.ld-tree-fg-2   { bottom: 0;   right: -1%; width: 200px; height: 240px; }
+/* ひまわり fg：左右シンメトリ、木の少し内側 */
+.ld-sunflower-l-fg { bottom: 0;  left: 18%;  width: 130px; height: 165px; animation: floatBob 5s var(--ease-soft) infinite; }
+.ld-sunflower-r-fg { bottom: 0;  right: 18%; width: 130px; height: 165px; animation: floatBob 5s var(--ease-soft) infinite 0.5s; }
+/* 猫：左fgひまわり跡地に配置 */
+.ld-cat-rainbow { bottom: 0;   left: 18%;  width: 130px; height: 165px; animation: floatBob 4s var(--ease-soft) infinite 0.4s; }
+
+/* 中（mid：少し奥、サイズだけダウン、透過なし） */
+.land-ground-mid {
+  z-index: 6;
+  opacity: 1;
+  filter: drop-shadow(0 5px 10px rgba(40, 80, 60, 0.2));
+}
+.ld-tree-mid-1  { bottom: 6%;  left: 11%;   width: 120px; height: 150px; }
+.ld-tree-mid-2  { bottom: 6%;  right: 11%;  width: 120px; height: 150px; }
+
+/* 奥（far：遠景。サイズだけ小さく、透過＆blurなし） */
+.land-ground-far {
+  z-index: 5;
+  opacity: 1;
+  filter: drop-shadow(0 2px 4px rgba(40, 80, 60, 0.14));
+}
+/* ジグザグ配置：bottom値を互い違いに */
+.ld-tree-far-1  { bottom: 9%;  left: 5%;   width: 75px; height: 95px; }
+.ld-tree-far-2  { bottom: 13%; left: 17%;  width: 75px; height: 95px; }
+.ld-tree-far-3  { bottom: 9%;  right: 5%;  width: 75px; height: 95px; }
+.ld-tree-far-4  { bottom: 13%; right: 17%; width: 75px; height: 95px; }
+/* ひまわり far */
+.ld-sunflower-l-far { bottom: 11%; left: 27%;  width: 75px; height: 95px; }
+.ld-sunflower-r-far { bottom: 11%; right: 27%; width: 75px; height: 95px; }
+
+/* 奥（30%透過＋blur、フォーム上に被ってもOK） */
+.land-bg { z-index: 1; opacity: 0.28; filter: blur(1.6px) drop-shadow(0 3px 6px rgba(40, 80, 130, 0.08)); animation: floatBob 9s var(--ease-soft) infinite; }
+.ld-strawberry { top: 12%; left:  var(--side-near); right: auto; width: 44px; height: 50px; animation-delay: 1.2s; }
+.ld-orange     { top: 22%; right: calc(50% + 480px); left: auto;  width: 78px; height: 60px; opacity: 1; filter: drop-shadow(0 5px 12px rgba(40,80,130,0.18)); z-index: 3; animation-delay: 0.5s; }
+.ld-pencil     { top: 38%; right: calc(50% + 540px); left: auto;  width: 38px; height: 38px; animation-delay: 2.4s; }
+.ld-candy      { top: 36%; left:  var(--side-mid);  right: auto; width: 38px; height: 26px; animation-delay: 1.0s; }
+.ld-pear       { top: 44%; left:  calc(50% + 480px); right: auto; width: 72px; height: 88px; opacity: 1; filter: drop-shadow(0 5px 12px rgba(40,80,130,0.18)); z-index: 3; animation-delay: 2.0s; }
+.ld-grape      { top: 50%; right: calc(50% + 480px); left: auto;  width: 78px; height: 96px; opacity: 1; filter: drop-shadow(0 5px 12px rgba(40,80,130,0.18)); z-index: 3; animation-delay: 2.8s; }
+.ld-pearl      { top: 58%; left:  var(--side-far);  right: auto; width: 26px; height: 26px; animation-delay: 3.0s; }
+.ld-watermelon { top: 64%; left:  calc(50% + 480px); right: auto; width: 88px; height: 66px; opacity: 1; filter: drop-shadow(0 5px 12px rgba(40,80,130,0.18)); z-index: 3; animation-delay: 3.5s; }
+.ld-cabbage    { top: 70%; right: var(--side-near); left: auto;  width: 50px; height: 44px; animation-delay: 1.5s; }
+
+@media (max-width: 720px) {
+  .ld-chick-ufo, .ld-campfire, .ld-sunflower-l-fg, .ld-sunflower-r-fg, .ld-cat-rainbow { width: 70px; height: 70px; }
+  .ld-sunflower-l-far, .ld-sunflower-r-far, .ld-tree-far-4 { width: 38px; height: 48px; }
+  .ld-sun, .ld-cloud-1, .ld-cloud-2 { width: 70px; height: 45px; }
+  .land-bg img, .ld-orange, .ld-strawberry, .ld-pear, .ld-grape, .ld-watermelon, .ld-cabbage, .ld-candy, .ld-pencil, .ld-pearl { width: 30px; height: 30px; }
+}
+
 @media (max-width: 720px) {
   .stage-landing { padding-top: 8vh; }
   .tree-1 { width: 100px; height: 140px; left: 2%; }
@@ -1080,7 +2075,7 @@ ul { list-style: none; padding: 0; margin: 0; }
 
 /* Footer */
 .site-footer {
-  background: #8FCAE1;
+  background: var(--grass);
   padding: var(--sp-4);
   text-align: center;
 }

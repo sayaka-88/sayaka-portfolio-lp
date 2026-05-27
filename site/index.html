@@ -16,19 +16,40 @@
 <!-- 00. Header -->
 <header class="site-header">
   <a class="logo" href="/"><span class="logo-text">SAYAKA</span></a>
+  <div class="site-header-right">
   <nav class="site-nav">
     <a href="#about">About</a>
     <a href="#works">Works</a>
     <a href="#voice">Voice</a>
     <a href="#contact">Contact</a>
   </nav>
+  <div class="site-social" aria-label="ソーシャルリンク">
+    <a class="social-icon" href="https://www.instagram.com/sayachel88/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="3" y="3" width="18" height="18" rx="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.5" cy="6.5" r="0.9" fill="currentColor" stroke="none"/>
+      </svg>
+    </a>
+    <a class="social-icon" href="https://pin.it/50VM6u7" target="_blank" rel="noopener noreferrer" aria-label="Pinterest">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 2a10 10 0 0 0-3.6 19.3c-.1-.8 0-1.8.2-2.6l1.2-5.2s-.3-.6-.3-1.5c0-1.4.8-2.4 1.8-2.4.8 0 1.2.6 1.2 1.4 0 .8-.5 2.1-.8 3.3-.3 1 .5 1.8 1.5 1.8 1.8 0 3.1-1.9 3.1-4.6 0-2.4-1.7-4.1-4.1-4.1-2.8 0-4.5 2.1-4.5 4.3 0 .8.3 1.8.7 2.3.1.1.1.2.1.3l-.3 1c-.1.2-.2.2-.4.1-1.3-.6-2.1-2.5-2.1-4 0-3.2 2.3-6.2 6.7-6.2 3.5 0 6.2 2.5 6.2 5.9 0 3.5-2.2 6.3-5.3 6.3-1 0-2-.5-2.4-1.1l-.6 2.4c-.3.9-.9 2-1.3 2.7A10 10 0 1 0 12 2z"/>
+      </svg>
+    </a>
+  </div>
+  </div>
 </header>
 
 <!-- ルアー＋糸: viewport固定、スクロール追従（黄色糸） -->
 <div class="lure-trail" aria-hidden="true">
-  <div class="trail-line"></div>
   <img class="trail-lure" src="assets/img/lure-new.png" alt="">
 </div>
+<!-- キャスト中の曲線（SVG bezier） -->
+<svg class="cast-curve" aria-hidden="true" preserveAspectRatio="none">
+  <path class="cast-curve-path" d="M0 0"/>
+</svg>
+<!-- 着水後の垂直線（着水位置→ルアー） -->
+<div class="trail-line" aria-hidden="true"></div>
 
 <!-- 着水しぶき・波紋（viewport固定、stageのoverflow:hidden外） -->
 <div class="ripple-container" aria-hidden="true">
@@ -46,23 +67,17 @@
 
 <!-- 01. Hero -->
 <section class="hero" id="about">
-  <div class="hero-bg" aria-hidden="true">
-    <img class="bg-item bg-sun" src="assets/img/sun.png" alt="">
-    <img class="bg-item bg-cloud-1" src="assets/img/cloud-1.png" alt="">
-    <img class="bg-item bg-cloud-2" src="assets/img/cloud-2.png" alt="">
-    <img class="bg-item bg-star-1" src="assets/img/star-yellow.png" alt="">
-    <img class="bg-item bg-star-2" src="assets/img/star-pink.png" alt="">
-  </div>
+  <div class="hero-bg" aria-hidden="true"></div>
   <div class="hero-inner">
-    <h1 class="hero-title"><span class="hero-title-line">デザインに愛を。</span></h1>
-    <p class="hero-sub">思い出に残るものを、つくります。</p>
+    <h1 class="hero-title"><span class="hero-title-line">デザインに愛を</span></h1>
+    <p class="hero-sub">Portfolio</p>
   </div>
   <div class="scroll-prompt" aria-hidden="true">
     <span class="scroll-prompt-text">Scroll</span>
     <span class="scroll-prompt-arrow"></span>
   </div>
   <svg class="wave-divider" viewBox="0 0 1200 80" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M0,40 Q40,15 80,40 T160,40 T240,40 T320,40 T400,40 T480,40 T560,40 T640,40 T720,40 T800,40 T880,40 T960,40 T1040,40 T1120,40 T1200,40 L1200,80 L0,80 Z" fill="#FFEEC4"/>
+    <path d="M0,40 Q40,15 80,40 T160,40 T240,40 T320,40 T400,40 T480,40 T560,40 T640,40 T720,40 T800,40 T880,40 T960,40 T1040,40 T1120,40 T1200,40 L1200,80 L0,80 Z" fill="#FFF8E0"/>
   </svg>
 </section>
 
@@ -76,103 +91,73 @@
 
   <!-- Stage 0: Prelude -->
   <section class="stage stage-prelude" data-stage="0">
-    <div class="stage-text stage-text-prelude">
-      <p class="lead">ちょっと、</p>
-      <p class="lead">深いところまで</p>
-      <p class="lead">潜ってみませんか。</p>
+    <div class="prelude-sky" aria-hidden="true">
+      <img class="sky-fg sky-seagull"          src="assets/img/sky-seagull.png" alt="">
+      <img class="sky-mid sky-cloud-pastel-2"  src="assets/img/sky-cloud-pastel-2.png" alt="">
+      <img class="sky-mid sky-sun-decorated"   src="assets/img/sky-sun-decorated.png" alt="">
+      <img class="sky-bg sky-cloud-bg-1"       src="assets/img/sky-cloud-pastel-1.png" alt="">
     </div>
+    <div class="stage-text stage-text-prelude">
+      <p class="lead">ちょっと一緒に旅しませんか。</p>
+    </div>
+    <!-- 波の上にぷかぷか：椰子の木の島とアヒル（z-index < wave で下半分が水色塗りに隠れる） -->
+    <img class="prelude-floater pf-palm" src="assets/img/sea-palm-island.png" alt="" aria-hidden="true">
+    <img class="prelude-floater pf-duck" src="assets/img/sea-duck.png" alt="" aria-hidden="true">
     <svg class="wave-divider" viewBox="0 0 1200 80" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0,40 Q40,15 80,40 T160,40 T240,40 T320,40 T400,40 T480,40 T560,40 T640,40 T720,40 T800,40 T880,40 T960,40 T1040,40 T1120,40 T1200,40 L1200,80 L0,80 Z" fill="#A8D6E8"/>
+      <path d="M0,40 Q40,15 80,40 T160,40 T240,40 T320,40 T400,40 T480,40 T560,40 T640,40 T720,40 T800,40 T880,40 T960,40 T1040,40 T1120,40 T1200,40 L1200,80 L0,80 Z" fill="#C5E4F2"/>
     </svg>
   </section>
 
   <!-- Stage 1: Sea Surface -->
   <section class="stage stage-surface" data-stage="1">
 
-    <!-- ひょっこりひょうたん島（横から見た浮島） -->
-    <svg class="hyoutan-island" viewBox="0 0 340 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <defs>
-        <linearGradient id="hi-earth" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#B58A62"/>
-          <stop offset="100%" stop-color="#7A5839"/>
-        </linearGradient>
-        <linearGradient id="hi-grass" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#A8DDA4"/>
-          <stop offset="100%" stop-color="#5FAD6F"/>
-        </linearGradient>
-        <linearGradient id="hi-crown" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#7CCB87"/>
-          <stop offset="100%" stop-color="#3F9C5C"/>
-        </linearGradient>
-      </defs>
-
-      <!-- 水面の影 -->
-      <ellipse cx="170" cy="186" rx="130" ry="6" fill="rgba(20,70,100,0.18)"/>
-
-      <!-- 島本体（ひょうたん形シルエット）：土の部分 -->
-      <path d="
-        M22,118
-        C18,90 46,68 82,66
-        C108,66 124,80 138,96
-        C150,108 162,108 174,98
-        C190,82 210,72 234,72
-        C272,72 304,92 310,118
-        C316,150 274,178 222,180
-        C184,182 142,180 108,180
-        C66,178 26,156 22,118 Z
-      " fill="url(#hi-earth)"/>
-
-      <!-- 土の影/凹凸 -->
-      <path d="M45,140 Q90,150 140,144" stroke="#6F4D32" stroke-width="2.6" fill="none" opacity="0.35" stroke-linecap="round"/>
-      <path d="M195,148 Q240,155 285,144" stroke="#6F4D32" stroke-width="2.6" fill="none" opacity="0.35" stroke-linecap="round"/>
-      <path d="M60,160 Q90,168 130,162" stroke="#A07757" stroke-width="2" fill="none" opacity="0.5" stroke-linecap="round"/>
-
-      <!-- 草の部分（島の上半分） -->
-      <path d="
-        M22,118
-        C18,90 46,68 82,66
-        C108,66 124,80 138,96
-        C150,108 162,108 174,98
-        C190,82 210,72 234,72
-        C272,72 304,92 310,118
-        L22,118 Z
-      " fill="url(#hi-grass)"/>
-
-      <!-- 草のハイライト -->
-      <path d="M40,108 q40,-14 80,-6 M180,100 q40,-12 80,-2" stroke="#C9EDC0" stroke-width="2.4" fill="none" opacity="0.7" stroke-linecap="round"/>
-
-      <!-- 草のチクチク -->
-      <path d="M55,98 l2,-7 l2,7 M75,90 l2,-8 l2,8 M115,88 l2,-7 l2,7 M195,90 l2,-7 l2,7 M225,86 l2,-8 l2,8 M260,92 l2,-7 l2,7"
-            stroke="#4F9F5C" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-
-      <!-- 木：幹 -->
-      <rect x="84" y="38" width="11" height="32" fill="#6E4D31" rx="2"/>
-      <!-- 木：葉 -->
-      <ellipse cx="90" cy="36" rx="28" ry="24" fill="url(#hi-crown)"/>
-      <ellipse cx="102" cy="26" rx="14" ry="11" fill="#7BD58F" opacity="0.85"/>
-      <ellipse cx="74" cy="30" rx="13" ry="10" fill="#5BBE73" opacity="0.85"/>
-      <!-- 葉のハイライト -->
-      <ellipse cx="84" cy="24" rx="6" ry="3" fill="#D8F2C8" opacity="0.6"/>
-
-      <!-- 右の小さい茂み -->
-      <ellipse cx="230" cy="64" rx="18" ry="9" fill="#5FBC78"/>
-      <ellipse cx="237" cy="60" rx="10" ry="6" fill="#82D49A"/>
-      <ellipse cx="222" cy="62" rx="6" ry="4" fill="#7BCE88" opacity="0.8"/>
-
-      <!-- 小さな花 -->
-      <circle cx="155" cy="104" r="2.6" fill="#FFD93D"/>
-      <circle cx="160" cy="100" r="1.4" fill="#FFFFFF"/>
-      <circle cx="255" cy="108" r="2.4" fill="#FF8FA3"/>
-      <circle cx="135" cy="100" r="2" fill="#FFFFFF"/>
-    </svg>
+    <!-- 海面の浮き物（手前/中/奥の3レイヤー） -->
+    <div class="surface-decor" aria-hidden="true">
+      <!-- 手前 -->
+      <img class="surface-fg sf-girl-donut"   src="assets/img/sea-girl-donut.png" alt="">
+      <!-- 中 -->
+      <img class="surface-mid sf-beachball"   src="assets/img/sea-beachball.png" alt="">
+      <!-- 奥 -->
+      <img class="surface-bg sf-shell"        src="assets/img/sea-shell.png" alt="">
+      <img class="surface-bg sf-shell-2"      src="assets/img/sea-shell.png" alt="">
+    </div>
 
     <div class="stage-text stage-text-surface">
-      <h2 class="greeting">はじめまして、<br>SAYAKAです。</h2>
-      <p class="role">グラフィックデザイナー / ディレクター</p>
-      <p class="bio">東京を拠点に、<br>デザインの仕事をしています。</p>
+      <h2 class="greeting">はじめまして<br>SAYAKAです</h2>
+      <p class="role">
+        <svg class="role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 19l7-7 3 3-7 7-3-3z"/>
+          <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
+          <path d="M2 2l7.586 7.586"/>
+          <circle cx="11" cy="11" r="2"/>
+        </svg>
+        <span>デザイナー</span>
+      </p>
+      <p class="info-line">
+        <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+          <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+        </svg>
+        <span>商工会連合会 専門家派遣 講師</span>
+      </p>
+      <p class="info-line">
+        <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+          <line x1="2" y1="20" x2="22" y2="20"/>
+          <line x1="8" y1="20" x2="16" y2="20"/>
+        </svg>
+        <span>Illustrator / Photoshop / Premiere Pro / InDesign</span>
+      </p>
+      <p class="info-line info-line-ai">
+        <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/>
+          <circle cx="12" cy="12" r="3.5"/>
+        </svg>
+        <span>AI × デザイン、新しい風を</span>
+      </p>
     </div>
     <svg class="wave-divider" viewBox="0 0 1200 80" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0,40 Q40,15 80,40 T160,40 T240,40 T320,40 T400,40 T480,40 T560,40 T640,40 T720,40 T800,40 T880,40 T960,40 T1040,40 T1120,40 T1200,40 L1200,80 L0,80 Z" fill="#5BAFD2"/>
+      <path d="M0,40 Q40,15 80,40 T160,40 T240,40 T320,40 T400,40 T480,40 T560,40 T640,40 T720,40 T800,40 T880,40 T960,40 T1040,40 T1120,40 T1200,40 L1200,80 L0,80 Z" fill="#2C78AE"/>
     </svg>
   </section>
 
@@ -193,13 +178,12 @@
       <img class="treat treat-3" src="assets/img/treat-candy.png" alt="">
 
       <!-- 奥行きレイヤー（30%透過＋縮小＋blur） -->
-      <img class="bg-item bg-goldfish" src="assets/img/sea-goldfish.png" alt="">
       <img class="bg-item bg-candy"    src="assets/img/treat-candy.png"   alt="">
       <img class="bg-item bg-donut-1"  src="assets/img/treat-donut.png"   alt="">
       <img class="bg-item bg-donut-2"  src="assets/img/treat-donut.png"   alt="">
     </div>
     <div class="stage-text stage-text-undersea">
-      <p class="undersea-lead">こんなものを、<br>つくっています。</p>
+      <p class="undersea-lead">つくれるもの。</p>
       <ul class="genre-list">
         <li class="genre">ロゴ</li>
         <li class="genre">名刺・ショップカード</li>
@@ -208,52 +192,189 @@
         <li class="genre">パッケージ</li>
         <li class="genre">販促物・POP</li>
         <li class="genre">グッズ</li>
-        <li class="genre">SNSバナー</li>
+        <li class="genre">キャラクターデザイン</li>
         <li class="genre">パンフレット</li>
-        <li class="genre">Web・LP</li>
+        <li class="genre">SNSバナー</li>
+        <li class="genre">Web・LP（AIで制作）</li>
       </ul>
+      <p class="genre-note">ここに書かれていないものでも作成可能です。<br>お気軽にご相談ください。</p>
+      <a class="genre-pinterest" href="https://pin.it/50VM6u7" target="_blank" rel="noopener noreferrer" aria-label="Pinterest で作品を見る">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2a10 10 0 0 0-3.6 19.3c-.1-.8 0-1.8.2-2.6l1.2-5.2s-.3-.6-.3-1.5c0-1.4.8-2.4 1.8-2.4.8 0 1.2.6 1.2 1.4 0 .8-.5 2.1-.8 3.3-.3 1 .5 1.8 1.5 1.8 1.8 0 3.1-1.9 3.1-4.6 0-2.4-1.7-4.1-4.1-4.1-2.8 0-4.5 2.1-4.5 4.3 0 .8.3 1.8.7 2.3.1.1.1.2.1.3l-.3 1c-.1.2-.2.2-.4.1-1.3-.6-2.1-2.5-2.1-4 0-3.2 2.3-6.2 6.7-6.2 3.5 0 6.2 2.5 6.2 5.9 0 3.5-2.2 6.3-5.3 6.3-1 0-2-.5-2.4-1.1l-.6 2.4c-.3.9-.9 2-1.3 2.7A10 10 0 1 0 12 2z"/>
+        </svg>
+        <span>作品をもっと見る</span>
+      </a>
     </div>
     <svg class="wave-divider" viewBox="0 0 1200 80" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0,40 Q40,15 80,40 T160,40 T240,40 T320,40 T400,40 T480,40 T560,40 T640,40 T720,40 T800,40 T880,40 T960,40 T1040,40 T1120,40 T1200,40 L1200,80 L0,80 Z" fill="#2670A5"/>
+      <path d="M0,40 Q40,15 80,40 T160,40 T240,40 T320,40 T400,40 T480,40 T560,40 T640,40 T720,40 T800,40 T880,40 T960,40 T1040,40 T1120,40 T1200,40 L1200,80 L0,80 Z" fill="#0F3A66"/>
     </svg>
   </section>
 
   <!-- Stage 3: 深海 (アンコウ) -->
   <section class="stage stage-deep" data-stage="3">
+    <!-- アンコウのライトコーン（ルアー光から前方に照射） -->
+    <div class="angler-light-cone" aria-hidden="true"></div>
+    <div class="angler-light-bulb" aria-hidden="true"></div>
     <div class="anglerlight" aria-hidden="true"></div>
     <img class="anglerfish" src="assets/img/anglerfish.png" alt="" aria-hidden="true">
+
+    <!-- 深海の泡（下から上に上がる） -->
+    <div class="deep-bubbles" aria-hidden="true">
+      <img class="d-bubble d-bubble-1" src="assets/img/sea-bubble.png" alt="">
+      <img class="d-bubble d-bubble-2" src="assets/img/sea-bubble.png" alt="">
+      <img class="d-bubble d-bubble-3" src="assets/img/sea-bubble.png" alt="">
+      <img class="d-bubble d-bubble-4" src="assets/img/sea-bubble.png" alt="">
+      <img class="d-bubble d-bubble-5" src="assets/img/sea-bubble.png" alt="">
+    </div>
+
+    <!-- 深海の生き物・宝物（3レイヤー奥行き） -->
+    <div class="deep-decor" aria-hidden="true">
+      <!-- 手前レイヤー -->
+      <img class="deep-fg deep-treasure" src="assets/img/deep-treasure.png" alt="">
+      <img class="deep-fg deep-squid"    src="assets/img/deep-squid.png" alt="">
+      <img class="deep-fg deep-oarfish"  src="assets/img/deep-oarfish.png" alt="">
+
+      <!-- 中レイヤー -->
+      <img class="deep-mid deep-jellyfish" src="assets/img/deep-jellyfish.png" alt="">
+      <img class="deep-mid deep-crown"     src="assets/img/deep-crown.png" alt="">
+      <img class="deep-mid deep-diamond"   src="assets/img/deep-diamond.png" alt="">
+      <img class="deep-mid deep-diamond-2" src="assets/img/deep-diamond.png" alt="">
+
+      <!-- 奥レイヤー（透過＋blur） -->
+      <img class="deep-bg deep-jellyfish-small" src="assets/img/deep-jellyfish-small.png" alt="">
+      <img class="deep-bg deep-pearl-1"  src="assets/img/deep-pearl-1.png" alt="">
+      <img class="deep-bg deep-pearl-2"  src="assets/img/deep-pearl-2.png" alt="">
+      <img class="deep-bg deep-pearl-3"  src="assets/img/deep-pearl-3.png" alt="">
+      <img class="deep-bg deep-star"     src="assets/img/deep-star.png" alt="">
+      <img class="deep-bg deep-crystal"  src="assets/img/deep-crystal.png" alt="">
+    </div>
     <div class="stage-text stage-text-deep">
-      <p class="deep-line">15年、<br>デザインと向き合ってきました。</p>
-      <p class="deep-line">専門学校で、<br>講師もしています。</p>
-      <p class="deep-line">商工会のエキスパートバンクに、<br>登録されています。</p>
+      <ol class="deep-timeline">
+        <li class="deep-step">
+          <div class="deep-step-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none">
+              <path d="M4 13l12-5 12 5-12 5z" fill="currentColor"/>
+              <path d="M9 15.5v3c1.5 1.8 4.5 2.8 7 2.8s5.5-1 7-2.8v-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              <path d="M27 13.5v6.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <circle cx="27" cy="21.5" r="1.6" fill="currentColor"/>
+            </svg>
+          </div>
+          <div class="deep-step-card">
+            <p class="deep-step-eyebrow">Step 01</p>
+            <h3 class="deep-step-title">日本デザイン専門学校</h3>
+            <p class="deep-step-body">プロダクトデザイン専攻 卒業。</p>
+          </div>
+        </li>
+        <li class="deep-step">
+          <div class="deep-step-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none">
+              <path d="M19 5l8 8-13 13H6v-8z" fill="currentColor"/>
+              <path d="M20.5 6.5l4.5 4.5" stroke="rgba(255,255,255,0.55)" stroke-width="1.2" stroke-linecap="round"/>
+              <path d="M27 3.2l0.5 1.3 1.3 0.5-1.3 0.5-0.5 1.3-0.5-1.3-1.3-0.5 1.3-0.5z" fill="currentColor"/>
+              <circle cx="4" cy="28" r="0.9" fill="currentColor"/>
+            </svg>
+          </div>
+          <div class="deep-step-card">
+            <p class="deep-step-eyebrow">Step 02</p>
+            <h3 class="deep-step-title">グラフィックデザイン<br>事務所</h3>
+            <p class="deep-step-body">立体から、平面へ。<br>アシスタントデザイナーからプロへ。</p>
+          </div>
+        </li>
+        <li class="deep-step">
+          <div class="deep-step-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none">
+              <path d="M3 8c4-1.5 9-1.5 13 1.5v15c-4-3-9-3-13-1.5z" fill="currentColor"/>
+              <path d="M29 8c-4-1.5-9-1.5-13 1.5v15c4-3 9-3 13-1.5z" fill="currentColor" opacity="0.78"/>
+            </svg>
+          </div>
+          <div class="deep-step-card">
+            <p class="deep-step-eyebrow">Step 03</p>
+            <h3 class="deep-step-title">日本デザイン専門学校<br>ものデザイン学科 担任</h3>
+            <p class="deep-step-body">ものづくり×グラフィックを教える。<br>クラスの子達が卒業と共に退職。</p>
+          </div>
+        </li>
+        <li class="deep-step">
+          <div class="deep-step-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none">
+              <rect x="12" y="3" width="8" height="14" rx="4" fill="currentColor"/>
+              <path d="M7 14c0 5 4 9 9 9s9-4 9-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
+              <path d="M16 23v5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M11 28h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="deep-step-card">
+            <p class="deep-step-eyebrow">Step 04</p>
+            <h3 class="deep-step-title">千葉県商工会連合会<br>専門家派遣</h3>
+            <p class="deep-step-body">デザイン講師に就任。<br>2026年現在も継続中。</p>
+          </div>
+        </li>
+        <li class="deep-step">
+          <div class="deep-step-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none">
+              <path d="M16 3l3.4 8.7 9.3 0.6-7.2 6 2.3 9-7.8-5.2-7.8 5.2 2.3-9-7.2-6 9.3-0.6z" fill="currentColor"/>
+            </svg>
+          </div>
+          <div class="deep-step-card">
+            <p class="deep-step-eyebrow">Step 05</p>
+            <h3 class="deep-step-title">フリーランスとして独立</h3>
+            <p class="deep-step-body">企業・ブランド・YouTuberまで、<br>幅広くデザインを。</p>
+          </div>
+        </li>
+        <li class="deep-step deep-step-final">
+          <div class="deep-step-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none">
+              <path d="M16 27l-9-9c-2.5-2.5-2.5-6.5 0-9s6.5-2.5 9 0c2.5-2.5 6.5-2.5 9 0s2.5 6.5 0 9z" fill="currentColor"/>
+              <path d="M27 3.5l0.6 1.6 1.6 0.6-1.6 0.6-0.6 1.6-0.6-1.6-1.6-0.6 1.6-0.6z" fill="currentColor" opacity="0.75"/>
+              <circle cx="5" cy="6" r="1" fill="currentColor" opacity="0.6"/>
+            </svg>
+          </div>
+          <div class="deep-step-card">
+            <p class="deep-step-eyebrow deep-step-eyebrow-final">[ Daily use. ]</p>
+            <h3 class="deep-step-title">あなたの心に、<br>誰かの心に。</h3>
+            <p class="deep-step-body">そっと寄り添って、<br>世界をすこし動かしていく。</p>
+          </div>
+        </li>
+      </ol>
     </div>
     <svg class="wave-divider" viewBox="0 0 1200 80" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0,40 Q40,15 80,40 T160,40 T240,40 T320,40 T400,40 T480,40 T560,40 T640,40 T720,40 T800,40 T880,40 T960,40 T1040,40 T1120,40 T1200,40 L1200,80 L0,80 Z" fill="#1A2347"/>
+      <path d="M0,40 Q40,15 80,40 T160,40 T240,40 T320,40 T400,40 T480,40 T560,40 T640,40 T720,40 T800,40 T880,40 T960,40 T1040,40 T1120,40 T1200,40 L1200,80 L0,80 Z" fill="#0A1530"/>
     </svg>
   </section>
 
-  <!-- Stage 4: 宇宙 (顔つき月 + 塊魂風★) -->
+  <!-- Stage 4: 宇宙 (新アセット + 顔つき月 + 塊魂風★) -->
   <section class="stage stage-space" data-stage="4">
-    <div class="stars" aria-hidden="true">
-      <img class="star star-a" src="assets/img/star-yellow.png" alt="">
-      <img class="star star-b" src="assets/img/star-pink.png" alt="">
-      <img class="star star-c" src="assets/img/star-teal.png" alt="">
-      <img class="star star-d" src="assets/img/star-purple.png" alt="">
-      <img class="star star-e" src="assets/img/star-orange.png" alt="">
-      <img class="star star-f" src="assets/img/star-yellow.png" alt="">
-      <img class="star star-g" src="assets/img/star-pink.png" alt="">
-      <img class="star star-h" src="assets/img/star-teal.png" alt="">
-      <img class="star star-i" src="assets/img/star-purple.png" alt="">
-      <img class="star star-j" src="assets/img/star-orange.png" alt="">
-    </div>
-    <img class="space-moon" src="assets/img/moon.png" alt="" aria-hidden="true">
     <div class="shooting" aria-hidden="true">
       <span class="shoot shoot-1"></span>
       <span class="shoot shoot-2"></span>
       <span class="shoot shoot-3"></span>
     </div>
+
+    <!-- 新アセット：手前 / 中 / 奥 の3レイヤー -->
+    <div class="space-decor" aria-hidden="true">
+      <!-- 手前レイヤー -->
+      <img class="space-fg space-ufo"             src="assets/img/space-ufo.png" alt="">
+      <img class="space-fg space-earth"           src="assets/img/space-earth.png" alt="">
+      <img class="space-fg space-planet-saturn"   src="assets/img/space-planet-saturn.png" alt="">
+      <img class="space-fg space-astronaut"       src="assets/img/space-astronaut.png" alt="">
+      <img class="space-fg space-dog-astro"       src="assets/img/land-dog-astronaut.png" alt="">
+
+      <!-- 中レイヤー -->
+      <img class="space-mid space-crown"          src="assets/img/space-crown.png" alt="">
+      <img class="space-mid space-moon-rainbow"   src="assets/img/space-moon-rainbow.png" alt="">
+      <img class="space-mid space-planet-pink"    src="assets/img/space-planet-pink.png" alt="">
+      <img class="space-mid space-planet-striped" src="assets/img/space-planet-striped.png" alt="">
+      <img class="space-mid space-laptop"         src="assets/img/space-laptop.png" alt="">
+
+      <!-- 奥レイヤー（30%透過＋blur） -->
+      <img class="space-bg space-macaron-green"   src="assets/img/space-macaron-green.png" alt="">
+      <img class="space-bg space-macaron-yellow"  src="assets/img/space-macaron-yellow.png" alt="">
+      <img class="space-bg space-lollipop-round"  src="assets/img/space-lollipop-round.png" alt="">
+      <img class="space-bg space-lollipop-spiral" src="assets/img/space-lollipop-spiral.png" alt="">
+      <img class="space-bg space-star-pale"       src="assets/img/space-star-pale.png" alt="">
+      <img class="space-bg space-star-pale-2"     src="assets/img/space-star-pale.png" alt="">
+    </div>
     <div class="stage-text stage-text-space">
-      <p class="space-lead">これまで、<br>こんな方々と。</p>
+      <p class="space-lead">これまで、<br>ご一緒させていただいたみなさま。</p>
 
       <div class="works-grid">
         <section class="works-cat works-cat-wide">
@@ -274,6 +395,7 @@
             <li>ハンナ インスツルメンツ・ジャパン</li>
             <li>KUROFUNE&amp;Co</li>
             <li>RIRAN</li>
+            <li>レインカラーズ</li>
           </ul>
         </section>
 
@@ -338,58 +460,134 @@
       <p class="works-disclaimer">※順不同・敬称略 / 掲載可能な実績の一部</p>
     </div>
     <svg class="wave-divider" viewBox="0 0 1200 80" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0,40 Q40,15 80,40 T160,40 T240,40 T320,40 T400,40 T480,40 T560,40 T640,40 T720,40 T800,40 T880,40 T960,40 T1040,40 T1120,40 T1200,40 L1200,80 L0,80 Z" fill="#FFC58A"/>
+      <path d="M0,40 Q40,15 80,40 T160,40 T240,40 T320,40 T400,40 T480,40 T560,40 T640,40 T720,40 T800,40 T880,40 T960,40 T1040,40 T1120,40 T1200,40 L1200,80 L0,80 Z" fill="#FFD580"/>
     </svg>
   </section>
 
   <!-- Stage 5: Voice -->
   <section class="stage stage-dawn" data-stage="5" id="voice">
-    <div class="clouds" aria-hidden="true">
-      <img class="cloud cloud-1" src="assets/img/cloud-1.png" alt="">
-      <img class="cloud cloud-2" src="assets/img/cloud-2.png" alt="">
-      <img class="cloud cloud-3" src="assets/img/cloud-3.png" alt="">
+
+    <!-- そらと海の上 の素材：3レイヤー奥行き、Voice 文字を避けて配置 -->
+    <div class="dawn-decor" aria-hidden="true">
+      <!-- 手前：大きめのパステル雲＋装飾サン -->
+      <img class="dawn-fg dawn-cloud-pastel-1" src="assets/img/sky-cloud-pastel-1.png" alt="">
+      <img class="dawn-fg dawn-sun-decorated"  src="assets/img/sky-sun-decorated.png" alt="">
+
+      <!-- 中：もう一つのパステル雲・小さい流星 -->
+      <img class="dawn-mid dawn-cloud-pastel-2" src="assets/img/sky-cloud-pastel-2.png" alt="">
+      <img class="dawn-mid dawn-shootingstar"   src="assets/img/sky-shootingstar-blue.png" alt="">
+
+      <!-- 奥（30%透過＋blur、文字に被ってもOK） -->
+      <img class="dawn-bg dawn-puzzle-blue" src="assets/img/sky-puzzle-blue.png" alt="">
+      <img class="dawn-bg dawn-puzzle-pink" src="assets/img/sky-puzzle-pink.png" alt="">
+      <img class="dawn-bg dawn-rays"        src="assets/img/sky-rays.png" alt="">
+      <img class="dawn-bg dawn-sun-pink"    src="assets/img/sky-sun-pink.png" alt="">
     </div>
-    <img class="dawn-sun" src="assets/img/sun.png" alt="" aria-hidden="true">
     <div class="stage-text stage-text-dawn">
       <p class="dawn-eyebrow">Voice</p>
-      <ul class="dawn-quotes">
-        <li class="dawn-quote">「他とは違うって感想がもらえて、<br>嬉しかった。」</li>
-        <li class="dawn-quote">「金額以上の仕上がりで、<br>お得な気がした。」</li>
-        <li class="dawn-quote">「思い出に残るものを、<br>つくれた気がする。」</li>
+      <ul class="voice-chat">
+        <li class="voice-row voice-row-left">
+          <img class="voice-icon vi-cat" src="assets/img/land-cat-rainbow.png" alt="">
+          <div class="voice-bubble">余白の使い方がうまい。<br>しっくり来るデザイナーに出会うことの喜びを感じました。</div>
+        </li>
+        <li class="voice-row voice-row-right">
+          <div class="voice-bubble">毎年お世話になっています！<br>細かいニュアンスまで汲み取って表現してくれる。<br>世界観の作り込みがとっても上手なので、とても印象に残る作品に仕上げてくれます。<br>やり取りがとても丁寧で曖昧なこちらなのイメージをしっかり形にしてくれるので安心感があります。</div>
+          <img class="voice-icon vi-dog" src="assets/img/land-dog-astronaut.png" alt="">
+        </li>
+        <li class="voice-row voice-row-left">
+          <img class="voice-icon vi-dolphin" src="assets/img/sea-dolphin.png" alt="">
+          <div class="voice-bubble">思い出に残るものを、つくれた気がする。</div>
+        </li>
+        <li class="voice-row voice-row-right">
+          <div class="voice-bubble">なんか、SAYAKAさんにチラシをお願いしてから売り上げが上がってる！<br>いつもありがとう！</div>
+          <img class="voice-icon vi-goldfish" src="assets/img/sea-goldfish.png" alt="">
+        </li>
+        <li class="voice-row voice-row-left">
+          <img class="voice-icon vi-crab" src="assets/img/sea-crab.png" alt="">
+          <div class="voice-bubble">キャラクターデザインをしていただきました。<br>友人やお客様から可愛いとか似ているなど褒めていただき私も嬉しいです😊<br>お願いして本当によかったです。</div>
+        </li>
+        <li class="voice-row voice-row-right">
+          <div class="voice-bubble">振袖デザインをお願いしました。<br>今までにない色を提案され染める前は本当にうまくいくか不安でしたが、仕上がりが大変よく驚きました。<br>また某企業様に大変褒めていただきお願いして本当によかったです。</div>
+          <img class="voice-icon vi-duck" src="assets/img/sea-duck.png" alt="">
+        </li>
       </ul>
-      <p class="dawn-close">思い出に残るものを、<br>つくります。</p>
     </div>
     <svg class="wave-divider" viewBox="0 0 1200 80" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0,40 Q40,15 80,40 T160,40 T240,40 T320,40 T400,40 T480,40 T560,40 T640,40 T720,40 T800,40 T880,40 T960,40 T1040,40 T1120,40 T1200,40 L1200,80 L0,80 Z" fill="#BEEEFE"/>
+      <path d="M0,40 Q40,15 80,40 T160,40 T240,40 T320,40 T400,40 T480,40 T560,40 T640,40 T720,40 T800,40 T880,40 T960,40 T1040,40 T1120,40 T1200,40 L1200,80 L0,80 Z" fill="#FFD580"/>
     </svg>
   </section>
 
   <!-- Stage 6: 地上 -->
   <section class="stage stage-landing" data-stage="6" id="contact">
-    <div class="sky-birds" aria-hidden="true">
-      <img class="bird bird-1" src="assets/img/bird.png" alt="">
-      <img class="bird bird-2" src="assets/img/bird.png" alt="">
-      <img class="bird bird-3" src="assets/img/bird.png" alt="">
-    </div>
-    <div class="sky-clouds" aria-hidden="true">
-      <img class="land-cloud lc-1" src="assets/img/cloud-2.png" alt="">
-      <img class="land-cloud lc-2" src="assets/img/cloud-3.png" alt="">
+
+    <!-- 地上ステージの新アセット（3レイヤー奥行き、フォーム本文を避けて配置） -->
+    <div class="land-decor" aria-hidden="true">
+      <!-- 手前（コーナーのみ） -->
+      <img class="land-fg ld-chick-ufo"     src="assets/img/land-chick-ufo.png" alt="">
+
+      <!-- 中（空エリア：太陽・雲） -->
+      <img class="land-mid ld-sun"          src="assets/img/land-sun.png" alt="">
+      <img class="land-mid ld-cloud-2"      src="assets/img/land-cloud-2.png" alt="">
+
+      <!-- 地上：奥（far：小さく）— シンメトリ：左右に木とひまわり -->
+      <img class="land-ground land-ground-far ld-tree-far-1"     src="assets/img/land-tree-star.png" alt="">
+      <img class="land-ground land-ground-far ld-tree-far-2"     src="assets/img/land-tree-star.png" alt="">
+      <img class="land-ground land-ground-far ld-tree-far-3"     src="assets/img/land-tree-star.png" alt="">
+      <img class="land-ground land-ground-far ld-tree-far-4"     src="assets/img/land-tree-star.png" alt="">
+      <img class="land-ground land-ground-far ld-sunflower-r-far" src="assets/img/land-sunflower.png" alt="">
+
+      <!-- 地上：中（mid：中サイズ）— シンメトリ -->
+      <img class="land-ground land-ground-mid ld-tree-mid-1"   src="assets/img/land-tree-star.png" alt="">
+      <img class="land-ground land-ground-mid ld-tree-mid-2"   src="assets/img/land-tree-star.png" alt="">
+
+      <!-- 地上：手前（fg：大きく・鮮明）— シンメトリ -->
+      <img class="land-ground land-ground-fg ld-tree-fg-1"     src="assets/img/land-tree-star.png" alt="">
+      <img class="land-ground land-ground-fg ld-tree-fg-2"     src="assets/img/land-tree-star.png" alt="">
+      <img class="land-ground land-ground-fg ld-sunflower-r-fg" src="assets/img/land-sunflower.png" alt="">
+      <img class="land-ground land-ground-fg ld-cat-rainbow"   src="assets/img/land-cat-rainbow.png" alt="">
+
+      <!-- 奥（透過+blur、文字に被ってもOK） -->
+      <img class="land-bg ld-orange"     src="assets/img/land-orange.png" alt="">
+      <img class="land-bg ld-strawberry" src="assets/img/land-strawberry.png" alt="">
+      <img class="land-bg ld-pear"       src="assets/img/land-pear.png" alt="">
+      <img class="land-bg ld-grape"      src="assets/img/land-grape.png" alt="">
+      <img class="land-bg ld-watermelon" src="assets/img/land-watermelon.png" alt="">
+      <img class="land-bg ld-cabbage"    src="assets/img/land-cabbage.png" alt="">
+      <img class="land-bg ld-candy"      src="assets/img/land-candy.png" alt="">
+      <img class="land-bg ld-pencil"     src="assets/img/land-pencil.png" alt="">
+      <img class="land-bg ld-pearl"      src="assets/img/land-pearl.png" alt="">
     </div>
     <div class="stage-text stage-text-landing">
-      <p class="landing-lead">ここまで読んでくださって、ありがとうございます。</p>
-      <p class="landing-cta">ご相談・お見積もり、お気軽にどうぞ。</p>
-      <a class="landing-button" href="#contact-form">
-        <span>お問い合わせはこちら</span>
-        <span class="landing-arrow">→</span>
-      </a>
+      <p class="landing-lead">ここまでの旅、お付き合いくださり<br>ありがとうございました。</p>
+      <p class="landing-cta">ご相談・お見積もり</p>
+      <p class="landing-cta-sub">ご遠慮なくお問い合わせください。</p>
+
+      <form class="contact-form" id="contact-form" action="https://formspree.io/f/REPLACE_WITH_YOUR_FORMSPREE_ID" method="POST" novalidate>
+        <div class="form-row">
+          <label class="form-label" for="cf-name">お名前 <span class="form-required">*</span></label>
+          <input class="form-input" id="cf-name" name="name" type="text" required autocomplete="name" placeholder="山田 花子">
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="cf-email">メールアドレス <span class="form-required">*</span></label>
+          <input class="form-input" id="cf-email" name="email" type="email" required autocomplete="email" placeholder="hanako@example.com">
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="cf-subject">件名</label>
+          <input class="form-input" id="cf-subject" name="subject" type="text" placeholder="ロゴ制作のご相談">
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="cf-message">お問い合わせ内容 <span class="form-required">*</span></label>
+          <textarea class="form-input form-textarea" id="cf-message" name="message" rows="5" required placeholder="ご相談内容をお気軽にどうぞ。"></textarea>
+        </div>
+        <button class="form-submit" type="submit">
+          <span>送信する</span>
+          <span class="form-arrow">→</span>
+        </button>
+        <p class="form-status" aria-live="polite"></p>
+      </form>
     </div>
     <div class="landscape" aria-hidden="true">
       <div class="grass"></div>
-      <img class="tree tree-1" src="assets/img/tree-1.png" alt="">
-      <img class="house" src="assets/img/house.png" alt="">
-      <img class="tree tree-2" src="assets/img/tree-2.png" alt="">
-      <img class="cat" src="assets/img/cat.png" alt="">
-      <img class="rabbit" src="assets/img/rabbit.png" alt="">
     </div>
   </section>
 
