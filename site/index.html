@@ -37,8 +37,26 @@
       </svg>
     </a>
   </div>
+  <button class="menu-toggle" type="button" aria-label="メニュー" aria-expanded="false" aria-controls="mobile-menu">
+    <svg class="menu-icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <line x1="4" y1="7" x2="20" y2="7"/>
+      <line x1="4" y1="12" x2="20" y2="12"/>
+      <line x1="4" y1="17" x2="20" y2="17"/>
+    </svg>
+    <svg class="menu-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <line x1="6" y1="6" x2="18" y2="18"/>
+      <line x1="6" y1="18" x2="18" y2="6"/>
+    </svg>
+  </button>
   </div>
 </header>
+
+<nav class="mobile-menu" id="mobile-menu" aria-hidden="true">
+  <a href="#about">About</a>
+  <a href="#works">Works</a>
+  <a href="#voice">Voice</a>
+  <a href="#contact">Contact</a>
+</nav>
 
 <!-- ルアー＋糸: viewport固定、スクロール追従（黄色糸） -->
 <div class="lure-trail" aria-hidden="true">
@@ -204,6 +222,7 @@
         </svg>
         <span>作品をもっと見る</span>
       </a>
+      <p class="genre-pinterest-note">※掲載できるもののみ掲載しております。</p>
     </div>
     <svg class="wave-divider" viewBox="0 0 1200 80" preserveAspectRatio="none" aria-hidden="true">
       <path d="M0,40 Q40,15 80,40 T160,40 T240,40 T320,40 T400,40 T480,40 T560,40 T640,40 T720,40 T800,40 T880,40 T960,40 T1040,40 T1120,40 T1200,40 L1200,80 L0,80 Z" fill="#0F3A66"/>
@@ -277,7 +296,7 @@
           <div class="deep-step-card">
             <p class="deep-step-eyebrow">Step 02</p>
             <h3 class="deep-step-title">グラフィックデザイン<br>事務所</h3>
-            <p class="deep-step-body">立体から、平面へ。<br>アシスタントデザイナーからプロへ。</p>
+            <p class="deep-step-body">立体から、平面へ。<br>アシスタントからプロへ。</p>
           </div>
         </li>
         <li class="deep-step">
@@ -296,6 +315,18 @@
         <li class="deep-step">
           <div class="deep-step-icon" aria-hidden="true">
             <svg viewBox="0 0 32 32" fill="none">
+              <path d="M16 3l3.4 8.7 9.3 0.6-7.2 6 2.3 9-7.8-5.2-7.8 5.2 2.3-9-7.2-6 9.3-0.6z" fill="currentColor"/>
+            </svg>
+          </div>
+          <div class="deep-step-card">
+            <p class="deep-step-eyebrow">Step 04</p>
+            <h3 class="deep-step-title">フリーランスとして独立</h3>
+            <p class="deep-step-body">企業・ブランド・YouTuberまで、<br>幅広くデザインを。</p>
+          </div>
+        </li>
+        <li class="deep-step">
+          <div class="deep-step-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none">
               <rect x="12" y="3" width="8" height="14" rx="4" fill="currentColor"/>
               <path d="M7 14c0 5 4 9 9 9s9-4 9-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/>
               <path d="M16 23v5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -303,21 +334,9 @@
             </svg>
           </div>
           <div class="deep-step-card">
-            <p class="deep-step-eyebrow">Step 04</p>
+            <p class="deep-step-eyebrow">Step 05</p>
             <h3 class="deep-step-title">千葉県商工会連合会<br>専門家派遣</h3>
             <p class="deep-step-body">デザイン講師に就任。<br>2026年現在も継続中。</p>
-          </div>
-        </li>
-        <li class="deep-step">
-          <div class="deep-step-icon" aria-hidden="true">
-            <svg viewBox="0 0 32 32" fill="none">
-              <path d="M16 3l3.4 8.7 9.3 0.6-7.2 6 2.3 9-7.8-5.2-7.8 5.2 2.3-9-7.2-6 9.3-0.6z" fill="currentColor"/>
-            </svg>
-          </div>
-          <div class="deep-step-card">
-            <p class="deep-step-eyebrow">Step 05</p>
-            <h3 class="deep-step-title">フリーランスとして独立</h3>
-            <p class="deep-step-body">企業・ブランド・YouTuberまで、<br>幅広くデザインを。</p>
           </div>
         </li>
         <li class="deep-step deep-step-final">
@@ -491,7 +510,7 @@
           <div class="voice-bubble">余白の使い方がうまい。<br>しっくり来るデザイナーに出会うことの喜びを感じました。</div>
         </li>
         <li class="voice-row voice-row-right">
-          <div class="voice-bubble">毎年お世話になっています！<br>細かいニュアンスまで汲み取って表現してくれる。<br>世界観の作り込みがとっても上手なので、とても印象に残る作品に仕上げてくれます。<br>やり取りがとても丁寧で曖昧なこちらなのイメージをしっかり形にしてくれるので安心感があります。</div>
+          <div class="voice-bubble">毎年お世話になっています！<br>細かいニュアンスまで汲み取って表現してくれる。<br>世界観の作り込みがとっても上手なので、とても印象に残る作品に仕上げてくれます。<br>やり取りがとても丁寧で曖昧なこちらのイメージをしっかり形にしてくれるので安心感があります。</div>
           <img class="voice-icon vi-dog" src="assets/img/land-dog-astronaut.png" alt="">
         </li>
         <li class="voice-row voice-row-left">
@@ -584,6 +603,8 @@
           <span class="form-arrow">→</span>
         </button>
         <p class="form-status" aria-live="polite"></p>
+        <p class="form-reply-note">※ご返信は通常 3 営業日以内にお送りしております。<br>万が一 3 日以上経っても返信が届かない場合は、迷惑メールフォルダのご確認をお願いするか、お手数ですが再度お問い合わせください。</p>
+        <p class="form-privacy-note">お問い合わせいただいた個人情報は、ご返信・ご相談対応の目的でのみ使用し、第三者への提供はいたしません。</p>
       </form>
     </div>
     <div class="landscape" aria-hidden="true">

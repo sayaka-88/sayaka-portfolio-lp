@@ -6,6 +6,28 @@ gsap.registerPlugin(ScrollTrigger);
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  // ---- ハンバーガーメニュー ----
+  const menuToggle = document.querySelector('.menu-toggle');
+  const mobileMenu = document.querySelector('.mobile-menu');
+  if (menuToggle && mobileMenu) {
+    const setOpen = (open) => {
+      menuToggle.setAttribute('aria-expanded', String(open));
+      mobileMenu.setAttribute('aria-hidden', String(!open));
+      mobileMenu.classList.toggle('is-open', open);
+    };
+    const toggle = (e) => {
+      if (e) { e.preventDefault(); e.stopPropagation(); }
+      setOpen(menuToggle.getAttribute('aria-expanded') !== 'true');
+    };
+    menuToggle.addEventListener('click', toggle);
+    // iOS Safari 対応：touchend でも反応させる
+    menuToggle.addEventListener('touchend', toggle, { passive: false });
+    // メニュー内リンク押下で閉じる
+    mobileMenu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => setOpen(false));
+    });
+  }
+
   const trail      = document.querySelector('.lure-trail');
   const lure       = document.querySelector('.trail-lure');
   const line       = document.querySelector('.trail-line');
@@ -14,13 +36,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const rodWrap    = document.querySelector('.fishing-rod-wrap');
   const narrative  = document.querySelector('.narrative');
 
-  const ROD_TIP_OFFSET_X = 197;
-  const ROD_TIP_OFFSET_Y = 6;
+  // ロッド先端の位置（rod画像内の比率：右下寄り）
+  const ROD_TIP_RATIO_X = 0.895; // rod width × 0.895
+  const ROD_TIP_RATIO_Y = 0.021; // rod height × 0.021
   const LURE_RING_Y = 4;
 
   const getRodTip = () => {
     const r = rodWrap.getBoundingClientRect();
-    return { x: r.left + ROD_TIP_OFFSET_X, y: r.top + ROD_TIP_OFFSET_Y };
+    return {
+      x: r.left + r.width  * ROD_TIP_RATIO_X,
+      y: r.top  + r.height * ROD_TIP_RATIO_Y
+    };
   };
 
   let isCasting = false;
@@ -112,12 +138,18 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!rodWrap || !lure || !line || !trail || !castCurve || !castPath) return;
 
     const tip = getRodTip();
-    const containerLeft = window.innerWidth - 262;
-    const lureStartXInContainer = tip.x - containerLeft - 30;
+    const isMobile = window.innerWidth <= 720;
+    const containerLeft = isMobile
+      ? (window.innerWidth - 80) / 2  // モバイル：lure-trail はセンター付近 (right: 182, width: 80 だが PC値)。実測でも対応。
+      : window.innerWidth - 262;
     const lureRestX = 0;
+    // 跳ね上がり高さ：ロッド先端から上方向。画面が小さい時はビューポート連動で抑える
+    const peakLift = Math.min(220, Math.max(80, window.innerHeight * 0.18));
+    const peakY = tip.y - peakLift;
+    const lureStartXInContainer = tip.x - containerLeft - 30;
 
     // 初期：ルアーを竿先付近、糸は曲線で表示開始
-    gsap.set(lure, { left: lureStartXInContainer, top: tip.y - 60, rotation: -25, scale: 0.95 });
+    gsap.set(lure, { left: lureStartXInContainer, top: tip.y - 40, rotation: -25, scale: 0.92 });
     trail.classList.add('is-active');
     castCurve.classList.add('is-active');
     isCasting = true;
@@ -143,25 +175,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const tl = gsap.timeline({ onComplete: finalize });
 
     // ロッドの振り：振りかぶり→ピュッと振る→収まる
-    tl.set(rodWrap, { rotation: -42 })
-      .to(rodWrap, { rotation: 28, duration: 0.30, ease: 'power3.in' })
-      .to(rodWrap, { rotation: 0, duration: 0.45, ease: 'back.out(1.4)' }, '-=0.05');
+    tl.set(rodWrap, { rotation: -38 })
+      .to(rodWrap, { rotation: 22, duration: 0.32, ease: 'power3.in' })
+      .to(rodWrap, { rotation: 0,  duration: 0.55, ease: 'back.out(1.3)' }, '-=0.06');
 
     // ルアーの飛行：頂点まで上がる→着水位置に降りる（並列で開始）
     tl.to(lure, {
-      left: lureStartXInContainer * 0.35,
-      top: tip.y - 220,
-      rotation: 140,
+      left: lureStartXInContainer * 0.4,
+      top: peakY,
+      rotation: 90,
       scale: 1.0,
-      duration: 0.42,
-      ease: 'power1.out'
-    }, 0.16)
+      duration: 0.5,
+      ease: 'sine.out'
+    }, 0.18)
     .to(lure, {
       left: lureRestX,
       top: 200,
-      rotation: 360,
-      duration: 0.46,
-      ease: 'power2.in'
+      rotation: 180,
+      duration: 0.55,
+      ease: 'sine.in'
     });
 
     // セーフティ：1.6秒で確実に終端

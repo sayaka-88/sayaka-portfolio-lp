@@ -174,12 +174,68 @@ ul { list-style: none; padding: 0; margin: 0; }
   width: 32px;
   height: 32px;
 }
+
+/* ハンバーガーメニューボタン（PCでは非表示） */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: 0;
+  padding: 10px;
+  margin: -10px;
+  cursor: pointer;
+  color: var(--ink);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  position: relative;
+  z-index: 110;
+  pointer-events: auto;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.menu-toggle svg { width: 26px; height: 26px; display: block; pointer-events: none; }
+.menu-toggle .menu-icon-close { display: none; }
+.menu-toggle[aria-expanded="true"] .menu-icon-open { display: none; }
+.menu-toggle[aria-expanded="true"] .menu-icon-close { display: block; }
+
+/* モバイルメニュー（オーバーレイ） */
+.mobile-menu {
+  position: fixed;
+  top: var(--header-h);
+  left: 0;
+  right: 0;
+  background: var(--mizuiro);
+  z-index: 99;
+  padding: var(--sp-5) var(--sp-4) var(--sp-5);
+  display: none;
+  flex-direction: column;
+  gap: var(--sp-4);
+  font-family: var(--font-en);
+  font-weight: 500;
+  font-size: 1.1rem;
+  letter-spacing: 0.18em;
+  text-align: center;
+  box-shadow: 0 12px 24px rgba(20, 70, 110, 0.15);
+}
+.mobile-menu.is-open {
+  display: flex;
+  animation: mobileMenuFade 0.24s var(--ease-out);
+}
+@keyframes mobileMenuFade {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.mobile-menu a {
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+.mobile-menu a:hover { background: rgba(255, 255, 255, 0.3); }
 @media (max-width: 720px) {
   .site-header { padding: 0 var(--sp-3); }
   .site-header-right { gap: var(--sp-3); }
-  .site-nav { gap: var(--sp-3); font-size: 0.78rem; }
+  .site-nav { display: none; }            /* PCナビ非表示 */
+  .menu-toggle { display: inline-grid; }  /* ハンバーガー表示 */
   .site-social { gap: var(--sp-2); }
-  .social-icon { width: 20px; height: 20px; }
+  .social-icon { width: 22px; height: 22px; }
 }
 
 /* 釣り竿（左側に配置、横反転して先端を右向きに） */
@@ -746,6 +802,10 @@ ul { list-style: none; padding: 0; margin: 0; }
   color: #FFFFFF;
   opacity: 0;
   transform: translateY(20px);
+  flex-wrap: nowrap;
+}
+@media (max-width: 720px) {
+  .info-line { font-size: 0.78rem; letter-spacing: 0.04em; gap: 6px; }
 }
 .info-icon {
   width: 18px;
@@ -958,6 +1018,13 @@ ul { list-style: none; padding: 0; margin: 0; }
 .genre-pinterest:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 22px rgba(0, 30, 80, 0.26);
+}
+.genre-pinterest-note {
+  margin: var(--sp-3) auto 0;
+  font-size: 0.76rem;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.6;
 }
 
 .genre-note {
@@ -1180,8 +1247,9 @@ ul { list-style: none; padding: 0; margin: 0; }
     padding: 0 var(--sp-3);
   }
   .deep-timeline::before {
-    left: 24px;
-    transform: none;
+    /* アイコンcolumn (16px padding + 28px = column center) に揃える */
+    left: 44px;
+    transform: translateX(-50%);
   }
   .deep-step {
     grid-template-columns: 56px 1fr;
@@ -1192,7 +1260,7 @@ ul { list-style: none; padding: 0; margin: 0; }
   .deep-step-icon {
     grid-column: 1;
     grid-row: 1;
-    justify-self: start;
+    justify-self: center;
     width: 44px;
     height: 44px;
     margin-top: 2px;
@@ -1207,9 +1275,10 @@ ul { list-style: none; padding: 0; margin: 0; }
 }
 @media (max-width: 720px) {
   .anglerfish { width: 140px; height: 140px; right: -10px; top: 12px; }
-  .anglerlight { width: 280px; height: 280px; right: calc(16% + 19px); top: 69px; }
-  .angler-light-cone { width: 360px; height: 700px; right: calc(16% + 19px); top: 69px; }
-  .angler-light-bulb { width: 38px; height: 38px; right: 16%; top: 50px; }
+  /* アンコウ画像のルアー球位置に固定px値で揃える（ビューポート幅に依存しない） */
+  .anglerlight       { width: 240px; height: 240px; right: 0px;   top: 42px; }
+  .angler-light-cone { width: 320px; height: 600px; right: 20px;  top: 42px; }
+  .angler-light-bulb { width: 38px;  height: 38px;  right: 1px;   top: 23px; }
 }
 
 /* === 深海ステージ：新アセット 3レイヤー === */
@@ -1219,7 +1288,7 @@ ul { list-style: none; padding: 0; margin: 0; }
 /* 手前 */
 .deep-fg { z-index: 4; opacity: 1; filter: drop-shadow(0 8px 16px rgba(0, 0, 30, 0.45)); }
 .deep-treasure { bottom: 6%;  right: var(--side-near); left: auto; width: 160px; height: 160px; animation: floatBob 7s var(--ease-soft) infinite; }
-.deep-squid    { top: 45%;    right: -180px; left: auto; width: 150px; height: 150px; animation: squidSwim 32s linear infinite; }
+.deep-squid    { top: 45%;    right: -180px; left: auto; width: 150px; height: 150px; animation: squidSwim 32s linear infinite; will-change: transform; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
 .deep-oarfish  { top: 70%;    left: -340px; width: 320px; height: 110px; animation: swimRightFluffy 40s linear infinite; }
 
 /* 中 */
@@ -1421,9 +1490,9 @@ ul { list-style: none; padding: 0; margin: 0; }
   }
   /* モバイル：地球・宇宙飛行士は上、パグはわざをぎ横、王冠は鉄道写真家斜め下 */
   .space-earth     { top: 24px; left: 4%; right: auto; width: 70px; height: 70px; }
-  .space-astronaut { top: 24px; right: 4%; left: auto; width: 70px; height: 90px; }
-  .space-dog-astro { top: 54%; left: 4%; right: auto; width: 64px; height: 72px; }
-  .space-crown     { top: 72%; right: 4%; left: auto; width: 48px; height: 48px; }
+  .space-astronaut { top: 80px; right: 4%; left: auto; width: 70px; height: 90px; }
+  .space-dog-astro { top: 62%; right: 4%; left: auto; width: 64px; height: 72px; }
+  .space-crown     { top: 76%; left: 4%; right: auto; width: 48px; height: 48px; }
 }
 
 .space-moon {
@@ -1885,10 +1954,11 @@ ul { list-style: none; padding: 0; margin: 0; }
   line-height: 1.7;
 }
 .form-submit {
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  justify-content: center;
   gap: var(--sp-3);
-  margin-top: var(--sp-3);
+  margin: var(--sp-3) auto 0;
   padding: 14px 32px;
   background: var(--yellow);
   color: var(--ink);
@@ -1930,6 +2000,21 @@ ul { list-style: none; padding: 0; margin: 0; }
 }
 .form-status.is-success { color: #2A8F4E; }
 .form-status.is-error   { color: var(--coral); }
+
+.form-reply-note,
+.form-privacy-note {
+  margin: var(--sp-3) 0 0;
+  font-size: 0.76rem;
+  line-height: 1.7;
+  color: var(--ink-mute);
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+.form-privacy-note {
+  margin-top: var(--sp-2);
+  font-size: 0.72rem;
+  opacity: 0.78;
+}
 
 @media (max-width: 720px) {
   .contact-form { padding: var(--sp-4); }
