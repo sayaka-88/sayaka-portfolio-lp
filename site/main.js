@@ -82,14 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const splashEl = document.querySelector('.splash');
   const rippleContainerEl = document.querySelector('.ripple-container');
 
-  const triggerSplash = () => {
-    if (splashed) return;
-    splashed = true;
-
-    // ルアーの着水位置を viewport 基準で取得し、splash/ripple を配置
-    const lureRect = lure.getBoundingClientRect();
-    const splashX = (lureRect.left + lureRect.right) / 2;
-    const splashY = lureRect.top + 6; // ルアー上端付近（=水面）
+  // 任意の座標で水しぶき＋波紋を出す（再利用可能）
+  const doSplash = (splashX, splashY) => {
     if (splashEl) { splashEl.style.left = splashX + 'px'; splashEl.style.top = splashY + 'px'; }
     if (rippleContainerEl) { rippleContainerEl.style.left = splashX + 'px'; rippleContainerEl.style.top = splashY + 'px'; }
 
@@ -131,6 +125,14 @@ document.addEventListener('DOMContentLoaded', () => {
         );
       });
     });
+  };
+
+  // 初回着水（ガード付き）
+  const triggerSplash = () => {
+    if (splashed) return;
+    splashed = true;
+    const lureRect = lure.getBoundingClientRect();
+    doSplash((lureRect.left + lureRect.right) / 2, lureRect.top + 6); // ルアー上端付近（=水面）
   };
 
   // ---- Hero抜けたら左キャストモーション発動 ----
@@ -223,6 +225,165 @@ document.addEventListener('DOMContentLoaded', () => {
     onEnter: playCast
   });
 
+  // ============================================================
+  //  タップして釣る（ルアーをクリック → ランダムで魚/お宝が釣れる）
+  // ============================================================
+  const catchEl     = document.querySelector('.trail-catch');
+  const hintEl      = document.querySelector('.lure-hint');
+  const bannerEl    = document.querySelector('.catch-banner');
+  const bannerEmoji = bannerEl ? bannerEl.querySelector('.catch-banner-emoji') : null;
+  const bannerName  = bannerEl ? bannerEl.querySelector('.catch-banner-name') : null;
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // 釣れるもの：魚 ＋ お宝（rare）がランダムで混ざる
+  const CATCH_POOL = [
+    { img: 'sea-tuna.png',         name: 'マグロ',             emoji: '🐟' },
+    { img: 'sea-goldfish.png',     name: '金魚',               emoji: '🐠' },
+    { img: 'sea-rainbowtrout.png', name: 'ニジマス',           emoji: '🐟' },
+    { img: 'sea-crab.png',         name: 'カニ',               emoji: '🦀' },
+    { img: 'sea-dolphin.png',      name: 'イルカ',             emoji: '🐬' },
+    { img: 'sea-whale.png',        name: 'クジラ',             emoji: '🐳' },
+    { img: 'sea-duck.png',         name: 'アヒル',             emoji: '🦆' },
+    { img: 'deep-oarfish.png',     name: 'リュウグウノツカイ', emoji: '🐡' },
+    { img: 'anglerfish.png',       name: 'アンコウ',           emoji: '🎣' },
+    { img: 'deep-squid.png',       name: 'イカ',               emoji: '🦑' },
+    { img: 'deep-jellyfish.png',   name: 'クラゲ',             emoji: '🪼' },
+    { img: 'sea-shell.png',        name: '貝がら',             emoji: '🐚' },
+    { img: 'sea-candies.png',      name: 'キャンディ',         emoji: '🍬' },
+    { img: 'sea-beachball.png',    name: 'ビーチボール',       emoji: '🏐' },
+    { img: 'deep-star.png',        name: 'ヒトデ',             emoji: '⭐' },
+    // ---- お宝（レア）----
+    { img: 'deep-diamond.png',     name: 'ダイヤモンド',       emoji: '💎', rare: true },
+    { img: 'deep-crystal.png',     name: 'クリスタル',         emoji: '🔮', rare: true },
+    { img: 'deep-crown.png',       name: '王冠',               emoji: '👑', rare: true },
+    { img: 'space-crown.png',      name: '黄金の王冠',         emoji: '👑', rare: true },
+    { img: 'deep-treasure.png',    name: '宝箱',               emoji: '🎁', rare: true },
+    { img: 'deep-pearl-1.png',     name: '真珠',               emoji: '🫧', rare: true },
+    { img: 'deep-pearl-2.png',     name: '大粒の真珠',         emoji: '🫧', rare: true },
+    { img: 'deep-pearl-3.png',     name: '虹色の真珠',         emoji: '🫧', rare: true },
+  ];
+  const pickCatch = () => CATCH_POOL[Math.floor(Math.random() * CATCH_POOL.length)];
+
+  let isReeling     = false; // 巻き上げ中はスクロール追従を止める
+  let scrollLureTop = 200;   // スクロールで決まるルアーのtop
+  let canCatch      = false; // 海中に入っていて釣れる状態か
+  let swingTween    = null;  // 獲物のゆらゆら
+  const CATCH_W = window.innerWidth <= 720 ? 60 : 76;
+  const lureH = () => (lure.offsetHeight || 120);
+
+  // 獲物をルアーのフック位置に置く
+  const positionCatch = (top) => {
+    if (!catchEl) return;
+    const cx = lure.offsetLeft + lure.offsetWidth / 2;
+    catchEl.style.left = (cx - CATCH_W / 2) + 'px';
+    catchEl.style.top  = (top + lureH() * 0.6) + 'px';
+  };
+
+  // ルアーtopをまとめてセット（糸・ヒント・獲物も連動）
+  const setLureTop = (top) => {
+    lure.style.top = top + 'px';
+    if (hintEl) hintEl.style.top = (top + lureH() * 0.42) + 'px';
+    if (catchEl && catchEl.classList.contains('is-on')) positionCatch(top);
+    updateVerticalLine();
+  };
+
+  const refreshCatchable = () => {
+    if (!trail || isReeling) return;
+    if (castDone && canCatch) trail.classList.add('is-catchable');
+    else trail.classList.remove('is-catchable');
+  };
+
+  const showBanner = (item) => {
+    if (!bannerEl) return;
+    if (bannerEmoji) bannerEmoji.textContent = item.emoji || '🎣';
+    if (bannerName)  bannerName.textContent  = (item.rare ? '✨ ' : '') + item.name + ' が釣れた！';
+    bannerEl.classList.remove('is-hide', 'is-show');
+    void bannerEl.offsetWidth;
+    bannerEl.classList.add('is-show');
+  };
+  const hideBanner = () => {
+    if (!bannerEl) return;
+    bannerEl.classList.remove('is-show');
+    bannerEl.classList.add('is-hide');
+  };
+
+  // 巻き上げ後：獲物を外して元の水深へ戻す
+  function endCatch() {
+    if (swingTween) { swingTween.kill(); swingTween = null; }
+    hideBanner();
+    if (catchEl) {
+      gsap.to(catchEl, {
+        opacity: 0, scale: 0.4, duration: 0.3, ease: 'power2.in',
+        onComplete: () => { catchEl.classList.remove('is-on'); gsap.set(catchEl, { rotation: 0 }); }
+      });
+    }
+    const back = scrollLureTop;
+    const state = { top: parseFloat(lure.style.top) || back };
+    gsap.to(state, {
+      top: back, duration: 0.5, ease: 'power2.inOut',
+      onUpdate: () => setLureTop(state.top),
+      onComplete: () => {
+        gsap.set(lure, { clearProps: 'transform' }); // CSSのゆらゆらを復帰
+        trail.classList.remove('is-reeling');
+        isReeling = false;
+        refreshCatchable();
+      }
+    });
+  }
+
+  // 釣り上げ → わーっと巻き上げ
+  const startCatch = () => {
+    if (!castDone || isReeling || !canCatch || !catchEl) return;
+    isReeling = true;
+    trail.classList.remove('is-catchable');
+    trail.classList.add('is-reeling');
+
+    const item     = pickCatch();
+    const startTop = parseFloat(lure.style.top) || scrollLureTop;
+    const topPos   = Math.max(64, window.innerHeight * 0.08);
+
+    catchEl.src = 'assets/img/' + item.img;
+    catchEl.classList.add('is-on');
+    positionCatch(startTop);
+    gsap.set(catchEl, { opacity: 0, scale: 0.4, rotation: 0 });
+    gsap.set(lure, { rotation: 0 });
+
+    const state = { top: startTop };
+    const apply = () => setLureTop(state.top);
+
+    // 巻き上げ中に水面を突き抜けたら しぶき
+    let surfaceDone = false;
+    const checkSurface = () => {
+      if (surfaceDone || !landingY) return;
+      const r = lure.getBoundingClientRect();
+      if (r.top + LURE_RING_Y <= landingY) {
+        surfaceDone = true;
+        doSplash((r.left + r.right) / 2, landingY);
+      }
+    };
+
+    gsap.timeline({ onComplete: endCatch })
+      // 1) ヒット：クッと引き込まれる
+      .to(state, { top: startTop + (prefersReduced ? 6 : 22), duration: 0.14, ease: 'power2.in', onUpdate: apply })
+      // 2) 獲物がフッキング ＋ バナー
+      .add(() => showBanner(item))
+      .to(catchEl, { opacity: 1, scale: 1, duration: 0.3, ease: 'back.out(2)' })
+      .add(() => {
+        if (!prefersReduced) {
+          swingTween = gsap.to(catchEl, { rotation: 9, duration: 0.5, ease: 'sine.inOut', yoyo: true, repeat: -1, transformOrigin: '50% 0' });
+        }
+      })
+      // 3) わーっと巻き上げ
+      .to(state, {
+        top: topPos, duration: prefersReduced ? 0.6 : 1.0, ease: 'power2.inOut',
+        onUpdate: () => { apply(); checkSurface(); }
+      }, '>-0.05')
+      // 4) 上でちょっと見せる
+      .to({}, { duration: 0.9 });
+  };
+
+  if (lure) lure.addEventListener('click', startCatch);
+
   // ---- ルアー＋糸: scroll進捗で落ちていく ＋ 着水splashトリガー ----
   if (trail && lure && line && rodWrap && narrative) {
     const surfaceStage = document.querySelector('.stage-surface');
@@ -247,10 +408,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const endY = vh - 100;
         const lureY = startY + (endY - startY) * eased;
 
-        lure.style.top = lureY + 'px';
+        scrollLureTop = lureY;
+        canCatch = progress > 0.1; // 海中に入ったら釣れる
 
-        // 黄色糸：着水位置から下に垂直に伸びる
-        updateVerticalLine();
+        if (isReeling) return; // 巻き上げ中は見た目を動かさない
+
+        // ルアー＋黄色糸＋ヒントを連動
+        setLureTop(lureY);
+        refreshCatchable();
 
         // 着水splash：stage-surface top がルアー底に届いた瞬間
         if (!splashed && surfaceStage) {

@@ -11,3 +11,6 @@ Thumbs.db
 # Node / build
 node_modules/
 *.log
+
+# 参考サイトのダウンロード元ソース（第三者・サイズ大、コミット除外）
+research/kaonavi_source/

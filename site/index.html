@@ -60,7 +60,9 @@
 
 <!-- ルアー＋糸: viewport固定、スクロール追従（黄色糸） -->
 <div class="lure-trail" aria-hidden="true">
-  <img class="trail-lure" src="assets/img/lure-new.png" alt="">
+  <img class="trail-lure" src="assets/img/lure-new.png" alt="" title="タップして釣る">
+  <img class="trail-catch" src="" alt="">
+  <span class="lure-hint">タップして釣る🎣</span>
 </div>
 <!-- キャスト中の曲線（SVG bezier） -->
 <svg class="cast-curve" aria-hidden="true" preserveAspectRatio="none">
@@ -81,6 +83,12 @@
 <div class="splash" aria-hidden="true">
   <span class="drop"></span><span class="drop"></span><span class="drop"></span><span class="drop"></span>
   <span class="drop"></span><span class="drop"></span><span class="drop"></span><span class="drop"></span>
+</div>
+
+<!-- 釣れた！バナー -->
+<div class="catch-banner" aria-hidden="true">
+  <span class="catch-banner-emoji"></span>
+  <span class="catch-banner-name"></span>
 </div>
 
 <!-- 01. Hero -->
