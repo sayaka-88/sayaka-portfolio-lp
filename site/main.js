@@ -67,15 +67,23 @@ document.addEventListener('DOMContentLoaded', () => {
     castPath.setAttribute('d', `M ${tip.x} ${tip.y} Q ${apexX} ${apexY} ${lx} ${ly}`);
   };
 
-  // 着水後：垂直線（着水位置→ルアー現在位置）
+  // 糸の上端：ヘッダーの波の下から垂らす
+  const siteHeaderEl = document.querySelector('.site-header');
+  const getLineTopY = () => {
+    const b = siteHeaderEl ? siteHeaderEl.getBoundingClientRect().bottom : 64;
+    return b + 22; // ヘッダー波（22px）の下端あたり
+  };
+
+  // 垂直線（ヘッダー波の下→ルアー現在位置）
   const updateVerticalLine = () => {
     if (!castDone) return;
     const lr = lure.getBoundingClientRect();
     const lx = (lr.left + lr.right) / 2;
     const ly = lr.top + LURE_RING_Y;
+    const topY = getLineTopY();
     line.style.left = (lx - 1.5) + 'px';
-    line.style.top  = landingY + 'px';
-    line.style.height = Math.max(0, ly - landingY) + 'px';
+    line.style.top  = topY + 'px';
+    line.style.height = Math.max(0, ly - topY) + 'px';
   };
 
   let splashed = false;
@@ -233,7 +241,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const bannerEl    = document.querySelector('.catch-banner');
   const bannerEmoji = bannerEl ? bannerEl.querySelector('.catch-banner-emoji') : null;
   const bannerName  = bannerEl ? bannerEl.querySelector('.catch-banner-name') : null;
+  const countEl     = document.querySelector('.catch-count');
+  const countNumEl  = document.querySelector('.catch-count-num');
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // 釣果カウンター
+  let catchCount = 0;
+  const bumpCount = () => {
+    catchCount++;
+    if (countNumEl) countNumEl.textContent = catchCount;
+    if (countEl) {
+      countEl.classList.add('is-show');
+      countEl.classList.remove('bump');
+      void countEl.offsetWidth;
+      countEl.classList.add('bump');
+    }
+  };
 
   // 釣れるもの：魚 ＋ お宝（rare）がランダムで混ざる
   const CATCH_POOL = [
@@ -289,8 +312,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const refreshCatchable = () => {
     if (!trail || isReeling) return;
-    if (castDone && canCatch) trail.classList.add('is-catchable');
-    else trail.classList.remove('is-catchable');
+    if (castDone && canCatch) {
+      trail.classList.add('is-catchable');
+      if (countEl) countEl.classList.add('is-show'); // 釣果カウンターを出す
+    } else {
+      trail.classList.remove('is-catchable');
+    }
   };
 
   const showBanner = (item) => {
@@ -365,8 +392,8 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.timeline({ onComplete: endCatch })
       // 1) ヒット：クッと引き込まれる
       .to(state, { top: startTop + (prefersReduced ? 6 : 22), duration: 0.14, ease: 'power2.in', onUpdate: apply })
-      // 2) 獲物がフッキング ＋ バナー
-      .add(() => showBanner(item))
+      // 2) 獲物がフッキング ＋ バナー ＋ 釣果カウント
+      .add(() => { showBanner(item); bumpCount(); })
       .to(catchEl, { opacity: 1, scale: 1, duration: 0.3, ease: 'back.out(2)' })
       .add(() => {
         if (!prefersReduced) {

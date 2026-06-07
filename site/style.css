@@ -130,6 +130,13 @@ ul { list-style: none; padding: 0; margin: 0; }
   background-repeat: no-repeat;
   pointer-events: none;
 }
+/* PC: 波を引き伸ばさず、詰まった波に戻す（スマホは現状維持） */
+@media (min-width: 721px) {
+  .site-header::after {
+    background-size: 450px 100%;
+    background-repeat: repeat-x;
+  }
+}
 .logo-text {
   font-family: var(--font-en);
   font-weight: 700;
@@ -435,6 +442,43 @@ ul { list-style: none; padding: 0; margin: 0; }
   to { opacity: 0; transform: translateX(-50%) translateY(-12px) scale(0.9); }
 }
 
+/* 釣果カウンター（左下に固定） */
+.catch-count {
+  position: fixed;
+  left: var(--sp-4);
+  bottom: var(--sp-4);
+  z-index: 60;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #1b3a5b;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  padding: 8px 16px;
+  border-radius: 999px;
+  box-shadow: 0 4px 14px rgba(0, 30, 60, 0.18);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s var(--ease-out), transform 0.4s var(--ease-out);
+  pointer-events: none;
+}
+.catch-count.is-show { opacity: 1; transform: translateY(0); }
+.catch-count-num {
+  display: inline-block;
+  min-width: 0.8em;
+  text-align: center;
+  font-size: 1.1rem;
+  color: #ff7a59;
+}
+.catch-count.bump .catch-count-num { animation: countBump 0.4s var(--ease-out); }
+@keyframes countBump {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.55); }
+  100% { transform: scale(1); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .lure-trail.is-catchable .trail-lure { animation: none; }
   .lure-hint { animation: none !important; }
@@ -450,6 +494,15 @@ ul { list-style: none; padding: 0; margin: 0; }
   .catch-banner { top: 70px; padding: 10px 18px; }
   .catch-banner-name { font-size: 14px; }
   .catch-banner-emoji { font-size: 20px; }
+  .catch-count { font-size: 0.76rem; padding: 6px 12px; }
+  .catch-count-num { font-size: 0.95rem; }
+  .cloud-band { height: 280px; }
+  .cloud-layer.-far  { top: 16px; }
+  .cloud-layer.-mid  { top: 90px; }
+  .cloud-layer.-near { top: 165px; }
+  .cloud-layer.-far  img { width: 120px; margin-right: 120px; }
+  .cloud-layer.-mid  img { width: 175px; margin-right: 140px; }
+  .cloud-layer.-near img { width: 250px; margin-right: 160px; }
 }
 
 /* Hero */
@@ -775,6 +828,41 @@ ul { list-style: none; padding: 0; margin: 0; }
 .stage-space    { background: linear-gradient(180deg, #0A1530 0%, #1A2347 30%, #2C2858 65%, #5A3D7A 100%); }
 .stage-dawn     { background: linear-gradient(180deg, #FFD580 0%, #FFA47A 35%, #FF8FA3 70%, #B19CD9 100%); }
 .stage-landing  { background: linear-gradient(180deg, #FFD580 0%, #FFE8A8 20%, #BEEEFE 60%, #F0FAFF 100%); }
+
+/* 奥行きのある雲が横に流れるバンド（landing上部の空） */
+.cloud-band {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 460px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 2;
+}
+.cloud-layer {
+  position: absolute;
+  left: 0;
+  display: flex;
+  align-items: flex-start;
+  width: max-content;
+  will-change: transform;
+}
+.cloud-layer img { display: block; flex: none; height: auto; }
+/* 奥（小さく・淡く・ぼかし・遅い）→ 手前（大きく・濃く・速い）で奥行き */
+.cloud-layer.-far  { top: 24px;  opacity: 0.5;  filter: blur(1.6px); animation: cloudDrift 95s linear infinite; }
+.cloud-layer.-mid  { top: 130px; opacity: 0.78; filter: blur(0.6px); animation: cloudDrift 64s linear infinite; }
+.cloud-layer.-near { top: 250px; opacity: 0.96; animation: cloudDrift 44s linear infinite; }
+.cloud-layer.-far  img { width: 200px; margin-right: 200px; }
+.cloud-layer.-mid  img { width: 300px; margin-right: 240px; }
+.cloud-layer.-near img { width: 440px; margin-right: 280px; }
+@keyframes cloudDrift {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); } /* 2セット複製しているので-50%でシームレス */
+}
+@media (prefers-reduced-motion: reduce) {
+  .cloud-layer { animation: none !important; }
+}
 
 /* 波々のセクション分割ライン (各stageの末尾、次のstageの色で塗る) */
 .wave-divider {
@@ -1136,6 +1224,10 @@ ul { list-style: none; padding: 0; margin: 0; }
   letter-spacing: 0.06em;
   color: rgba(255, 255, 255, 0.6);
   line-height: 1.6;
+}
+/* PC: 波ディバイダーに被らないよう注意書きを上へ逃がす */
+@media (min-width: 721px) {
+  .genre-pinterest-note { margin-bottom: 110px; }
 }
 
 .genre-note {

@@ -91,6 +91,9 @@
   <span class="catch-banner-name"></span>
 </div>
 
+<!-- 釣果カウンター（固定表示） -->
+<div class="catch-count" aria-hidden="true">🎣 釣果 <span class="catch-count-num">0</span>匹</div>
+
 <!-- 01. Hero -->
 <section class="hero" id="about">
   <div class="hero-bg" aria-hidden="true"></div>
@@ -412,10 +415,9 @@
             <li>オリンパス</li>
             <li>ブリヂストン</li>
             <li>キヤノン</li>
-            <li>ヤマハ</li>
+            <li>ヤマハ株式会社</li>
             <li>NTTドコモ</li>
             <li>NTT西日本</li>
-            <li>ベイシア</li>
             <li>サントリーホールディングス</li>
           </ul>
           <ul class="works-list works-list-sub">
@@ -546,6 +548,22 @@
 
   <!-- Stage 6: 地上 -->
   <section class="stage stage-landing" data-stage="6" id="contact">
+
+    <!-- 奥行きのある雲が横に流れるバンド（各層2セット複製でシームレスループ） -->
+    <div class="cloud-band" aria-hidden="true">
+      <div class="cloud-layer -far">
+        <img src="assets/img/sky-cloud-pastel-1.png" alt=""><img src="assets/img/sky-cloud-pastel-2.png" alt=""><img src="assets/img/land-cloud-1.png" alt="">
+        <img src="assets/img/sky-cloud-pastel-1.png" alt=""><img src="assets/img/sky-cloud-pastel-2.png" alt=""><img src="assets/img/land-cloud-1.png" alt="">
+      </div>
+      <div class="cloud-layer -mid">
+        <img src="assets/img/sky-cloud-pastel-2.png" alt=""><img src="assets/img/land-cloud-2.png" alt=""><img src="assets/img/sky-cloud-pastel-1.png" alt="">
+        <img src="assets/img/sky-cloud-pastel-2.png" alt=""><img src="assets/img/land-cloud-2.png" alt=""><img src="assets/img/sky-cloud-pastel-1.png" alt="">
+      </div>
+      <div class="cloud-layer -near">
+        <img src="assets/img/land-cloud-2.png" alt=""><img src="assets/img/sky-cloud-pastel-1.png" alt=""><img src="assets/img/land-cloud-1.png" alt="">
+        <img src="assets/img/land-cloud-2.png" alt=""><img src="assets/img/sky-cloud-pastel-1.png" alt=""><img src="assets/img/land-cloud-1.png" alt="">
+      </div>
+    </div>
 
     <!-- 地上ステージの新アセット（3レイヤー奥行き、フォーム本文を避けて配置） -->
     <div class="land-decor" aria-hidden="true">
