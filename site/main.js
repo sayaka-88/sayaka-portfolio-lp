@@ -511,12 +511,7 @@ document.addEventListener('DOMContentLoaded', () => {
   gsap.timeline({
     scrollTrigger: { trigger: '.stage-dawn', start: 'top 60%', toggleActions: 'play none none reverse' }
   })
-    .to('.voice-row:nth-child(1)', { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' })
-    .to('.voice-row:nth-child(2)', { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.35')
-    .to('.voice-row:nth-child(3)', { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.35')
-    .to('.voice-row:nth-child(4)', { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.35')
-    .to('.voice-row:nth-child(5)', { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.35')
-    .to('.voice-row:nth-child(6)', { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.35');
+    .to('.voice-row', { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', stagger: 0.25 });
 
   // ---- Stage 6: 着水 ----
   gsap.timeline({
