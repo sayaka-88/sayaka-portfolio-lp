@@ -87,12 +87,25 @@
 
 <!-- 釣れた！バナー -->
 <div class="catch-banner" aria-hidden="true">
+  <span class="catch-rank-badge"></span>
   <span class="catch-banner-emoji"></span>
   <span class="catch-banner-name"></span>
 </div>
 
-<!-- 釣果カウンター（固定表示） -->
-<div class="catch-count" aria-hidden="true">🎣 釣果 <span class="catch-count-num">0</span>匹</div>
+<!-- 釣果カウンター（タップで釣果コレクション） -->
+<button class="catch-count" type="button" title="タップで釣果コレクションを見る">🎣 釣果 <span class="catch-count-num">0</span>匹 <span class="catch-count-arrow">▸</span></button>
+
+<!-- 釣果コレクション（履歴パネル） -->
+<div class="catch-history" aria-hidden="true">
+  <div class="catch-history-panel">
+    <div class="catch-history-head">
+      <span class="catch-history-title">🎣 釣果コレクション</span>
+      <button class="catch-history-close" type="button" aria-label="閉じる">×</button>
+    </div>
+    <p class="catch-history-summary"></p>
+    <div class="catch-history-list"></div>
+  </div>
+</div>
 
 <!-- 01. Hero -->
 <section class="hero" id="about">
@@ -524,24 +537,12 @@
           <img class="voice-icon vi-dog" src="assets/img/land-dog-astronaut.png" alt="">
         </li>
         <li class="voice-row voice-row-left">
-          <img class="voice-icon vi-dolphin" src="assets/img/sea-dolphin.png" alt="">
-          <div class="voice-bubble">思い出に残るものを、つくれた気がする。</div>
-        </li>
-        <li class="voice-row voice-row-right">
-          <div class="voice-bubble">なんか、SAYAKAさんにチラシをお願いしてから売り上げが上がってる！<br>いつもありがとう！</div>
           <img class="voice-icon vi-goldfish" src="assets/img/sea-goldfish.png" alt="">
-        </li>
-        <li class="voice-row voice-row-left">
-          <img class="voice-icon vi-crab" src="assets/img/sea-crab.png" alt="">
-          <div class="voice-bubble">キャラクターデザインをしていただきました。<br>友人やお客様から可愛いとか似ているなど褒めていただき私も嬉しいです😊<br>お願いして本当によかったです。</div>
+          <div class="voice-bubble">なんか、SAYAKAさんにチラシをお願いしてから売り上げが上がってる！<br>いつもありがとう！</div>
         </li>
         <li class="voice-row voice-row-right">
-          <div class="voice-bubble">振袖デザインをお願いしました。<br>今までにない色を提案され染める前は本当にうまくいくか不安でしたが、仕上がりが大変よく驚きました。<br>また某企業様に大変褒めていただきお願いして本当によかったです。</div>
-          <img class="voice-icon vi-duck" src="assets/img/sea-duck.png" alt="">
-        </li>
-        <li class="voice-row voice-row-left">
-          <img class="voice-icon vi-dolphin" src="assets/img/sea-dolphin.png" alt="">
           <div class="voice-bubble">とにかく安心感があって、何かお願いするときも、SAYAKAさんなら間違いないと思っていつもお願いしています。<br><br>こちらの話をしっかり聞いてくれるのはもちろんですが、ただ言われた通りに作るだけではなく、より良くなる提案をしてくれるので毎回助けられています。<br><br>デザインのセンスも抜群で、自分ではうまく言葉にできないイメージまで汲み取って形にしてくれるところもすごいなと思います。<br><br>コミュ力が高いので安心して相談できる大切な存在です。<br><br>これからもたくさん頼らせてもらうと思うので、引き続きよろしくお願いします！</div>
+          <img class="voice-icon vi-dolphin" src="assets/img/sea-dolphin.png" alt="">
         </li>
       </ul>
     </div>
