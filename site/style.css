@@ -843,12 +843,13 @@ ul { list-style: none; padding: 0; margin: 0; }
 }
 .cloud-layer img { display: block; flex: none; height: auto; }
 /* 奥（小さく・淡く・ぼかし・遅い）→ 手前（大きく・濃く・速い）で奥行き */
-.cloud-layer.-far  { top: 24px;  opacity: 0.5;  filter: blur(1.6px); animation: cloudBandDrift 95s linear infinite; animation-delay: -10s; }
-.cloud-layer.-mid  { top: 130px; opacity: 0.78; filter: blur(0.6px); animation: cloudBandDrift 64s linear infinite; animation-delay: -40s; }
-.cloud-layer.-near { top: 250px; opacity: 0.96; animation: cloudBandDrift 44s linear infinite; animation-delay: -22s; }
-.cloud-layer.-far  img { width: 200px; margin-right: 1700px; }
-.cloud-layer.-mid  img { width: 300px; margin-right: 1500px; }
-.cloud-layer.-near img { width: 440px; margin-right: 1360px; }
+/* 横位置(left)を散らし＋速度差をつけて、3つが固まって動かないように */
+.cloud-layer.-far  { top: 28px;  left: -6vw; opacity: 0.5;  filter: blur(1.6px); animation: cloudBandDrift 110s linear infinite; animation-delay: -8s; }
+.cloud-layer.-mid  { top: 120px; left: 32vw; opacity: 0.72; filter: blur(0.7px); animation: cloudBandDrift 72s linear infinite; animation-delay: -50s; }
+.cloud-layer.-near { top: 235px; left: 60vw; opacity: 0.92; animation: cloudBandDrift 52s linear infinite; animation-delay: -20s; }
+.cloud-layer.-far  img { width: 130px; margin-right: 1500px; }
+.cloud-layer.-mid  img { width: 185px; margin-right: 1350px; }
+.cloud-layer.-near img { width: 260px; margin-right: 1180px; }
 @keyframes cloudBandDrift {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); } /* 2セット複製しているので-50%でシームレス */
@@ -858,13 +859,13 @@ ul { list-style: none; padding: 0; margin: 0; }
 }
 /* スマホ：雲バンド（基本ルールの後に置いて確実に上書き） */
 @media (max-width: 720px) {
-  .cloud-band { height: 280px; }
-  .cloud-layer.-far  { top: 16px; }
-  .cloud-layer.-mid  { top: 90px; }
-  .cloud-layer.-near { top: 165px; }
-  .cloud-layer.-far  img { width: 120px; margin-right: 430px; }
-  .cloud-layer.-mid  img { width: 175px; margin-right: 380px; }
-  .cloud-layer.-near img { width: 250px; margin-right: 310px; }
+  .cloud-band { height: 230px; }
+  .cloud-layer.-far  { top: 14px; }
+  .cloud-layer.-mid  { top: 78px; }
+  .cloud-layer.-near { top: 140px; }
+  .cloud-layer.-far  img { width: 84px;  margin-right: 360px; }
+  .cloud-layer.-mid  img { width: 120px; margin-right: 320px; }
+  .cloud-layer.-near img { width: 165px; margin-right: 280px; }
 }
 
 /* 波々のセクション分割ライン (各stageの末尾、次のstageの色で塗る) */
