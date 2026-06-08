@@ -500,9 +500,9 @@ ul { list-style: none; padding: 0; margin: 0; }
   .cloud-layer.-far  { top: 16px; }
   .cloud-layer.-mid  { top: 90px; }
   .cloud-layer.-near { top: 165px; }
-  .cloud-layer.-far  img { width: 120px; margin-right: 120px; }
-  .cloud-layer.-mid  img { width: 175px; margin-right: 140px; }
-  .cloud-layer.-near img { width: 250px; margin-right: 160px; }
+  .cloud-layer.-far  img { width: 120px; margin-right: 560px; }
+  .cloud-layer.-mid  img { width: 175px; margin-right: 500px; }
+  .cloud-layer.-near img { width: 250px; margin-right: 440px; }
 }
 
 /* Hero */
@@ -850,12 +850,12 @@ ul { list-style: none; padding: 0; margin: 0; }
 }
 .cloud-layer img { display: block; flex: none; height: auto; }
 /* 奥（小さく・淡く・ぼかし・遅い）→ 手前（大きく・濃く・速い）で奥行き */
-.cloud-layer.-far  { top: 24px;  opacity: 0.5;  filter: blur(1.6px); animation: cloudDrift 95s linear infinite; }
-.cloud-layer.-mid  { top: 130px; opacity: 0.78; filter: blur(0.6px); animation: cloudDrift 64s linear infinite; }
-.cloud-layer.-near { top: 250px; opacity: 0.96; animation: cloudDrift 44s linear infinite; }
-.cloud-layer.-far  img { width: 200px; margin-right: 200px; }
-.cloud-layer.-mid  img { width: 300px; margin-right: 240px; }
-.cloud-layer.-near img { width: 440px; margin-right: 280px; }
+.cloud-layer.-far  { top: 24px;  opacity: 0.5;  filter: blur(1.6px); animation: cloudDrift 95s linear infinite; animation-delay: -10s; }
+.cloud-layer.-mid  { top: 130px; opacity: 0.78; filter: blur(0.6px); animation: cloudDrift 64s linear infinite; animation-delay: -40s; }
+.cloud-layer.-near { top: 250px; opacity: 0.96; animation: cloudDrift 44s linear infinite; animation-delay: -22s; }
+.cloud-layer.-far  img { width: 200px; margin-right: 1700px; }
+.cloud-layer.-mid  img { width: 300px; margin-right: 1500px; }
+.cloud-layer.-near img { width: 440px; margin-right: 1360px; }
 @keyframes cloudDrift {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); } /* 2セット複製しているので-50%でシームレス */
