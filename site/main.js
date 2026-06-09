@@ -685,7 +685,9 @@ function sayakaInit() {
           : 0.75 + (progress - 0.12) / 0.88 * 0.25;
 
         const startY = 200;
-        const endY = vh - 100;
+        // 最深位置：画面最下部まで落とすと釣果/タップボタンに被って押しにくいので
+        // 下のボタン類より上で止まるよう余白を多めに取る
+        const endY = vh - 240;
         const lureY = startY + (endY - startY) * eased;
 
         scrollLureTop = lureY;
