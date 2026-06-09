@@ -501,6 +501,8 @@ ul { list-style: none; padding: 0; margin: 0; }
   box-shadow: 0 2px 5px rgba(0, 30, 60, 0.2);
 }
 .catch-banner.is-s  { border-color: #b06bff; }
+.catch-banner.is-miss { border-color: #b9c4cf; background: linear-gradient(135deg, #ffffff, #eef2f6); }
+.catch-banner.is-miss .catch-banner-name { color: #6b7c8c; }
 .catch-banner.is-ss { border-color: #f6b21b; box-shadow: 0 0 0 3px rgba(246,178,27,0.35), 0 12px 34px rgba(0,30,60,0.3); animation: catchPop 0.5s var(--ease-out) forwards, ssGlow 1.1s ease-in-out 0.5s infinite alternate; }
 @keyframes ssGlow {
   from { box-shadow: 0 0 0 3px rgba(246,178,27,0.35), 0 12px 34px rgba(0,30,60,0.3); }

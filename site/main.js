@@ -256,6 +256,8 @@ document.addEventListener('DOMContentLoaded', () => {
     C:  { weight: 40, color: '#9aa7b3' }, // グレー
   };
   const RANK_ORDER = ['SS', 'S', 'A', 'B', 'C'];
+  // 捕獲成功率（高ランクほど逃げられやすい＝ポケモンのボール的に100%ではない）
+  const CATCH_RATE = { SS: 0.4, S: 0.6, A: 0.75, B: 0.88, C: 0.95 };
 
   // 釣れるもの（rank: SS最レア 〜 Cよく釣れる）
   const CATCH_POOL = [
@@ -383,9 +385,20 @@ document.addEventListener('DOMContentLoaded', () => {
     if (bannerRank)  { bannerRank.textContent = rank; bannerRank.style.background = RANKS[rank].color; }
     if (bannerEmoji) bannerEmoji.textContent = item.emoji || '🎣';
     if (bannerName)  bannerName.textContent  = item.name + ' が釣れた！';
-    bannerEl.classList.remove('is-hide', 'is-show', 'is-ss', 'is-s');
+    bannerEl.classList.remove('is-hide', 'is-show', 'is-ss', 'is-s', 'is-miss');
     if (rank === 'SS') bannerEl.classList.add('is-ss');
     else if (rank === 'S') bannerEl.classList.add('is-s');
+    void bannerEl.offsetWidth;
+    bannerEl.classList.add('is-show');
+  };
+  // 逃げられた時のバナー
+  const showMiss = (item) => {
+    if (!bannerEl) return;
+    if (bannerRank)  { bannerRank.textContent = item.rank; bannerRank.style.background = RANKS[item.rank].color; }
+    if (bannerEmoji) bannerEmoji.textContent = '💨';
+    if (bannerName)  bannerName.textContent  = item.name + ' に逃げられた…';
+    bannerEl.classList.remove('is-hide', 'is-show', 'is-ss', 'is-s', 'is-miss');
+    bannerEl.classList.add('is-miss');
     void bannerEl.offsetWidth;
     bannerEl.classList.add('is-show');
   };
@@ -402,7 +415,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (catchEl) {
       gsap.to(catchEl, {
         opacity: 0, scale: 0.4, duration: 0.3, ease: 'power2.in',
-        onComplete: () => { catchEl.classList.remove('is-on'); gsap.set(catchEl, { rotation: 0 }); }
+        onComplete: () => { catchEl.classList.remove('is-on'); gsap.set(catchEl, { rotation: 0, x: 0, y: 0 }); }
       });
     }
     const back = scrollLureTop;
@@ -419,7 +432,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 釣り上げ → わーっと巻き上げ
+  // 釣り上げ → 粘って → 釣れる or 逃げられる（100%ではない）
   const startCatch = () => {
     if (!castDone || isReeling || !canCatch || !catchEl) return;
     isReeling = true;
@@ -427,13 +440,14 @@ document.addEventListener('DOMContentLoaded', () => {
     trail.classList.add('is-reeling');
 
     const item     = pickCatch();
+    const success  = Math.random() < (CATCH_RATE[item.rank] != null ? CATCH_RATE[item.rank] : 0.9);
     const startTop = parseFloat(lure.style.top) || scrollLureTop;
     const topPos   = Math.max(64, window.innerHeight * 0.08);
 
     catchEl.src = 'assets/img/' + item.img;
     catchEl.classList.add('is-on');
     positionCatch(startTop);
-    gsap.set(catchEl, { opacity: 0, scale: 0.4, rotation: 0 });
+    gsap.set(catchEl, { opacity: 0, scale: 0.4, rotation: 0, x: 0, y: 0 });
     gsap.set(lure, { rotation: 0 });
 
     const state = { top: startTop };
@@ -450,24 +464,39 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
-    gsap.timeline({ onComplete: endCatch })
-      // 1) ヒット：クッと引き込まれる
-      .to(state, { top: startTop + (prefersReduced ? 6 : 22), duration: 0.14, ease: 'power2.in', onUpdate: apply })
-      // 2) 獲物がフッキング ＋ バナー ＋ 釣果カウント
-      .add(() => { showBanner(item); bumpCount(item); })
-      .to(catchEl, { opacity: 1, scale: 1, duration: 0.3, ease: 'back.out(2)' })
-      .add(() => {
+    const wobbleReps = prefersReduced ? 1 : 5; // ブルブル粘る回数
+
+    const tl = gsap.timeline({ onComplete: endCatch });
+    // 1) ヒット：クッと引き込まれる
+    tl.to(state, { top: startTop + (prefersReduced ? 6 : 22), duration: 0.14, ease: 'power2.in', onUpdate: apply })
+      // 2) 獲物がフッキング（出現）
+      .to(catchEl, { opacity: 1, scale: 1, duration: 0.25, ease: 'back.out(2)' })
+      // 3) ブルブル粘る（釣れるか逃げるか…の溜め）
+      .to(catchEl, { rotation: 14, duration: 0.11, ease: 'sine.inOut', yoyo: true, repeat: wobbleReps, transformOrigin: '50% 0' })
+      .to(lure,    { rotation: -7, duration: 0.11, ease: 'sine.inOut', yoyo: true, repeat: wobbleReps }, '<')
+      // 4) 判定
+      .add(() => { success ? (showBanner(item), bumpCount(item)) : showMiss(item); });
+
+    if (success) {
+      // 釣れた → わーっと巻き上げ
+      tl.add(() => {
         if (!prefersReduced) {
           swingTween = gsap.to(catchEl, { rotation: 9, duration: 0.5, ease: 'sine.inOut', yoyo: true, repeat: -1, transformOrigin: '50% 0' });
         }
       })
-      // 3) わーっと巻き上げ
       .to(state, {
         top: topPos, duration: prefersReduced ? 0.6 : 1.0, ease: 'power2.inOut',
         onUpdate: () => { apply(); checkSurface(); }
-      }, '>-0.05')
-      // 4) 上でちょっと見せる
+      }, '>-0.02')
       .to({}, { duration: 0.9 });
+    } else {
+      // 逃げられた → プイッと外れて消える
+      tl.to(catchEl, {
+        x: (Math.random() < 0.5 ? -34 : 34), y: 30, opacity: 0, scale: 0.5, rotation: 35,
+        duration: 0.5, ease: 'power2.in'
+      })
+      .to({}, { duration: 0.7 });
+    }
   };
 
   if (lure) lure.addEventListener('click', startCatch);
