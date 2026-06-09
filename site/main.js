@@ -305,11 +305,29 @@ function sayakaInit() {
   let catchCount = totalCaught();
   const saveHistory = () => { try { localStorage.setItem(HISTORY_KEY, JSON.stringify(catchHistory)); } catch (e) {} };
 
+  // ===== シーンの生き物：釣ったら消える / 海に逃がすと戻る =====
+  const creatureEls = [...document.querySelectorAll(
+    '.fish-school .fish, .anglerfish, .deep-decor img, .prelude-floater.pf-duck, .sf-shell, .sf-shell-2, .space-crown'
+  )];
+  creatureEls.forEach(el => {
+    let key = (el.getAttribute('src') || '').split('/').pop();
+    if (key === 'deep-jellyfish-small.png') key = 'deep-jellyfish.png'; // 小クラゲもクラゲ扱い
+    el.dataset.creature = key;
+    el.classList.add('caughtable');
+  });
+  const applyCaughtCreatures = () => {
+    creatureEls.forEach(el => {
+      if (catchHistory[el.dataset.creature]) el.classList.add('caught');
+      else el.classList.remove('caught');
+    });
+  };
+
   // 釣果カウンター更新（履歴に記録）
   const bumpCount = (item) => {
     if (item) { catchHistory[item.img] = (catchHistory[item.img] || 0) + 1; saveHistory(); }
     catchCount = totalCaught();
     if (countNumEl) countNumEl.textContent = catchCount;
+    applyCaughtCreatures(); // 釣った生き物をシーンから消す
     if (countEl) {
       countEl.classList.add('is-show');
       countEl.classList.remove('bump');
@@ -318,6 +336,7 @@ function sayakaInit() {
     }
   };
   if (countNumEl) countNumEl.textContent = catchCount; // 保存済みの釣果を反映
+  applyCaughtCreatures(); // 読み込み時：すでに釣った生き物は消えた状態にする
 
   // ===== 釣果コレクション（履歴パネル）=====
   const historyEl   = document.querySelector('.catch-history');
@@ -373,6 +392,7 @@ function sayakaInit() {
       saveHistory();
       catchCount = 0;
       if (countNumEl) countNumEl.textContent = '0';
+      applyCaughtCreatures(); // 海に逃がす → 生き物がシーンに戻る
       disarmReset();
       buildHistory();
     });
