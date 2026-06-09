@@ -5,6 +5,9 @@
 gsap.registerPlugin(ScrollTrigger);
 
 document.addEventListener('DOMContentLoaded', () => {
+  // JS初期化が走った合図。これが付いた時だけテキストを一旦隠してアニメ表示する。
+  // （付かない＝JS不達時は、下のCSSフォールバックでテキストを最初から表示する）
+  document.documentElement.classList.add('js');
 
   // ---- ハンバーガーメニュー ----
   const menuToggle = document.querySelector('.menu-toggle');

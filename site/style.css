@@ -2579,3 +2579,26 @@ ul { list-style: none; padding: 0; margin: 0; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* ============================================================
+   フォールバック：JSが初期化されなかった場合でも本文テキストを必ず表示する。
+   main.js が動くと <html class="js"> が付与され、この上書きは無効化され、
+   通常どおりスクロールでアニメ表示される。JS不達時のみテキストを出す安全網。
+   ============================================================ */
+html:not(.js) .lead,
+html:not(.js) .greeting,
+html:not(.js) .role,
+html:not(.js) .info-line,
+html:not(.js) .undersea-lead,
+html:not(.js) .genre,
+html:not(.js) .genre-note,
+html:not(.js) .deep-step,
+html:not(.js) .space-lead,
+html:not(.js) .voice-row,
+html:not(.js) .landing-lead,
+html:not(.js) .landing-cta,
+html:not(.js) .landing-cta-sub,
+html:not(.js) .contact-form {
+  opacity: 1 !important;
+  transform: none !important;
+}
