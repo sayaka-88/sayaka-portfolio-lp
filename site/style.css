@@ -612,6 +612,22 @@ ul { list-style: none; padding: 0; margin: 0; }
 .caughtable.caught { display: none !important; }
 
 /* 釣り図鑑（全画面の釣れた／逃げられた表示） */
+/* 海に逃がす演出：生き物が画面中央から四方八方へ飛んでいく */
+.release-burst {
+  position: fixed;
+  inset: 0;
+  z-index: 230;
+  pointer-events: none;
+  overflow: hidden;
+}
+.release-fish {
+  position: fixed;
+  top: 0; left: 0;
+  object-fit: contain;
+  will-change: transform, opacity;
+  filter: drop-shadow(0 8px 16px rgba(0, 30, 60, 0.25));
+}
+
 .catch-dex {
   position: fixed;
   inset: 0;

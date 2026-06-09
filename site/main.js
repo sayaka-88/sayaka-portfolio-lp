@@ -379,6 +379,45 @@ function sayakaInit() {
     if (cbtn) cbtn.addEventListener('click', closeHistory);
   }
 
+  // 逃がす演出：釣った生き物たちが画面中央からわーっと四方八方へ逃げていく
+  const releaseBurst = (items) => {
+    if (!items || !items.length || prefersReduced) return;
+    const layer = document.createElement('div');
+    layer.className = 'release-burst';
+    document.body.appendChild(layer);
+    // 種類×匹数（各種最大3・合計最大30）に展開してシャッフル
+    const pool = [];
+    items.forEach(it => { const n = Math.min(it.count || 1, 3); for (let i = 0; i < n; i++) pool.push(it.img); });
+    const MAX = 30;
+    const list = (pool.length > MAX ? pool.sort(() => Math.random() - 0.5).slice(0, MAX) : pool);
+    const vw = window.innerWidth, vh = window.innerHeight;
+    const cx = vw / 2, cy = vh * 0.5;
+    let remaining = list.length;
+    list.forEach((img, i) => {
+      const el = document.createElement('img');
+      el.src = 'assets/img/' + img;
+      el.className = 'release-fish';
+      el.alt = '';
+      layer.appendChild(el);
+      const ang  = Math.random() * Math.PI * 2;
+      const dist = Math.max(vw, vh) * (0.8 + Math.random() * 0.6);
+      const size = 70 + Math.random() * 60;
+      gsap.set(el, { width: size, height: size, x: cx - size / 2, y: cy - size / 2, scale: 0.2, opacity: 0, rotation: 0 });
+      gsap.timeline({
+        delay: i * 0.045,
+        onComplete: () => { el.remove(); if (--remaining <= 0) layer.remove(); }
+      })
+        .to(el, { scale: 1, opacity: 1, duration: 0.22, ease: 'back.out(2)' })
+        .to(el, {
+          x: cx - size / 2 + Math.cos(ang) * dist,
+          y: cy - size / 2 + Math.sin(ang) * dist,
+          rotation: (Math.random() < 0.5 ? -1 : 1) * (180 + Math.random() * 360),
+          scale: 0.55, opacity: 0,
+          duration: 0.9 + Math.random() * 0.5, ease: 'power2.in'
+        }, '>-0.05');
+    });
+  };
+
   // 釣果を全部リセット（海に逃がす）。誤タップ防止に2段階タップ。
   const resetBtn = historyEl ? historyEl.querySelector('.catch-history-reset') : null;
   const RESET_LABEL = '🌊 ぜんぶ海に逃がす';
@@ -399,6 +438,10 @@ function sayakaInit() {
         return;
       }
       // 2回目：確定 → 釣果を全消去
+      // 消去する前に、逃がす生き物のリストを取っておく
+      const released = CATCH_POOL
+        .filter(it => catchHistory[it.img])
+        .map(it => ({ img: it.img, count: catchHistory[it.img] }));
       catchHistory = {};
       saveHistory();
       catchCount = 0;
@@ -406,6 +449,8 @@ function sayakaInit() {
       applyCaughtCreatures(); // 海に逃がす → 生き物がシーンに戻る
       disarmReset();
       buildHistory();
+      closeHistory();          // パネルを閉じて画面全体で逃がす演出を見せる
+      releaseBurst(released);  // わーっと四方八方へ逃げていく
     });
   }
 
