@@ -259,31 +259,31 @@ document.addEventListener('DOMContentLoaded', () => {
   // 捕獲成功率（高ランクほど逃げられやすい＝ポケモンのボール的に100%ではない）
   const CATCH_RATE = { SS: 0.4, S: 0.6, A: 0.75, B: 0.88, C: 0.95 };
 
-  // 釣れるもの（rank: SS最レア 〜 Cよく釣れる）
+  // 釣れるもの（rank: SS最レア 〜 Cよく釣れる / size: 全長cm範囲 / desc: 特徴）
   const CATCH_POOL = [
-    { img: 'deep-oarfish.png',     name: 'リュウグウノツカイ', emoji: '🐉', rank: 'SS' },
-    { img: 'space-crown.png',      name: '黄金の王冠',         emoji: '👑', rank: 'SS' },
-    { img: 'sea-whale.png',        name: 'クジラ',             emoji: '🐳', rank: 'S' },
-    { img: 'deep-diamond.png',     name: 'ダイヤモンド',       emoji: '💎', rank: 'S' },
-    { img: 'deep-crystal.png',     name: 'クリスタル',         emoji: '🔮', rank: 'S' },
-    { img: 'deep-crown.png',       name: '王冠',               emoji: '👑', rank: 'S' },
-    { img: 'deep-treasure.png',    name: '宝箱',               emoji: '🎁', rank: 'S' },
-    { img: 'deep-pearl-2.png',     name: '大粒の真珠',         emoji: '🫧', rank: 'S' },
-    { img: 'deep-pearl-3.png',     name: '虹色の真珠',         emoji: '🌈', rank: 'S' },
-    { img: 'sea-tuna.png',         name: 'マグロ',             emoji: '🐟', rank: 'A' },
-    { img: 'sea-dolphin.png',      name: 'イルカ',             emoji: '🐬', rank: 'A' },
-    { img: 'anglerfish.png',       name: 'アンコウ',           emoji: '🎣', rank: 'A' },
-    { img: 'deep-pearl-1.png',     name: '真珠',               emoji: '🫧', rank: 'A' },
-    { img: 'sea-rainbowtrout.png', name: 'ニジマス',           emoji: '🐟', rank: 'B' },
-    { img: 'sea-crab.png',         name: 'カニ',               emoji: '🦀', rank: 'B' },
-    { img: 'deep-squid.png',       name: 'イカ',               emoji: '🦑', rank: 'B' },
-    { img: 'deep-jellyfish.png',   name: 'クラゲ',             emoji: '🪼', rank: 'B' },
-    { img: 'sea-goldfish.png',     name: '金魚',               emoji: '🐠', rank: 'C' },
-    { img: 'sea-duck.png',         name: 'アヒル',             emoji: '🦆', rank: 'C' },
-    { img: 'sea-shell.png',        name: '貝がら',             emoji: '🐚', rank: 'C' },
-    { img: 'sea-candies.png',      name: 'キャンディ',         emoji: '🍬', rank: 'C' },
-    { img: 'sea-beachball.png',    name: 'ビーチボール',       emoji: '🏐', rank: 'C' },
-    { img: 'deep-star.png',        name: 'ヒトデ',             emoji: '⭐', rank: 'C' },
+    { img: 'deep-oarfish.png',     name: 'リュウグウノツカイ', emoji: '🐉', rank: 'SS', size: [300, 800],   desc: '深海に棲む伝説の巨大魚。めったに姿を見せない、まさに幻の存在。' },
+    { img: 'space-crown.png',      name: '黄金の王冠',         emoji: '👑', rank: 'SS', size: [20, 32],     desc: '海の底で眠っていた伝説の財宝。手にした者はごくわずか。' },
+    { img: 'sea-whale.png',        name: 'クジラ',             emoji: '🐳', rank: 'S',  size: [1000, 2500], desc: '海でいちばん大きなほ乳類。ゆうゆうと泳ぐ海の主。' },
+    { img: 'deep-diamond.png',     name: 'ダイヤモンド',       emoji: '💎', rank: 'S',  size: [2, 6],       desc: '永遠の輝きを放つ宝石。光を受けてきらきらと反射する。' },
+    { img: 'deep-crystal.png',     name: 'クリスタル',         emoji: '🔮', rank: 'S',  size: [5, 16],      desc: '神秘的な光をたたえた水晶。眺めていると吸い込まれそう。' },
+    { img: 'deep-crown.png',       name: '王冠',               emoji: '👑', rank: 'S',  size: [15, 26],     desc: 'どこかの誰かが落とした立派な王冠。宝石の飾りが輝く。' },
+    { img: 'deep-treasure.png',    name: '宝箱',               emoji: '🎁', rank: 'S',  size: [30, 55],     desc: '海底に沈んでいた宝箱。中身が気になるけど開けてのお楽しみ。' },
+    { img: 'deep-pearl-2.png',     name: '大粒の真珠',         emoji: '🫧', rank: 'S',  size: [3, 9],       desc: '貝が長い年月をかけて育てた、まんまるで上品な宝。' },
+    { img: 'deep-pearl-3.png',     name: '虹色の真珠',         emoji: '🌈', rank: 'S',  size: [3, 9],       desc: '見る角度で七色に輝く奇跡の真珠。出会えたらラッキー。' },
+    { img: 'sea-tuna.png',         name: 'マグロ',             emoji: '🐟', rank: 'A',  size: [100, 300],   desc: '海を高速で泳ぎ続ける回遊魚の王者。力強い引きが自慢。' },
+    { img: 'sea-dolphin.png',      name: 'イルカ',             emoji: '🐬', rank: 'A',  size: [150, 400],   desc: '賢くて人なつっこい海の人気者。ジャンプが得意。' },
+    { img: 'anglerfish.png',       name: 'アンコウ',           emoji: '🎣', rank: 'A',  size: [40, 150],    desc: '深海で頭の光をともし、獲物をじっと待ちぶせる。' },
+    { img: 'deep-pearl-1.png',     name: '真珠',               emoji: '🫧', rank: 'A',  size: [1, 3],       desc: '小さくても上品な海の宝石。やさしい光をたたえる。' },
+    { img: 'sea-rainbowtrout.png', name: 'ニジマス',           emoji: '🐟', rank: 'B',  size: [30, 70],     desc: '体に走る虹色の帯が美しい川魚。清流の人気者。' },
+    { img: 'sea-crab.png',         name: 'カニ',               emoji: '🦀', rank: 'B',  size: [10, 30],     desc: '横歩きの名人。立派なハサミにはご注意を。' },
+    { img: 'deep-squid.png',       name: 'イカ',               emoji: '🦑', rank: 'B',  size: [20, 60],     desc: 'いざという時は墨をはいてスッと逃げる知恵者。' },
+    { img: 'deep-jellyfish.png',   name: 'クラゲ',             emoji: '🪼', rank: 'B',  size: [10, 40],     desc: 'ふわふわと漂う海の妖精。透きとおった体が涼しげ。' },
+    { img: 'sea-goldfish.png',     name: '金魚',               emoji: '🐠', rank: 'C',  size: [5, 20],      desc: 'おまつりでおなじみの愛されもの。ひらひら泳ぐ。' },
+    { img: 'sea-duck.png',         name: 'アヒル',             emoji: '🦆', rank: 'C',  size: [15, 30],     desc: 'プカプカ浮かぶおふろの定番。なぜか海にいた。' },
+    { img: 'sea-shell.png',        name: '貝がら',             emoji: '🐚', rank: 'C',  size: [3, 12],      desc: '波打ち際で見つかる小さな宝物。耳をあてると海の音。' },
+    { img: 'sea-candies.png',      name: 'キャンディ',         emoji: '🍬', rank: 'C',  size: [3, 8],       desc: '海で拾った甘い忘れもの。だれの落としもの？' },
+    { img: 'sea-beachball.png',    name: 'ビーチボール',       emoji: '🏐', rank: 'C',  size: [30, 50],     desc: '夏の海の思い出カラー。ぷかぷか流れてきた。' },
+    { img: 'deep-star.png',        name: 'ヒトデ',             emoji: '⭐', rank: 'C',  size: [10, 30],     desc: '海の底でのんびり過ごす星の形のいきもの。' },
   ];
 
   // 重み付き抽選（ランクが高いほど釣れにくい）
@@ -344,6 +344,51 @@ document.addEventListener('DOMContentLoaded', () => {
     historyEl.addEventListener('click', (e) => { if (e.target === historyEl) closeHistory(); });
     const cbtn = historyEl.querySelector('.catch-history-close');
     if (cbtn) cbtn.addEventListener('click', closeHistory);
+  }
+
+  // ===== 釣り図鑑（全画面：釣れた／逃げられた）=====
+  const dexEl      = document.querySelector('.catch-dex');
+  const dexNoEl    = dexEl ? dexEl.querySelector('.catch-dex-no') : null;
+  const dexRankEl  = dexEl ? dexEl.querySelector('.catch-dex-rank') : null;
+  const dexImgEl   = dexEl ? dexEl.querySelector('.catch-dex-img') : null;
+  const dexEmojiEl = dexEl ? dexEl.querySelector('.catch-dex-emoji') : null;
+  const dexNameEl  = dexEl ? dexEl.querySelector('.catch-dex-name') : null;
+  const dexSizeEl  = dexEl ? dexEl.querySelector('.catch-dex-size') : null;
+  const dexDescEl  = dexEl ? dexEl.querySelector('.catch-dex-desc') : null;
+
+  const fmtSize = (cm) => (cm >= 100 ? (Math.round(cm / 10) / 10) + 'm' : Math.round(cm) + 'cm');
+  const dexNo = (item) => String(CATCH_POOL.indexOf(item) + 1).padStart(2, '0');
+
+  const openDex = (item) => {
+    if (!dexEl) return;
+    const [a, b] = item.size;
+    const size = a + Math.random() * (b - a);
+    dexEl.classList.remove('is-miss', '-ss');
+    if (dexNoEl)    dexNoEl.textContent = 'No.' + dexNo(item);
+    if (dexRankEl)  { dexRankEl.textContent = item.rank; dexRankEl.style.background = RANKS[item.rank].color; }
+    if (dexImgEl)   dexImgEl.src = 'assets/img/' + item.img;
+    if (dexEmojiEl) dexEmojiEl.textContent = item.emoji || '';
+    if (dexNameEl)  dexNameEl.textContent = item.name;
+    if (dexSizeEl)  dexSizeEl.textContent = 'サイズ ' + fmtSize(size);
+    if (dexDescEl)  dexDescEl.textContent = item.desc || '';
+    if (item.rank === 'SS') dexEl.classList.add('-ss');
+    dexEl.classList.add('is-open');
+  };
+  const openMiss = (item) => {
+    if (!dexEl) return;
+    dexEl.classList.remove('-ss');
+    dexEl.classList.add('is-miss');
+    if (dexImgEl)   dexImgEl.src = 'assets/img/' + item.img;
+    if (dexEmojiEl) dexEmojiEl.textContent = '💦';
+    if (dexNameEl)  dexNameEl.textContent = '逃げられた…💦';
+    if (dexDescEl)  dexDescEl.textContent = '「' + item.name + '」は逃げてしまった…\nまた挑戦してね！';
+    dexEl.classList.add('is-open');
+  };
+  const closeDex = () => { if (dexEl) dexEl.classList.remove('is-open'); };
+  if (dexEl) {
+    dexEl.addEventListener('click', (e) => { if (e.target === dexEl) closeDex(); });
+    const dbtn = dexEl.querySelector('.catch-dex-close');
+    if (dbtn) dbtn.addEventListener('click', closeDex);
   }
 
   let isReeling     = false; // 巻き上げ中はスクロール追従を止める
@@ -473,29 +518,30 @@ document.addEventListener('DOMContentLoaded', () => {
       .to(catchEl, { opacity: 1, scale: 1, duration: 0.25, ease: 'back.out(2)' })
       // 3) ブルブル粘る（釣れるか逃げるか…の溜め）
       .to(catchEl, { rotation: 14, duration: 0.11, ease: 'sine.inOut', yoyo: true, repeat: wobbleReps, transformOrigin: '50% 0' })
-      .to(lure,    { rotation: -7, duration: 0.11, ease: 'sine.inOut', yoyo: true, repeat: wobbleReps }, '<')
-      // 4) 判定
-      .add(() => { success ? (showBanner(item), bumpCount(item)) : showMiss(item); });
+      .to(lure,    { rotation: -7, duration: 0.11, ease: 'sine.inOut', yoyo: true, repeat: wobbleReps }, '<');
 
     if (success) {
-      // 釣れた → わーっと巻き上げ
+      // 釣れた → わーっと巻き上げ → 図鑑を全画面表示
       tl.add(() => {
+        bumpCount(item);
         if (!prefersReduced) {
           swingTween = gsap.to(catchEl, { rotation: 9, duration: 0.5, ease: 'sine.inOut', yoyo: true, repeat: -1, transformOrigin: '50% 0' });
         }
       })
       .to(state, {
-        top: topPos, duration: prefersReduced ? 0.6 : 1.0, ease: 'power2.inOut',
+        top: topPos, duration: prefersReduced ? 0.5 : 0.8, ease: 'power2.inOut',
         onUpdate: () => { apply(); checkSurface(); }
       }, '>-0.02')
-      .to({}, { duration: 0.9 });
+      .add(() => openDex(item))
+      .to({}, { duration: 0.3 });
     } else {
-      // 逃げられた → プイッと外れて消える
+      // 逃げられた → プイッと外れて消える → 全画面で「逃げられた」
       tl.to(catchEl, {
         x: (Math.random() < 0.5 ? -34 : 34), y: 30, opacity: 0, scale: 0.5, rotation: 35,
-        duration: 0.5, ease: 'power2.in'
+        duration: 0.45, ease: 'power2.in'
       })
-      .to({}, { duration: 0.7 });
+      .add(() => openMiss(item))
+      .to({}, { duration: 0.3 });
     }
   };
 
