@@ -4,7 +4,7 @@
 
 gsap.registerPlugin(ScrollTrigger);
 
-document.addEventListener('DOMContentLoaded', () => {
+function sayakaInit() {
   // JS初期化が走った合図。これが付いた時だけテキストを一旦隠してアニメ表示する。
   // （付かない＝JS不達時は、下のCSSフォールバックでテキストを最初から表示する）
   document.documentElement.classList.add('js');
@@ -731,4 +731,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-});
+}
+
+// DOM準備ができ次第、確実に初期化（スクリプトがDOMContentLoaded後に実行されても動くように）
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', sayakaInit);
+} else {
+  sayakaInit();
+}
