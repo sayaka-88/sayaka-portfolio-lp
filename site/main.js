@@ -340,13 +340,42 @@ function sayakaInit() {
       `<span class="ch-count">×${e.count}</span></div>`
     ).join('');
   };
-  const openHistory  = () => { buildHistory(); if (historyEl) historyEl.classList.add('is-open'); };
+  const openHistory  = () => { disarmReset(); buildHistory(); if (historyEl) historyEl.classList.add('is-open'); };
   const closeHistory = () => { if (historyEl) historyEl.classList.remove('is-open'); };
   if (countEl) countEl.addEventListener('click', openHistory);
   if (historyEl) {
     historyEl.addEventListener('click', (e) => { if (e.target === historyEl) closeHistory(); });
     const cbtn = historyEl.querySelector('.catch-history-close');
     if (cbtn) cbtn.addEventListener('click', closeHistory);
+  }
+
+  // 釣果を全部リセット（海に逃がす）。誤タップ防止に2段階タップ。
+  const resetBtn = historyEl ? historyEl.querySelector('.catch-history-reset') : null;
+  const RESET_LABEL = '🌊 ぜんぶ海に逃がす';
+  let resetArmed = false, resetTimer = null;
+  const disarmReset = () => {
+    resetArmed = false;
+    if (resetTimer) { clearTimeout(resetTimer); resetTimer = null; }
+    if (resetBtn) { resetBtn.textContent = RESET_LABEL; resetBtn.classList.remove('is-confirm'); }
+  };
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      if (!resetArmed) {
+        // 1回目：確認状態にする
+        resetArmed = true;
+        resetBtn.textContent = 'もう一度タップで全部逃がす';
+        resetBtn.classList.add('is-confirm');
+        resetTimer = setTimeout(disarmReset, 3000);
+        return;
+      }
+      // 2回目：確定 → 釣果を全消去
+      catchHistory = {};
+      saveHistory();
+      catchCount = 0;
+      if (countNumEl) countNumEl.textContent = '0';
+      disarmReset();
+      buildHistory();
+    });
   }
 
   // ===== 釣り図鑑（全画面：釣れた／逃げられた）=====

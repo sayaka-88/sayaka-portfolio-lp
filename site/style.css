@@ -584,6 +584,24 @@ ul { list-style: none; padding: 0; margin: 0; }
 .ch-img { width: 38px; height: 38px; object-fit: contain; flex-shrink: 0; }
 .ch-name { flex: 1; font-weight: 600; font-size: 0.9rem; color: #1b3a5b; }
 .ch-count { font-weight: 800; color: #ff7a59; font-size: 0.95rem; }
+/* 釣果を全部リセット（海に逃がす）。控えめに小さく */
+.catch-history-reset {
+  align-self: center;
+  margin-top: 14px;
+  border: none;
+  background: transparent;
+  color: #9aa7b3;
+  font-family: inherit;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  padding: 6px 14px;
+  border-radius: 999px;
+  transition: background 0.2s var(--ease-out), color 0.2s var(--ease-out);
+}
+.catch-history-reset:hover { background: #eef2f6; color: #6b7c8c; }
+.catch-history-reset.is-confirm { color: #ff6b6b; background: #ffecec; }
 
 /* 釣り図鑑（全画面の釣れた／逃げられた表示） */
 .catch-dex {
