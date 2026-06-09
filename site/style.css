@@ -47,7 +47,12 @@
   --side-far:  calc(50% + 620px);  /* works端から100px外 */
 }
 
+/* スマホ専用の改行（PCでは無効） */
+.sp-only-br { display: none; }
+
 @media (max-width: 720px) {
+  .sp-only-br { display: inline; }
+
   :root {
     --side-near: calc(50% + 80px);
     --side-mid:  calc(50% + 105px);
