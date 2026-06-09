@@ -148,6 +148,11 @@ ul { list-style: none; padding: 0; margin: 0; }
   font-size: 1.15rem;
   letter-spacing: 0.2em;
 }
+.site-header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
 .site-header-right {
   display: flex;
   align-items: center;
@@ -449,31 +454,24 @@ ul { list-style: none; padding: 0; margin: 0; }
 
 /* 釣果カウンター（左下に固定） */
 .catch-count {
-  position: fixed;
-  left: var(--sp-4);
-  bottom: var(--sp-4);
-  z-index: 60;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   background: rgba(255, 255, 255, 0.92);
   color: #1b3a5b;
   font-weight: 700;
-  font-size: 0.85rem;
-  letter-spacing: 0.04em;
-  padding: 8px 16px;
+  font-size: 0.82rem;
+  letter-spacing: 0.03em;
+  padding: 6px 13px;
   border-radius: 999px;
-  box-shadow: 0 4px 14px rgba(0, 30, 60, 0.18);
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.4s var(--ease-out), transform 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
-  pointer-events: none;
+  box-shadow: 0 2px 8px rgba(0, 30, 60, 0.15);
+  transition: transform 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
   border: none;
   font-family: inherit;
   cursor: pointer;
 }
-.catch-count.is-show { opacity: 1; transform: translateY(0); pointer-events: auto; }
-.catch-count.is-show:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(0, 30, 60, 0.26); }
+.catch-count:hover,
+.catch-count.is-show:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0, 30, 60, 0.24); }
 .catch-count-num {
   display: inline-block;
   min-width: 0.8em;
