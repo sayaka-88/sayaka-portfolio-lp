@@ -603,9 +603,8 @@ ul { list-style: none; padding: 0; margin: 0; }
 .catch-history-reset:hover { background: #eef2f6; color: #6b7c8c; }
 .catch-history-reset.is-confirm { color: #ff6b6b; background: #ffecec; }
 
-/* 釣った生き物はシーンからフェードアウト（海に逃がすと戻る） */
-.caughtable { transition: opacity 0.7s var(--ease-out); }
-.caughtable.caught { opacity: 0 !important; pointer-events: none; }
+/* 釣った生き物はシーンから消える（海に逃がすと戻る） */
+.caughtable.caught { display: none !important; }
 
 /* 釣り図鑑（全画面の釣れた／逃げられた表示） */
 .catch-dex {
@@ -684,6 +683,19 @@ ul { list-style: none; padding: 0; margin: 0; }
 @keyframes dexSSGlow {
   from { box-shadow: 0 0 0 4px rgba(246, 178, 27, 0.3), 0 24px 70px rgba(0, 20, 50, 0.45); }
   to   { box-shadow: 0 0 0 10px rgba(246, 178, 27, 0.5), 0 24px 80px rgba(246, 178, 27, 0.45); }
+}
+/* UR（さやか）＝奇跡。虹のグロー＋虹文字（角丸はそのまま） */
+.catch-dex.-ur .catch-dex-card {
+  border-color: #ff8fb3;
+  animation: dexURGlow 1.3s ease-in-out infinite alternate;
+}
+.catch-dex.-ur .catch-dex-name {
+  background: linear-gradient(90deg, #ff5d8f, #ff9f43, #2bc48a, #2f8fff, #a35bff);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+@keyframes dexURGlow {
+  from { box-shadow: 0 0 0 4px rgba(255, 122, 156, 0.28), 0 24px 70px rgba(0, 20, 50, 0.45); }
+  to   { box-shadow: 0 0 0 12px rgba(123, 130, 255, 0.45), 0 24px 90px rgba(180, 120, 255, 0.5); }
 }
 /* 逃げられた表示 */
 .catch-dex.is-miss .catch-dex-card { border-color: #b9c4cf; background: linear-gradient(160deg, #ffffff, #eef2f6); }

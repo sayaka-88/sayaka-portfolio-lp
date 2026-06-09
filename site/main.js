@@ -252,18 +252,21 @@ function sayakaInit() {
   // ===== レアリティ（ランク）=====
   // SS(超激レア) → C(よく釣れる)。weight が小さいほど釣れにくい
   const RANKS = {
+    UR: { weight: 1,  color: 'linear-gradient(90deg,#ff7a9c,#ffd24d,#5be8a0,#5ab0ff,#b06bff)' }, // 奇跡（虹）
     SS: { weight: 2,  color: '#f6b21b' }, // 金
     S:  { weight: 6,  color: '#b06bff' }, // 紫
     A:  { weight: 14, color: '#3da5ff' }, // 青
     B:  { weight: 26, color: '#43c59e' }, // 緑
     C:  { weight: 40, color: '#9aa7b3' }, // グレー
   };
-  const RANK_ORDER = ['SS', 'S', 'A', 'B', 'C'];
+  const RANK_ORDER = ['UR', 'SS', 'S', 'A', 'B', 'C'];
   // 捕獲成功率（高ランクほど逃げられやすい＝ポケモンのボール的に100%ではない）
-  const CATCH_RATE = { SS: 0.4, S: 0.6, A: 0.75, B: 0.88, C: 0.95 };
+  // URは「たまにルアーにかかるが、ほぼ釣れない」奇跡枠
+  const CATCH_RATE = { UR: 0.15, SS: 0.4, S: 0.6, A: 0.75, B: 0.88, C: 0.95 };
 
   // 釣れるもの（rank: SS最レア 〜 Cよく釣れる / size: 全長cm範囲 / desc: 特徴）
   const CATCH_POOL = [
+    { img: 'sea-girl-donut.png',   name: 'さやか',             emoji: '🎀', rank: 'UR',                     desc: 'いつか一緒に釣り行きましょうね😆？笑' },
     { img: 'deep-oarfish.png',     name: 'リュウグウノツカイ', emoji: '🐉', rank: 'SS', size: [300, 800],   desc: '深海に棲む伝説の巨大魚。めったに姿を見せない、まさに幻の存在。' },
     { img: 'space-crown.png',      name: '黄金の王冠',         emoji: '👑', rank: 'SS', size: [20, 32],     desc: '海の底で眠っていた伝説の財宝。手にした者はごくわずか。' },
     { img: 'sea-whale.png',        name: 'クジラ',             emoji: '🐳', rank: 'S',  size: [1000, 2500], desc: '海でいちばん大きなほ乳類。ゆうゆうと泳ぐ海の主。' },
@@ -307,7 +310,7 @@ function sayakaInit() {
 
   // ===== シーンの生き物：釣ったら消える / 海に逃がすと戻る =====
   const creatureEls = [...document.querySelectorAll(
-    '.fish-school .fish, .anglerfish, .deep-decor img, .prelude-floater.pf-duck, .sf-shell, .sf-shell-2, .space-crown'
+    '.fish-school .fish, .anglerfish, .deep-decor img, .prelude-floater.pf-duck, .sf-shell, .sf-shell-2, .space-crown, .sf-girl-donut'
   )];
   creatureEls.forEach(el => {
     let key = (el.getAttribute('src') || '').split('/').pop();
@@ -413,17 +416,26 @@ function sayakaInit() {
 
   const openDex = (item) => {
     if (!dexEl) return;
-    const [a, b] = item.size;
-    const size = a + Math.random() * (b - a);
-    dexEl.classList.remove('is-miss', '-ss');
+    dexEl.classList.remove('is-miss', '-ss', '-ur');
     if (dexNoEl)    dexNoEl.textContent = 'No.' + dexNo(item);
     if (dexRankEl)  { dexRankEl.textContent = item.rank; dexRankEl.style.background = RANKS[item.rank].color; }
     if (dexImgEl)   dexImgEl.src = 'assets/img/' + item.img;
     if (dexEmojiEl) dexEmojiEl.textContent = item.emoji || '';
     if (dexNameEl)  dexNameEl.textContent = item.name;
-    if (dexSizeEl)  dexSizeEl.textContent = 'サイズ ' + fmtSize(size);
+    if (dexSizeEl) {
+      if (item.size) {
+        const [a, b] = item.size;
+        dexSizeEl.textContent = 'サイズ ' + fmtSize(a + Math.random() * (b - a));
+        if (dexSizeEl.parentElement) dexSizeEl.parentElement.style.display = '';
+      } else {
+        // さやか等、サイズの無いキャラはサイズ欄を隠す
+        dexSizeEl.textContent = '';
+        if (dexSizeEl.parentElement) dexSizeEl.parentElement.style.display = 'none';
+      }
+    }
     if (dexDescEl)  dexDescEl.textContent = item.desc || '';
-    if (item.rank === 'SS') dexEl.classList.add('-ss');
+    if (item.rank === 'UR') dexEl.classList.add('-ur');
+    else if (item.rank === 'SS') dexEl.classList.add('-ss');
     dexEl.classList.add('is-open');
   };
   const openMiss = (item) => {
