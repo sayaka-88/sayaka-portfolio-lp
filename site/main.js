@@ -4,7 +4,7 @@
 
 gsap.registerPlugin(ScrollTrigger);
 
-document.addEventListener('DOMContentLoaded', () => {
+function sayakaInit() {
 
   // ---- ハンバーガーメニュー ----
   const menuToggle = document.querySelector('.menu-toggle');
@@ -728,4 +728,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-});
+}
+
+// DOM準備ができ次第、確実に初期化（読み込みタイミングに依存しない）
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', sayakaInit);
+} else {
+  sayakaInit();
+}
