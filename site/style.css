@@ -104,6 +104,11 @@ body {
   background-color: #FFFFFF;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* 日本語をなるべく文節単位で自然に折り返す（変な位置での改行を防ぐ）。
+     auto-phrase 対応ブラウザ(Chrome系)で有効、非対応は従来どおりで無害。
+     line-break:strict で句読点・小書き文字が行頭に来る不自然な折り返しも抑制。 */
+  word-break: auto-phrase;
+  line-break: strict;
 }
 
 a { color: inherit; text-decoration: none; transition: opacity 0.2s var(--ease-out); }
