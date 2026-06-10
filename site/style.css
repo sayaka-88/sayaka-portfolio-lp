@@ -395,14 +395,14 @@ ul { list-style: none; padding: 0; margin: 0; }
   pointer-events: none;
   transition: opacity 0.3s var(--ease-out);
 }
-/* しっぽ：本体と同じ白の回転四角形をピルにめり込ませ、滑らかに繋ぐ */
+/* しっぽ：本体と同じ白の回転四角形をピルに深くめり込ませ、隙間なく繋ぐ */
 .lure-hint::after {
   content: '';
   position: absolute;
-  right: 1px;
+  right: 5px;
   top: 50%;
-  width: 11px;
-  height: 11px;
+  width: 12px;
+  height: 12px;
   background: #ffffff;
   transform: translate(50%, -50%) rotate(45deg);
   border-radius: 2px;
