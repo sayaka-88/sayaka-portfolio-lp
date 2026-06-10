@@ -146,71 +146,25 @@ function sayakaInit() {
     doSplash((lureRect.left + lureRect.right) / 2, lureRect.top + 6); // ルアー上端付近（=水面）
   };
 
-  // ---- Hero抜けたら左キャストモーション発動 ----
+  // ---- Hero抜けたら「ルアーと糸」だけをそっと出す（竿の投げモーションは廃止） ----
   const playCast = () => {
-    if (!rodWrap || !lure || !line || !trail || !castCurve || !castPath) return;
+    if (!lure || !line || !trail) return;
+    if (castDone) return;
 
-    const tip = getRodTip();
-    const isMobile = window.innerWidth <= 720;
-    const containerLeft = isMobile
-      ? (window.innerWidth - 80) / 2  // モバイル：lure-trail はセンター付近 (right: 182, width: 80 だが PC値)。実測でも対応。
-      : window.innerWidth - 262;
-    const lureRestX = 0;
-    // 跳ね上がり高さ：ロッド先端から上方向。画面が小さい時はビューポート連動で抑える
-    const peakLift = Math.min(220, Math.max(80, window.innerHeight * 0.18));
-    const peakY = tip.y - peakLift;
-    const lureStartXInContainer = tip.x - containerLeft - 30;
+    // ルアーを定位置（糸の真下・水面手前）に置く
+    gsap.set(lure, { left: 0, top: 200, rotation: 0, scale: 1 });
+    trail.classList.add('is-active'); // lure-trail がふわっとフェードイン
 
-    // 初期：ルアーを竿先付近、糸は曲線で表示開始
-    gsap.set(lure, { left: lureStartXInContainer, top: tip.y - 40, rotation: -25, scale: 0.92 });
-    trail.classList.add('is-active');
-    castCurve.classList.add('is-active');
-    isCasting = true;
-    updateCastCurve();
-    gsap.ticker.add(updateCastCurve);
+    // 着水アンカー（垂直線の上端＝ヘッダー波下／下端＝ルアー）を実測
+    const lr = lure.getBoundingClientRect();
+    landingX = (lr.left + lr.right) / 2;
+    landingY = lr.top + LURE_RING_Y;
 
-    const finalize = () => {
-      gsap.set(lure, { left: lureRestX, top: 200, rotation: 0, scale: 1 });
-      // 着水位置を実測（垂直線の上端アンカー）
-      const lr = lure.getBoundingClientRect();
-      landingX = (lr.left + lr.right) / 2;
-      landingY = lr.top + LURE_RING_Y;
-
-      isCasting = false;
-      castDone = true;
-      gsap.ticker.remove(updateCastCurve);
-      castCurve.classList.remove('is-active');
-      line.classList.add('is-active');
-      updateVerticalLine();
-      ScrollTrigger.refresh();
-    };
-
-    const tl = gsap.timeline({ onComplete: finalize });
-
-    // ロッドの振り：振りかぶり→ピュッと振る→収まる
-    tl.set(rodWrap, { rotation: -38 })
-      .to(rodWrap, { rotation: 22, duration: 0.32, ease: 'power3.in' })
-      .to(rodWrap, { rotation: 0,  duration: 0.55, ease: 'back.out(1.3)' }, '-=0.06');
-
-    // ルアーの飛行：頂点まで上がる→着水位置に降りる（並列で開始）
-    tl.to(lure, {
-      left: lureStartXInContainer * 0.4,
-      top: peakY,
-      rotation: 90,
-      scale: 1.0,
-      duration: 0.5,
-      ease: 'sine.out'
-    }, 0.18)
-    .to(lure, {
-      left: lureRestX,
-      top: 200,
-      rotation: 180,
-      duration: 0.55,
-      ease: 'sine.in'
-    });
-
-    // セーフティ：1.6秒で確実に終端
-    setTimeout(() => { if (!castDone) finalize(); }, 1600);
+    isCasting = false;
+    castDone = true;
+    line.classList.add('is-active'); // 糸を表示
+    updateVerticalLine();
+    ScrollTrigger.refresh();
   };
 
   // タブが復帰した時、キャスト未完了なら強制完了

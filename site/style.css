@@ -251,6 +251,7 @@ ul { list-style: none; padding: 0; margin: 0; }
 
 /* 釣り竿（左側に配置、横反転して先端を右向きに） */
 .fishing-rod-wrap {
+  display: none; /* 釣竿は廃止（ルアーと糸だけ出す）。DOMは残しJS参照のnull化を防ぐ */
   position: absolute;
   top: 24px;
   left: 24px;
