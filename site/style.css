@@ -1506,9 +1506,10 @@ ul { list-style: none; padding: 0; margin: 0; }
   --angler-w: 320px;   /* アンコウの幅＝高さ */
   --angler-top: 30px;  /* 上端 */
   --angler-right: 2%;  /* 右端 */
-  /* 触覚の玉の位置（右端・上端からのオフセット） */
-  --bulb-right: calc(var(--angler-right) + var(--angler-w) * 0.84);
-  --bulb-top:   calc(var(--angler-top)   + var(--angler-w) * 0.16);
+  /* 触覚の玉の位置：画像内 左15.3%/上36.4%（実測）＋ object-fit:contain の
+     上下レターボックス(約4.2%)補正込み。アンコウは正方形(w×w)前提。 */
+  --bulb-right: calc(var(--angler-right) + var(--angler-w) * 0.847);
+  --bulb-top:   calc(var(--angler-top)   + var(--angler-w) * 0.376);
 }
 
 /* アンコウのライトコーン：触覚の玉(apex=右上)から下へ広がる扇形の光だけ */
