@@ -228,47 +228,71 @@ function sayakaInit() {
   const CATCH_RATE = { UR: 0.15, SS: 0.4, S: 0.6, A: 0.75, B: 0.88, C: 0.95 };
 
   // 釣れるもの（rank: SS最レア 〜 Cよく釣れる / size: 全長cm範囲 / desc: 特徴）
+  // zone: そのアイテムが釣れるセクション（surface=海面 / undersea=海中 / deep=深海 / space=宇宙）
   const CATCH_POOL = [
-    { img: 'sea-girl-donut.png',     name: 'さやか',             emoji: '🎀', rank: 'UR',                     desc: 'いつか一緒に釣り行きましょうね😆？笑' },
+    { img: 'sea-girl-donut.png',     name: 'さやか',             emoji: '🎀', rank: 'UR', zone: 'surface',                  desc: 'いつか一緒に釣り行きましょうね😆？笑' },
 
-    { img: 'deep-oarfish.png',       name: 'リュウグウノツカイ', emoji: '🐉', rank: 'SS', size: [300, 800],   desc: '深海に棲む伝説の巨大魚。めったに姿を見せない、まさに幻の存在。' },
-    { img: 'deep-treasure.png',      name: '宝箱',               emoji: '🎁', rank: 'SS', size: [30, 55],     desc: '海底に深く沈んでいた宝箱。中身が気になるけど開けてのお楽しみ。' },
+    { img: 'deep-oarfish.png',       name: 'リュウグウノツカイ', emoji: '🐉', rank: 'SS', zone: 'deep',    size: [300, 800],   desc: '深海に棲む伝説の巨大魚。めったに姿を見せない、まさに幻の存在。' },
+    { img: 'deep-treasure.png',      name: '宝箱',               emoji: '🎁', rank: 'SS', zone: 'deep',    size: [30, 55],     desc: '海底に深く沈んでいた宝箱。中身が気になるけど開けてのお楽しみ。' },
 
-    { img: 'sea-whale.png',          name: 'クジラ',             emoji: '🐳', rank: 'S',  size: [1000, 2500], desc: '海でいちばん大きなほ乳類。ゆうゆうと泳ぐ海の主。' },
-    { img: 'deep-diamond.png',       name: 'ダイヤモンド',       emoji: '💎', rank: 'S',  size: [2, 6],       desc: '永遠の輝きを放つ宝石。光を受けてきらきらと反射する。' },
-    { img: 'deep-crown.png',         name: '王冠',               emoji: '👑', rank: 'S',  size: [15, 26],     desc: 'どこかの誰かが落とした立派な王冠。宝石の飾りが輝く。' },
-    { img: 'space-astronaut.png',    name: '宇宙飛行士',         emoji: '🧑‍🚀', rank: 'S',  size: [150, 190],   desc: '宇宙からやってきた探検家。虹色のヘルメットがきれい。なぜか海に…？' },
-    { img: 'land-dog-astronaut.png', name: '宇宙パグ',           emoji: '🐶', rank: 'S',  size: [25, 45],     desc: '宇宙服に身をつつんだまんまるパグ。地球の海を見にきたのかな。' },
+    { img: 'sea-whale.png',          name: 'クジラ',             emoji: '🐳', rank: 'S',  zone: 'undersea', size: [1000, 2500], desc: '海でいちばん大きなほ乳類。ゆうゆうと泳ぐ海の主。' },
+    { img: 'deep-diamond.png',       name: 'ダイヤモンド',       emoji: '💎', rank: 'S',  zone: 'deep',    size: [2, 6],       desc: '永遠の輝きを放つ宝石。光を受けてきらきらと反射する。' },
+    { img: 'deep-crown.png',         name: '王冠',               emoji: '👑', rank: 'S',  zone: 'deep',    size: [15, 26],     desc: 'どこかの誰かが落とした立派な王冠。宝石の飾りが輝く。' },
+    { img: 'space-astronaut.png',    name: '宇宙飛行士',         emoji: '🧑‍🚀', rank: 'S',  zone: 'space',   size: [150, 190],   desc: '宇宙からやってきた探検家。虹色のヘルメットがきれい。なぜか海に…？' },
+    { img: 'land-dog-astronaut.png', name: '宇宙パグ',           emoji: '🐶', rank: 'S',  zone: 'space',   size: [25, 45],     desc: '宇宙服に身をつつんだまんまるパグ。地球の海を見にきたのかな。' },
 
-    { img: 'sea-tuna.png',           name: 'マグロ',             emoji: '🐟', rank: 'A',  size: [100, 300],   desc: '海を高速で泳ぎ続ける回遊魚の王者。力強い引きが自慢。' },
-    { img: 'sea-dolphin.png',        name: 'イルカ',             emoji: '🐬', rank: 'A',  size: [150, 400],   desc: '賢くて人なつっこい海の人気者。ジャンプが得意。' },
-    { img: 'anglerfish.png',         name: 'アンコウ',           emoji: '🎣', rank: 'A',  size: [40, 150],    desc: '深海で頭の光をともし、獲物をじっと待ちぶせる。' },
-    { img: 'deep-pearl-1.png',       name: '真珠',               emoji: '🫧', rank: 'A',  size: [1, 3],       desc: '小さくても上品な海の宝石。やさしい光をたたえる。' },
-    { img: 'deep-crystal.png',       name: 'クリスタル',         emoji: '🔮', rank: 'A',  size: [5, 16],      desc: '神秘的な光をたたえた水晶。眺めていると吸い込まれそう。' },
-    { img: 'deep-pearl-2.png',       name: '大粒の真珠',         emoji: '🫧', rank: 'A',  size: [3, 9],       desc: '貝が長い年月をかけて育てた、まんまるで上品な宝。' },
-    { img: 'deep-pearl-3.png',       name: '虹色の真珠',         emoji: '🌈', rank: 'A',  size: [3, 9],       desc: '見る角度で七色に輝く奇跡の真珠。出会えたらラッキー。' },
+    { img: 'sea-tuna.png',           name: 'マグロ',             emoji: '🐟', rank: 'A',  zone: 'undersea', size: [100, 300],   desc: '海を高速で泳ぎ続ける回遊魚の王者。力強い引きが自慢。' },
+    { img: 'sea-dolphin.png',        name: 'イルカ',             emoji: '🐬', rank: 'A',  zone: 'undersea', size: [150, 400],   desc: '賢くて人なつっこい海の人気者。ジャンプが得意。' },
+    { img: 'anglerfish.png',         name: 'アンコウ',           emoji: '🎣', rank: 'A',  zone: 'deep',    size: [40, 150],    desc: '深海で頭の光をともし、獲物をじっと待ちぶせる。' },
+    { img: 'deep-pearl-1.png',       name: '真珠',               emoji: '🫧', rank: 'A',  zone: 'deep',    size: [1, 3],       desc: '小さくても上品な海の宝石。やさしい光をたたえる。' },
+    { img: 'deep-crystal.png',       name: 'クリスタル',         emoji: '🔮', rank: 'A',  zone: 'deep',    size: [5, 16],      desc: '神秘的な光をたたえた水晶。眺めていると吸い込まれそう。' },
+    { img: 'deep-pearl-2.png',       name: '大粒の真珠',         emoji: '🫧', rank: 'A',  zone: 'deep',    size: [3, 9],       desc: '貝が長い年月をかけて育てた、まんまるで上品な宝。' },
+    { img: 'deep-pearl-3.png',       name: '虹色の真珠',         emoji: '🌈', rank: 'A',  zone: 'deep',    size: [3, 9],       desc: '見る角度で七色に輝く奇跡の真珠。出会えたらラッキー。' },
 
-    { img: 'sea-rainbowtrout.png',   name: 'ニジマス',           emoji: '🐟', rank: 'B',  size: [30, 70],     desc: '体に走る虹色の帯が美しい川魚。清流の人気者。' },
-    { img: 'sea-crab.png',           name: 'カニ',               emoji: '🦀', rank: 'B',  size: [10, 30],     desc: '横歩きの名人。立派なハサミにはご注意を。' },
-    { img: 'deep-squid.png',         name: 'イカ',               emoji: '🦑', rank: 'B',  size: [20, 60],     desc: 'いざという時は墨をはいてスッと逃げる知恵者。' },
-    { img: 'deep-jellyfish.png',     name: 'クラゲ',             emoji: '🪼', rank: 'B',  size: [10, 40],     desc: 'ふわふわと漂う海の妖精。透きとおった体が涼しげ。' },
+    { img: 'sea-rainbowtrout.png',   name: 'ニジマス',           emoji: '🐟', rank: 'B',  zone: 'undersea', size: [30, 70],     desc: '体に走る虹色の帯が美しい川魚。清流の人気者。' },
+    { img: 'sea-crab.png',           name: 'カニ',               emoji: '🦀', rank: 'B',  zone: 'undersea', size: [10, 30],     desc: '横歩きの名人。立派なハサミにはご注意を。' },
+    { img: 'deep-squid.png',         name: 'イカ',               emoji: '🦑', rank: 'B',  zone: 'deep',    size: [20, 60],     desc: 'いざという時は墨をはいてスッと逃げる知恵者。' },
+    { img: 'deep-jellyfish.png',     name: 'クラゲ',             emoji: '🪼', rank: 'B',  zone: 'deep',    size: [10, 40],     desc: 'ふわふわと漂う海の妖精。透きとおった体が涼しげ。' },
 
-    { img: 'sea-goldfish.png',       name: '金魚',               emoji: '🐠', rank: 'C',  size: [5, 20],      desc: 'おまつりでおなじみの愛されもの。ひらひら泳ぐ。' },
-    { img: 'sea-duck.png',           name: 'アヒル',             emoji: '🦆', rank: 'C',  size: [15, 30],     desc: 'プカプカ浮かぶおふろの定番。なぜか海にいた。' },
-    { img: 'sea-shell.png',          name: '貝がら',             emoji: '🐚', rank: 'C',  size: [3, 12],      desc: '波打ち際で見つかる小さな宝物。耳をあてると海の音。' },
-    { img: 'sea-candies.png',        name: 'キャンディ',         emoji: '🍬', rank: 'C',  size: [3, 8],       desc: '海で拾った甘い忘れもの。だれの落としもの？' },
-    { img: 'sea-beachball.png',      name: 'ビーチボール',       emoji: '🏐', rank: 'C',  size: [30, 50],     desc: '夏の海の思い出カラー。ぷかぷか流れてきた。' },
-    { img: 'deep-star.png',          name: 'ヒトデ',             emoji: '⭐', rank: 'C',  size: [10, 30],     desc: '海の底でのんびり過ごす星の形のいきもの。' },
-    { img: 'treat-cake.png',         name: 'ケーキ',             emoji: '🍰', rank: 'C',  size: [10, 25],     desc: '海で見つけた甘い誘惑。だれのお祝いだったのかな？' },
-    { img: 'treat-donut.png',        name: 'ドーナツ',           emoji: '🍩', rank: 'C',  size: [8, 15],      desc: 'ぷかぷか流れてきた輪っかのおやつ。だれの落としもの？' },
+    { img: 'sea-goldfish.png',       name: '金魚',               emoji: '🐠', rank: 'C',  zone: 'surface', size: [5, 20],      desc: 'おまつりでおなじみの愛されもの。ひらひら泳ぐ。' },
+    { img: 'sea-duck.png',           name: 'アヒル',             emoji: '🦆', rank: 'C',  zone: 'surface', size: [15, 30],     desc: 'プカプカ浮かぶおふろの定番。なぜか海にいた。' },
+    { img: 'sea-shell.png',          name: '貝がら',             emoji: '🐚', rank: 'C',  zone: 'surface', size: [3, 12],      desc: '波打ち際で見つかる小さな宝物。耳をあてると海の音。' },
+    { img: 'sea-candies.png',        name: 'キャンディ',         emoji: '🍬', rank: 'C',  zone: 'surface', size: [3, 8],       desc: '海で拾った甘い忘れもの。だれの落としもの？' },
+    { img: 'sea-beachball.png',      name: 'ビーチボール',       emoji: '🏐', rank: 'C',  zone: 'surface', size: [30, 50],     desc: '夏の海の思い出カラー。ぷかぷか流れてきた。' },
+    { img: 'deep-star.png',          name: 'ヒトデ',             emoji: '⭐', rank: 'C',  zone: 'deep',    size: [10, 30],     desc: '海の底でのんびり過ごす星の形のいきもの。' },
+    { img: 'treat-cake.png',         name: 'ケーキ',             emoji: '🍰', rank: 'C',  zone: 'surface', size: [10, 25],     desc: '海で見つけた甘い誘惑。だれのお祝いだったのかな？' },
+    { img: 'treat-donut.png',        name: 'ドーナツ',           emoji: '🍩', rank: 'C',  zone: 'surface', size: [8, 15],      desc: 'ぷかぷか流れてきた輪っかのおやつ。だれの落としもの？' },
   ];
 
-  // 重み付き抽選（ランクが高いほど釣れにくい）
-  const pickCatch = () => {
-    const total = CATCH_POOL.reduce((s, it) => s + RANKS[it.rank].weight, 0);
+  // いま釣れるゾーン＝ルアーの中心がどのセクション上にあるか
+  const ZONE_SECTIONS = [
+    ['surface',  '.stage-surface'],
+    ['undersea', '.stage-undersea'],
+    ['deep',     '.stage-deep'],
+    ['space',    '.stage-space'],
+  ];
+  const currentZone = () => {
+    if (!lure) return null;
+    const r = lure.getBoundingClientRect();
+    const cy = (r.top + r.bottom) / 2;
+    for (const [zone, sel] of ZONE_SECTIONS) {
+      const el = document.querySelector(sel);
+      if (!el) continue;
+      const sr = el.getBoundingClientRect();
+      if (cy >= sr.top && cy < sr.bottom) return zone;
+    }
+    return null;
+  };
+
+  // 重み付き抽選（指定ゾーンの「まだ釣っていないもの」だけ／ランクが高いほど釣れにくい）
+  // 一度釣ると catchHistory に入り対象外＝そのゾーンから消える。「海に逃がす」で全部戻る。
+  const pickCatch = (zone) => {
+    const pool = CATCH_POOL.filter(it => it.zone === zone && !catchHistory[it.img]);
+    if (!pool.length) return null;
+    const total = pool.reduce((s, it) => s + RANKS[it.rank].weight, 0);
     let r = Math.random() * total;
-    for (const it of CATCH_POOL) { r -= RANKS[it.rank].weight; if (r <= 0) return it; }
-    return CATCH_POOL[CATCH_POOL.length - 1];
+    for (const it of pool) { r -= RANKS[it.rank].weight; if (r <= 0) return it; }
+    return pool[pool.length - 1];
   };
 
   // ===== 釣果履歴（localStorageに保存）=====
@@ -564,11 +588,15 @@ function sayakaInit() {
   // 釣り上げ → 粘って → 釣れる or 逃げられる（100%ではない）
   const startCatch = () => {
     if (!castDone || isReeling || !canCatch || !catchEl) return;
+
+    // いまのゾーンで釣れるものを抽選。すでに全部釣り尽くした／対象がなければ何も起きない
+    const item = pickCatch(currentZone());
+    if (!item) return;
+
     isReeling = true;
     trail.classList.remove('is-catchable');
     trail.classList.add('is-reeling');
 
-    const item     = pickCatch();
     const success  = Math.random() < (CATCH_RATE[item.rank] != null ? CATCH_RATE[item.rank] : 0.9);
     const startTop = parseFloat(lure.style.top) || scrollLureTop;
     const topPos   = Math.max(64, window.innerHeight * 0.08);

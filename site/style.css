@@ -1879,11 +1879,17 @@ ul { list-style: none; padding: 0; margin: 0; }
   inset: 0;
   pointer-events: none;
   z-index: 2;
+  --tw-scale: 1;
+}
+/* スマホ：星を小さく＋文字ゾーンに近い星は消して被り防止 */
+@media (max-width: 720px) {
+  .twinkle-field { --tw-scale: 0.6; }
+  .twinkle.tw-sp-off { display: none; }
 }
 .twinkle {
   position: absolute;
-  width: var(--s, 12px);
-  height: var(--s, 12px);
+  width:  calc(var(--s, 12px) * var(--tw-scale, 1));
+  height: calc(var(--s, 12px) * var(--tw-scale, 1));
   transform: translate(-50%, -50%);
   pointer-events: none;
   background: radial-gradient(circle, #ffffff 0%, rgba(255,255,255,0.55) 22%, transparent 55%);
