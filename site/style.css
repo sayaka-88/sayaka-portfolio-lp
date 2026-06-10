@@ -383,27 +383,29 @@ ul { list-style: none; padding: 0; margin: 0; }
   top: 220px;
   transform: translateY(-50%);
   white-space: nowrap;
-  background: rgba(255, 255, 255, 0.94);
+  background: #ffffff;
   color: #1b3a5b;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.02em;
-  padding: 6px 13px;
+  padding: 7px 14px;
   border-radius: 999px;
-  box-shadow: 0 4px 14px rgba(0, 30, 60, 0.18);
+  box-shadow: 0 6px 16px rgba(0, 30, 60, 0.18);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s var(--ease-out);
 }
+/* しっぽ：本体と同じ白の回転四角形をピルにめり込ませ、滑らかに繋ぐ */
 .lure-hint::after {
   content: '';
   position: absolute;
-  right: -5px;
+  right: 1px;
   top: 50%;
-  transform: translateY(-50%);
-  border: 5px solid transparent;
-  border-left-color: rgba(255, 255, 255, 0.94);
-  border-right: 0;
+  width: 11px;
+  height: 11px;
+  background: #ffffff;
+  transform: translate(50%, -50%) rotate(45deg);
+  border-radius: 2px;
 }
 .lure-trail.is-catchable .lure-hint { opacity: 1; animation: hintBob 1.8s ease-in-out infinite; }
 .lure-trail.is-reeling .lure-hint { opacity: 0; }
