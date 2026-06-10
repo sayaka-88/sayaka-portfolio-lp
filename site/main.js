@@ -9,7 +9,13 @@ function sayakaInit() {
   // （付かない＝JS不達時は、下のCSSフォールバックでテキストを最初から表示する）
   document.documentElement.classList.add('js');
 
+  // ---- 安全ラッパー：各セットアップを独立して実行する ----
+  // 1つのブロックで例外が出ても、他のブロック（特に文字アニメ）は動き続ける。
+  // ＝「どこかを直してミスっても、全部が道連れで真っ白」を防ぐ仕切り。
+  const safe = (label, fn) => { try { fn(); } catch (e) { console.error('[init:' + label + ']', e); } };
+
   // ---- ハンバーガーメニュー ----
+  safe('menu', () => {
   const menuToggle = document.querySelector('.menu-toggle');
   const mobileMenu = document.querySelector('.mobile-menu');
   if (menuToggle && mobileMenu) {
@@ -30,6 +36,7 @@ function sayakaInit() {
       a.addEventListener('click', () => setOpen(false));
     });
   }
+  });
 
   const trail      = document.querySelector('.lure-trail');
   const lure       = document.querySelector('.trail-lure');
@@ -183,11 +190,13 @@ function sayakaInit() {
     }
   });
 
+  safe('cast-trigger', () => {
   ScrollTrigger.create({
     trigger: '.hero',
     start: 'bottom 80%',
     once: true,
     onEnter: playCast
+  });
   });
 
   // ============================================================
@@ -274,11 +283,13 @@ function sayakaInit() {
   const creatureEls = [...document.querySelectorAll(
     '.fish-school .fish, .anglerfish, .deep-decor img, .prelude-floater.pf-duck, .sf-shell, .sf-shell-2, .space-crown, .sf-girl-donut'
   )];
+  safe('creatures-setup', () => {
   creatureEls.forEach(el => {
     let key = (el.getAttribute('src') || '').split('/').pop();
     if (key === 'deep-jellyfish-small.png') key = 'deep-jellyfish.png'; // 小クラゲもクラゲ扱い
     el.dataset.creature = key;
     el.classList.add('caughtable');
+  });
   });
   const applyCaughtCreatures = () => {
     creatureEls.forEach(el => {
@@ -300,8 +311,10 @@ function sayakaInit() {
       countEl.classList.add('bump');
     }
   };
-  if (countNumEl) countNumEl.textContent = catchCount; // 保存済みの釣果を反映
-  applyCaughtCreatures(); // 読み込み時：すでに釣った生き物は消えた状態にする
+  safe('creatures-apply', () => {
+    if (countNumEl) countNumEl.textContent = catchCount; // 保存済みの釣果を反映
+    applyCaughtCreatures(); // 読み込み時：すでに釣った生き物は消えた状態にする
+  });
 
   // ===== 釣果コレクション（履歴パネル）=====
   const historyEl   = document.querySelector('.catch-history');
@@ -616,9 +629,10 @@ function sayakaInit() {
     }
   };
 
-  if (lure) lure.addEventListener('click', startCatch);
+  safe('lure-click', () => { if (lure) lure.addEventListener('click', startCatch); });
 
   // ---- ルアー＋糸: scroll進捗で落ちていく ＋ 着水splashトリガー ----
+  safe('lure-scroll', () => {
   if (trail && lure && line && rodWrap && narrative) {
     const surfaceStage = document.querySelector('.stage-surface');
 
@@ -664,29 +678,37 @@ function sayakaInit() {
       }
     });
   }
+  });
 
   // リサイズ時にも糸の描画を更新
+  safe('resize-line', () => {
   window.addEventListener('resize', () => { if (castDone) updateVerticalLine(); });
+  });
 
   // ---- Stage 0: 前奏文字 ----
+  safe('stage0-prelude', () => {
   gsap.utils.toArray('.stage-text-prelude .lead').forEach((el, i) => {
     gsap.to(el, {
       opacity: 1, y: 0, duration: 1.0, ease: 'power3.out', delay: i * 0.25,
       scrollTrigger: { trigger: el, start: 'top 80%', toggleActions: 'play none none reverse' }
     });
   });
+  });
 
   // splash は↑のonUpdateでルアー着水時に triggerSplash() を呼ぶ方式に統合
 
   // ---- Stage 1: 挨拶 ----
+  safe('stage1-greeting', () => {
   gsap.timeline({
     scrollTrigger: { trigger: '.stage-text-surface', start: 'top 75%', toggleActions: 'play none none reverse' }
   })
     .to('.greeting', { opacity: 1, y: 0, duration: 1.0, ease: 'power3.out' })
     .to('.role',      { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.5')
     .to('.info-line', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', stagger: 0.18 }, '-=0.4');
+  });
 
   // ---- Stage 2: 海中 ----
+  safe('stage2-undersea', () => {
   gsap.to('.undersea-lead', {
     opacity: 1, y: 0, duration: 1.1, ease: 'power3.out',
     scrollTrigger: { trigger: '.stage-undersea', start: 'top 60%', toggleActions: 'play none none reverse' }
@@ -701,28 +723,36 @@ function sayakaInit() {
     opacity: 1, y: 0, duration: 1.0, ease: 'power3.out',
     scrollTrigger: { trigger: '.genre-note', start: 'top 92%', toggleActions: 'play none none reverse' }
   });
+  });
 
   // ---- Stage 3: 深海 ----
+  safe('stage3-deep', () => {
   gsap.utils.toArray('.deep-step').forEach((el, i) => {
     gsap.to(el, {
       opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', delay: i * 0.18,
       scrollTrigger: { trigger: '.stage-deep', start: 'top 65%', toggleActions: 'play none none reverse' }
     });
   });
+  });
 
   // ---- Stage 4: 宇宙 ----
+  safe('stage4-space', () => {
   gsap.to('.space-lead', {
     opacity: 1, y: 0, duration: 1.0, ease: 'power3.out',
     scrollTrigger: { trigger: '.stage-space', start: 'top 55%', toggleActions: 'play none none reverse' }
   });
+  });
 
   // ---- Stage 5: Voice ----
+  safe('stage5-voice', () => {
   gsap.timeline({
     scrollTrigger: { trigger: '.stage-dawn', start: 'top 60%', toggleActions: 'play none none reverse' }
   })
     .to('.voice-row', { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', stagger: 0.25 });
+  });
 
   // ---- Stage 6: 着水 ----
+  safe('stage6-landing', () => {
   gsap.timeline({
     scrollTrigger: { trigger: '.stage-landing', start: 'top 70%', toggleActions: 'play none none reverse' }
   })
@@ -730,8 +760,10 @@ function sayakaInit() {
     .to('.landing-cta',      { opacity: 1, y: 0, duration: 1.0, ease: 'power3.out' }, '-=0.4')
     .to('.landing-cta-sub',  { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.6')
     .to('.contact-form',     { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }, '-=0.4');
+  });
 
   // ---- お問い合わせフォーム送信 ----
+  safe('contact-form', () => {
   const contactForm = document.querySelector('#contact-form');
   if (contactForm) {
     const statusEl = contactForm.querySelector('.form-status');
@@ -800,6 +832,7 @@ function sayakaInit() {
       }
     });
   }
+  });
 
 }
 
