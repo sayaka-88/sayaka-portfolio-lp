@@ -137,9 +137,7 @@
     <span class="scroll-prompt-text">Scroll</span>
     <span class="scroll-prompt-arrow"></span>
   </div>
-  <svg class="wave-divider" viewBox="0 0 1200 80" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M0,40 Q40,15 80,40 T160,40 T240,40 T320,40 T400,40 T480,40 T560,40 T640,40 T720,40 T800,40 T880,40 T960,40 T1040,40 T1120,40 T1200,40 L1200,80 L0,80 Z" fill="#FFF8E0"/>
-  </svg>
+  <div class="wave-divider" style="--wave-color:#93CFD0" aria-hidden="true"></div>
 </section>
 
 <!-- Scroll Narrative -->
@@ -164,9 +162,7 @@
     <!-- 波の上にぷかぷか：椰子の木の島とアヒル（z-index < wave で下半分が水色塗りに隠れる） -->
     <img class="prelude-floater pf-palm" src="assets/img/sea-palm-island.png" alt="" aria-hidden="true">
     <img class="prelude-floater pf-duck" src="assets/img/sea-duck.png" alt="" aria-hidden="true">
-    <svg class="wave-divider" viewBox="0 0 1200 80" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0,40 Q40,15 80,40 T160,40 T240,40 T320,40 T400,40 T480,40 T560,40 T640,40 T720,40 T800,40 T880,40 T960,40 T1040,40 T1120,40 T1200,40 L1200,80 L0,80 Z" fill="#C5E4F2"/>
-    </svg>
+    <div class="wave-divider" style="--wave-color:#C5E4F2" aria-hidden="true"></div>
   </section>
 
   <!-- Stage 1: Sea Surface -->
@@ -217,9 +213,7 @@
         <span>AI × デザイン、新しい風を</span>
       </p>
     </div>
-    <svg class="wave-divider" viewBox="0 0 1200 80" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0,40 Q40,15 80,40 T160,40 T240,40 T320,40 T400,40 T480,40 T560,40 T640,40 T720,40 T800,40 T880,40 T960,40 T1040,40 T1120,40 T1200,40 L1200,80 L0,80 Z" fill="#2C78AE"/>
-    </svg>
+    <div class="wave-divider" style="--wave-color:#2C78AE" aria-hidden="true"></div>
   </section>
 
   <!-- Stage 2: 海中 (魚5匹 + ジャンル名縦1列) -->
@@ -267,17 +261,13 @@
       </a>
       <p class="genre-pinterest-note">※掲載できるもののみ掲載しております。</p>
     </div>
-    <svg class="wave-divider" viewBox="0 0 1200 80" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0,40 Q40,15 80,40 T160,40 T240,40 T320,40 T400,40 T480,40 T560,40 T640,40 T720,40 T800,40 T880,40 T960,40 T1040,40 T1120,40 T1200,40 L1200,80 L0,80 Z" fill="#0F3A66"/>
-    </svg>
+    <div class="wave-divider" style="--wave-color:#0F3A66" aria-hidden="true"></div>
   </section>
 
   <!-- Stage 3: 深海 (アンコウ) -->
   <section class="stage stage-deep" data-stage="3">
-    <!-- アンコウのライトコーン（ルアー光から前方に照射） -->
+    <!-- アンコウのライトコーン（触覚の玉から下を照らす光のみ）。位置はアンコウのCSS変数から計算して玉に固定 -->
     <div class="angler-light-cone" aria-hidden="true"></div>
-    <div class="angler-light-bulb" aria-hidden="true"></div>
-    <div class="anglerlight" aria-hidden="true"></div>
     <img class="anglerfish" src="assets/img/anglerfish.png" alt="" aria-hidden="true">
 
     <!-- 深海の泡（下から上に上がる） -->
@@ -413,9 +403,7 @@
         </li>
       </ol>
     </div>
-    <svg class="wave-divider" viewBox="0 0 1200 80" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0,40 Q40,15 80,40 T160,40 T240,40 T320,40 T400,40 T480,40 T560,40 T640,40 T720,40 T800,40 T880,40 T960,40 T1040,40 T1120,40 T1200,40 L1200,80 L0,80 Z" fill="#0A1530"/>
-    </svg>
+    <div class="wave-divider" style="--wave-color:#0A1530" aria-hidden="true"></div>
   </section>
 
   <!-- Stage 4: 宇宙 (新アセット + 顔つき月 + 塊魂風★) -->
@@ -536,9 +524,7 @@
       </p>
       <p class="works-disclaimer">※順不同・敬称略 / 掲載可能な実績の一部</p>
     </div>
-    <svg class="wave-divider" viewBox="0 0 1200 80" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0,40 Q40,15 80,40 T160,40 T240,40 T320,40 T400,40 T480,40 T560,40 T640,40 T720,40 T800,40 T880,40 T960,40 T1040,40 T1120,40 T1200,40 L1200,80 L0,80 Z" fill="#B19CD9"/>
-    </svg>
+    <div class="wave-divider" style="--wave-color:#B19CD9" aria-hidden="true"></div>
   </section>
 
   <!-- Stage 5: Voice -->
@@ -575,9 +561,7 @@
         </li>
       </ul>
     </div>
-    <svg class="wave-divider" viewBox="0 0 1200 80" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0,40 Q40,15 80,40 T160,40 T240,40 T320,40 T400,40 T480,40 T560,40 T640,40 T720,40 T800,40 T880,40 T960,40 T1040,40 T1120,40 T1200,40 L1200,80 L0,80 Z" fill="#BEEEFE"/>
-    </svg>
+    <div class="wave-divider" style="--wave-color:#BEEEFE" aria-hidden="true"></div>
   </section>
 
   <!-- Stage 6: 地上 -->

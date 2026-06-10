@@ -81,7 +81,7 @@ function sayakaInit() {
   const siteHeaderEl = document.querySelector('.site-header');
   const getLineTopY = () => {
     const b = siteHeaderEl ? siteHeaderEl.getBoundingClientRect().bottom : 64;
-    return b + 22; // ヘッダー波（22px）の下端あたり
+    return b + 24; // ヘッダー波（24px）の下端あたり
   };
 
   // 垂直線（ヘッダー波の下→ルアー現在位置）

@@ -73,9 +73,9 @@
   .dawn-cloud-pastel-1, .dawn-cloud-pastel-2, .dawn-sun-decorated, .dawn-shootingstar { display: none; }
   .ld-cloud-1, .ld-cloud-2 { display: none; }
 
-  /* 海面：浮き輪の女の子は下、ビーチボールは上に配置 */
-  .sf-girl-donut { top: auto; bottom: 6%; right: 4%; left: auto; width: 110px; height: 110px; }
-  .sf-beachball { top: 6%; left: 6%; right: auto; width: 56px; height: 56px; }
+  /* 海面：PCと左右を揃える（女の子＝左下／ボール＝右上）。逆サイドにしない */
+  .sf-girl-donut { top: auto; bottom: 6%; left: 4%; right: auto; width: 110px; height: 110px; }
+  .sf-beachball { top: 6%; right: 6%; left: auto; width: 56px; height: 56px; }
   .sf-shell, .sf-shell-2 { display: none; }
 
   /* 海中：上の空きすぎを縮小 */
@@ -129,10 +129,10 @@ ul { list-style: none; padding: 0; margin: 0; }
   position: absolute;
   left: 0; right: 0;
   top: 100%;
-  height: 22px;
-  /* 1周期ぴったりのタイル(44px)を継ぎ目なく繰り返す均一なサイン波 */
-  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='22' viewBox='0 0 44 22' preserveAspectRatio='none'%3E%3Cpath d='M0,0 L44,0 L44,14 Q33,20 22,14 T0,14 Z' fill='%238FCEDB'/%3E%3C/svg%3E");
-  background-size: 44px 100%;
+  height: 24px;
+  /* セクションの波と同じ中サイズ（周期60px・振幅18px）。継ぎ目なく繰り返す */
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='24' viewBox='0 0 60 24' preserveAspectRatio='none'%3E%3Cpath d='M0,0 L60,0 L60,12 Q45,21 30,12 T0,12 Z' fill='%238FCEDB'/%3E%3C/svg%3E");
+  background-size: 60px 24px;
   background-repeat: repeat-x;
   pointer-events: none;
 }
@@ -939,10 +939,10 @@ ul { list-style: none; padding: 0; margin: 0; }
 }
 
 @media (max-width: 720px) {
-  .sf-girl-donut { width: 110px; height: 110px; top: auto; bottom: 6%; right: 4%; left: auto; }
+  .sf-girl-donut { width: 110px; height: 110px; top: auto; bottom: 6%; left: 4%; right: auto; }
   .sf-duck       { width: 60px;  height: 55px; }
   .sf-palm-island{ width: 100px; height: 100px; top: 68%; right: 3%; }
-  .sf-beachball  { width: 56px;  height: 56px; top: 6%; left: 6%; right: auto; }
+  .sf-beachball  { width: 56px;  height: 56px; top: 6%; right: 6%; left: auto; }
   .sf-shell, .sf-shell-2 { display: none; }
 }
 @keyframes sunSpin {
@@ -1061,7 +1061,7 @@ ul { list-style: none; padding: 0; margin: 0; }
 }
 
 /* 各stageのベタ塗り背景色 */
-.stage-prelude  { background: linear-gradient(180deg, #FFF8E0 0%, #FFE8A8 50%, #F2C078 100%); }
+.stage-prelude  { background: linear-gradient(180deg, #93CFD0 0%, #C9E2A6 40%, #F6D585 72%, #FBE8AE 100%); }
 .stage-surface  { background: linear-gradient(180deg, #C5E4F2 0%, #8BC3DC 50%, #4FA0C4 100%); }
 .stage-undersea { background: linear-gradient(180deg, #2C78AE 0%, #1F5E92 50%, #134577 100%); }
 .stage-deep     { background: linear-gradient(180deg, #0F3A66 0%, #0A2A4E 50%, #061B36 100%); }
@@ -1115,7 +1115,9 @@ ul { list-style: none; padding: 0; margin: 0; }
   .cloud-layer.-near img { width: 165px; margin-right: 280px; }
 }
 
-/* 波々のセクション分割ライン (各stageの末尾、次のstageの色で塗る) */
+/* 波々のセクション分割ライン (各stageの末尾、次のstageの色で塗る)
+   各 div の style="--wave-color:#xxx" で色指定。形はヘッダー波と同じ中サイズ
+   （周期60px・振幅18px）のマスクで統一。固定周期なので画面幅で伸縮しない。 */
 .wave-divider {
   position: absolute;
   left: 0;
@@ -1124,6 +1126,9 @@ ul { list-style: none; padding: 0; margin: 0; }
   height: 80px;
   z-index: 5;
   pointer-events: none;
+  background-color: var(--wave-color, #C5E4F2);
+  -webkit-mask: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='80' viewBox='0 0 60 80' preserveAspectRatio='none'%3E%3Cpath d='M0,40 Q15,31 30,40 T60,40 L60,80 L0,80 Z' fill='white'/%3E%3C/svg%3E") 0 100% / 60px 80px repeat-x;
+          mask: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='80' viewBox='0 0 60 80' preserveAspectRatio='none'%3E%3Cpath d='M0,40 Q15,31 30,40 T60,40 L60,80 L0,80 Z' fill='white'/%3E%3C/svg%3E") 0 100% / 60px 80px repeat-x;
 }
 
 @media (max-width: 720px) {
@@ -1492,36 +1497,27 @@ ul { list-style: none; padding: 0; margin: 0; }
 }
 
 /* Stage 3: 深海 (アンコウ) */
-.stage-deep { min-height: 120vh; position: relative; }
-
-/* アンコウのルアー光：アンコウの黄色い球の位置を中心に */
-.angler-light-bulb {
-  position: absolute;
-  top: 100px; right: 21%;
-  width: 70px; height: 70px;
-  background: radial-gradient(circle,
-    rgba(255, 250, 220, 1) 0%,
-    rgba(255, 235, 150, 0.85) 25%,
-    rgba(255, 220, 100, 0.5) 50%,
-    rgba(255, 200, 60, 0.2) 75%,
-    transparent 100%);
-  border-radius: 50%;
-  filter: blur(3px);
-  pointer-events: none;
-  z-index: 3;
-  transform: translate(50%, -50%);
-  animation: anglerBulbPulse 2.4s ease-in-out infinite;
-}
-@keyframes anglerBulbPulse {
-  0%, 100% { opacity: 0.85; transform: translate(50%, -50%) scale(1); }
-  50%      { opacity: 1;    transform: translate(50%, -50%) scale(1.12); }
+/* アンコウの位置・サイズは変数で一元管理。光コーンも同じ変数から計算するので
+   レスポンシブで変数を差し替えるだけで、光が触覚の玉から絶対にズレない。
+   玉(触覚の先)はアンコウ画像の左上＝幅12% / 高さ16% の位置。 */
+.stage-deep {
+  min-height: 120vh;
+  position: relative;
+  --angler-w: 320px;   /* アンコウの幅＝高さ */
+  --angler-top: 30px;  /* 上端 */
+  --angler-right: 2%;  /* 右端 */
+  /* 触覚の玉の位置（右端・上端からのオフセット） */
+  --bulb-right: calc(var(--angler-right) + var(--angler-w) * 0.84);
+  --bulb-top:   calc(var(--angler-top)   + var(--angler-w) * 0.16);
 }
 
-/* アンコウのライトコーン：ルアー球から左下に広がる扇形の光（apex = ルアー位置） */
+/* アンコウのライトコーン：触覚の玉(apex=右上)から下へ広がる扇形の光だけ */
 .angler-light-cone {
   position: absolute;
-  top: 135px; right: calc(21% + 35px);
-  width: 1100px; height: 1400px;
+  top: var(--bulb-top);
+  right: var(--bulb-right);
+  width:  calc(var(--angler-w) * 3.4);
+  height: calc(var(--angler-w) * 4.4);
   background: linear-gradient(210deg,
     rgba(255, 235, 140, 0.55) 0%,
     rgba(255, 230, 120, 0.28) 15%,
@@ -1533,34 +1529,19 @@ ul { list-style: none; padding: 0; margin: 0; }
   pointer-events: none;
   z-index: 1;
   animation: anglerConePulse 4.5s ease-in-out infinite;
-  transform-origin: 100% 0%;
+  transform-origin: 100% 0%; /* apex(玉)を基点にゆらぐ */
 }
 @keyframes anglerConePulse {
   0%, 100% { opacity: 0.7;  transform: scale(1); }
   50%      { opacity: 0.95; transform: scale(1.04); }
 }
 
-/* 既存の柔らかい全体グロー（ルアー位置を中心に） */
-.anglerlight {
-  position: absolute;
-  top: 100px; right: 21%;
-  width: 600px; height: 600px;
-  transform: translate(50%, -50%);
-  background: radial-gradient(circle, rgba(255, 230, 102, 0.35) 0%, rgba(255, 230, 102, 0.14) 30%, rgba(255, 230, 102, 0.04) 55%, transparent 80%);
-  pointer-events: none;
-  z-index: 1;
-  animation: anglerPulse 4s var(--ease-soft) infinite;
-}
-@keyframes anglerPulse {
-  0%, 100% { opacity: 0.55; transform: translate(50%, -50%) scale(1); }
-  50%      { opacity: 0.85; transform: translate(50%, -50%) scale(1.06); }
-}
-
 .anglerfish {
   position: absolute;
-  top: 30px; right: 2%;
-  width: 320px;
-  height: 320px;
+  top: var(--angler-top);
+  right: var(--angler-right);
+  width:  var(--angler-w);
+  height: var(--angler-w);
   object-fit: contain;
   pointer-events: none;
   z-index: 4;
@@ -1571,9 +1552,10 @@ ul { list-style: none; padding: 0; margin: 0; }
   0%, 100% { transform: translateY(0) rotate(-1deg); }
   50%      { transform: translateY(-6px) rotate(1deg); }
 }
-/* iPad / タブレット幅：アンコウを小さくして右上の角に寄せ、タイムラインのテキストに被らせない */
+/* iPad / タブレット幅：アンコウを小さくして右上の角に寄せ、タイムラインのテキストに被らせない
+   変数だけ差し替え → 光コーンも玉に固定されたまま追従 */
 @media (min-width: 721px) and (max-width: 1024px) {
-  .anglerfish { width: 150px; height: 150px; top: 8px; right: 6px; }
+  .stage-deep { --angler-w: 150px; --angler-top: 8px; --angler-right: 6px; }
 }
 .stage-text-deep {
   color: #FFFFFF;
@@ -1732,11 +1714,8 @@ ul { list-style: none; padding: 0; margin: 0; }
   }
 }
 @media (max-width: 720px) {
-  .anglerfish { width: 140px; height: 140px; right: -10px; top: 12px; }
-  /* アンコウ画像のルアー球位置に固定px値で揃える（ビューポート幅に依存しない） */
-  .anglerlight       { width: 240px; height: 240px; right: 0px;   top: 42px; }
-  .angler-light-cone { width: 320px; height: 600px; right: 20px;  top: 42px; }
-  .angler-light-bulb { width: 38px;  height: 38px;  right: 1px;   top: 23px; }
+  /* 変数だけ差し替え → 光コーンも玉に固定されたまま追従（個別指定でズレない） */
+  .stage-deep { --angler-w: 140px; --angler-top: 12px; --angler-right: -10px; }
 }
 
 /* === 深海ステージ：新アセット 3レイヤー === */
