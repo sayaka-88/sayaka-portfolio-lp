@@ -823,6 +823,34 @@ ul { list-style: none; padding: 0; margin: 0; }
 }
 .prelude-sky img[class*="sky-"] { position: absolute; object-fit: contain; }
 
+/* 朝日：中央・水平線あたりから昇る光るまるい太陽（floaterと同じ下の高さ／文字の後ろ） */
+.prelude-sunrise {
+  position: absolute;
+  left: 50%;
+  bottom: 3%;
+  transform: translateX(-50%);
+  width: 210px;
+  height: 210px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(255, 255, 252, 1)   0%,
+    rgba(255, 246, 206, 0.96) 15%,
+    rgba(255, 220, 138, 0.72) 34%,
+    rgba(255, 198, 104, 0.36) 56%,
+    rgba(255, 182, 92, 0.12)  74%,
+    transparent 86%);
+  pointer-events: none;
+  z-index: 2; /* 空の装飾より前・floater(z3)と文字(z4)より後ろ */
+  animation: sunriseGlow 5s ease-in-out infinite;
+}
+@keyframes sunriseGlow {
+  0%, 100% { opacity: 0.9; transform: translateX(-50%) scale(1); }
+  50%      { opacity: 1;   transform: translateX(-50%) scale(1.05); }
+}
+@media (max-width: 720px) {
+  .prelude-sunrise { width: 140px; height: 140px; bottom: 2%; }
+}
+
 /* 手前 */
 .sky-fg { z-index: 3; opacity: 1; filter: drop-shadow(0 6px 12px rgba(40, 80, 130, 0.18)); }
 .sky-seagull         { top: 24%; right: -120px; width: 110px; height: 80px; animation: birdFly 18s linear infinite; }
