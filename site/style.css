@@ -827,7 +827,7 @@ ul { list-style: none; padding: 0; margin: 0; }
 .prelude-sunrise {
   position: absolute;
   left: 50%;
-  bottom: -105px; /* 中心(フラットな縁)を水平線より少し上に。下半分は隠す */
+  bottom: -110px; /* 中心を波のライン付近に。下半分は波(青/z5)の後ろに潜って隠れる＝スキマなし */
   transform: translateX(-50%);
   width: 300px;
   height: 300px;
@@ -839,7 +839,6 @@ ul { list-style: none; padding: 0; margin: 0; }
     rgba(255, 198, 104, 0.36) 56%,
     rgba(255, 182, 92, 0.12)  74%,
     transparent 86%);
-  clip-path: inset(0 0 50% 0); /* 上半分だけ表示＝水平線から昇る朝日 */
   pointer-events: none;
   z-index: 2; /* 空の装飾より前・floater(z3)と文字(z4)より後ろ */
   animation: sunriseGlow 5s ease-in-out infinite;
@@ -849,7 +848,7 @@ ul { list-style: none; padding: 0; margin: 0; }
   50%      { opacity: 1;   transform: translateX(-50%) scale(1.05); }
 }
 @media (max-width: 720px) {
-  .prelude-sunrise { width: 200px; height: 200px; bottom: -72px; }
+  .prelude-sunrise { width: 200px; height: 200px; bottom: -60px; }
 }
 
 /* 手前 */
