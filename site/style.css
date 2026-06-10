@@ -1066,7 +1066,7 @@ ul { list-style: none; padding: 0; margin: 0; }
 .stage-deep     { background: linear-gradient(180deg, #0F3A66 0%, #0A2A4E 50%, #061B36 100%); }
 .stage-space    { background: linear-gradient(180deg, #0A1530 0%, #1A2347 30%, #2C2858 65%, #5A3D7A 100%); }
 .stage-dawn     { background: linear-gradient(180deg, #B19CD9 0%, #FF8FA3 30%, #FFA47A 65%, #FFD580 100%); }
-.stage-landing  { background: linear-gradient(180deg, #FFD580 0%, #FFE8A8 20%, #BEEEFE 60%, #F0FAFF 100%); }
+.stage-landing  { background: linear-gradient(180deg, #BEEEFE 0%, #D5F2FD 35%, #EAF8FF 70%, #FFFFFF 100%); }
 
 /* 奥行きのある雲が横に流れるバンド（landing上部の空） */
 .cloud-band {
