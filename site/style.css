@@ -2347,10 +2347,10 @@ ul { list-style: none; padding: 0; margin: 0; }
 /* 釣れる素材（ボイス＝朝の空ゾーン）：それぞれの動き。釣ると消える */
 /* オウム：右向き → パタパタ羽ばたきながら右へ飛ぶ */
 .dawn-parrot   { top: 12%; left: -200px; right: auto; width: 120px; height: 108px; animation: birdFlyRight 24s linear infinite; }
-/* 絨毯の女の子：浮き輪の女の子(さやか)と同じく、その場でふわふわ */
-.dawn-carpet   { top: 16%; right: 13%; left: auto; width: 150px; height: 122px; animation: floatBob 5s var(--ease-soft) infinite; }
-/* 紙飛行機：右向き(機首が進行方向) → パタパタ揺れながら滑空して右へ */
-.dawn-plane    { top: 22%; left: -180px; right: auto; width: 96px;  height: 63px;  animation: planeGlide 14s linear infinite; }
+/* 絨毯の女の子：左の雲の位置で、その場でふわふわ（大きめ） */
+.dawn-carpet   { top: 14%; left: 6%; right: auto; width: 210px; height: 171px; animation: floatBob 5s var(--ease-soft) infinite; }
+/* 紙飛行機：移動はやめて、その場でふわふわ */
+.dawn-plane    { top: 22%; right: 30%; left: auto; width: 96px;  height: 63px;  animation: floatBob 5.5s var(--ease-soft) infinite .4s; }
 /* チョウチョ：ひらひら（ふわふわ） */
 .dawn-butterfly{ top: 30%; right: 15%; left: auto; width: 78px; height: 69px; animation: butterflyFlutter 6s ease-in-out infinite; }
 /* チョコミントアイス：ふわふわ浮かぶ */
@@ -2392,8 +2392,8 @@ ul { list-style: none; padding: 0; margin: 0; }
 }
 @media (max-width: 720px) {
   .dawn-parrot   { width: 76px;  height: 68px; top: 9%; }
-  .dawn-carpet   { width: 96px;  height: 78px; top: 14%; }
-  .dawn-plane    { width: 62px;  height: 41px; top: 20%; }
+  .dawn-carpet   { width: 130px; height: 106px; top: 12%; left: 4%; }
+  .dawn-plane    { width: 62px;  height: 41px; top: 20%; right: 26%; }
   .dawn-butterfly{ width: 52px;  height: 46px; top: 24%; right: 8%; }
   .dawn-ice      { width: 36px;  height: 73px; top: 32%; left: 6%; }
 }
