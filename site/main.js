@@ -243,6 +243,7 @@ function sayakaInit() {
 
     { img: 'sea-tuna.png',           name: 'マグロ',             emoji: '🐟', rank: 'A',  zone: 'undersea', size: [100, 300],   desc: '海を高速で泳ぎ続ける回遊魚の王者。力強い引きが自慢。' },
     { img: 'sea-dolphin.png',        name: 'イルカ',             emoji: '🐬', rank: 'A',  zone: 'undersea', size: [150, 400],   desc: '賢くて人なつっこい海の人気者。ジャンプが得意。' },
+    { img: 'sea-turtle.png',         name: 'ウミガメ',           emoji: '🐢', rank: 'A',  zone: 'undersea', size: [40, 120],    desc: 'のんびり海を泳ぐウミガメ。ながーく生きる海の長老。' },
     { img: 'anglerfish.png',         name: 'アンコウ',           emoji: '🎣', rank: 'A',  zone: 'deep',    size: [40, 150],    desc: '深海で頭の光をともし、獲物をじっと待ちぶせる。' },
     { img: 'deep-pearl-1.png',       name: '真珠',               emoji: '🫧', rank: 'A',  zone: 'deep',    size: [1, 3],       desc: '小さくても上品な海の宝石。やさしい光をたたえる。' },
     { img: 'deep-crystal.png',       name: 'クリスタル',         emoji: '🔮', rank: 'A',  zone: 'deep',    size: [5, 16],      desc: '神秘的な光をたたえた水晶。眺めていると吸い込まれそう。' },
@@ -273,14 +274,20 @@ function sayakaInit() {
     { img: 'space-macaron-yellow.png', name: 'マカロン',           emoji: '🟡', rank: 'C',  zone: 'space',   size: [3, 6],       desc: '宇宙に浮かぶ甘いお菓子。ふんわり食感。' },
     { img: 'space-lollipop-spiral.png',name: 'ペロペロキャンディ', emoji: '🍭', rank: 'C',  zone: 'space',   size: [8, 15],      desc: 'くるくる模様の甘いキャンディ。' },
 
+    // ▼「釣りしませんか」（水面の上）ゾーン
+    { img: 'flyingfish.png',           name: '飛魚',               emoji: '🐟', rank: 'A',  zone: 'prelude', size: [20, 40],     desc: '水面をスイーッと飛ぶように泳ぐ魚。ジャンプが得意。' },
+
     // ▼ ボイス（朝の空）ゾーンの追加アイテム
-    { img: 'sky-seagull.png',          name: 'カモメ',             emoji: '🐦', rank: 'S',  zone: 'dawn',    size: [40, 60],     desc: '朝の海を見にきたカモメ。すばしっこくてなかなか釣れない。' },
-    { img: 'sky-sun-pink.png',         name: 'ちいさな太陽',       emoji: '🌸', rank: 'B',  zone: 'dawn',                    desc: 'ぽかぽか暖かい、朝のちいさな太陽。' },
-    { img: 'sky-icecream.png',         name: 'アイスクリーム',     emoji: '🍦', rank: 'C',  zone: 'dawn',    size: [8, 15],      desc: '空に浮かぶ甘いごほうび。溶ける前にどうぞ。' },
+    { img: 'carpet-girl.png',          name: '絨毯の女の子',       emoji: '🪄', rank: 'SS', zone: 'dawn',                    desc: '魔法のじゅうたんで空をかける女の子。自由に飛びまわる。' },
+    { img: 'parrot.png',               name: 'オウム',             emoji: '🦜', rank: 'S',  zone: 'dawn',    size: [25, 40],     desc: '色あざやかなオウム。元気いっぱい空を飛びまわる。' },
+    { img: 'paper-plane.png',          name: '紙飛行機',           emoji: '✈️', rank: 'A',  zone: 'dawn',    size: [15, 30],     desc: 'ヒュンッと空をかける紙飛行機。だれが飛ばしたのかな。' },
+    { img: 'butterfly.png',            name: 'チョウチョ',         emoji: '🦋', rank: 'B',  zone: 'dawn',    size: [3, 8],       desc: 'ひらひら舞う、朝の蝶。' },
+    { img: 'ice-chocomint.png',        name: 'チョコミントアイス', emoji: '🍦', rank: 'C',  zone: 'dawn',    size: [8, 15],      desc: '空に浮かぶチョコミントアイス。さわやかな甘さ。' },
   ];
 
   // いま釣れるゾーン＝ルアーの中心がどのセクション上にあるか
   const ZONE_SECTIONS = [
+    ['prelude',  '.stage-prelude'],
     ['surface',  '.stage-surface'],
     ['undersea', '.stage-undersea'],
     ['deep',     '.stage-deep'],
@@ -321,7 +328,7 @@ function sayakaInit() {
 
   // ===== シーンの生き物：釣ったら消える / 海に逃がすと戻る =====
   const creatureEls = [...document.querySelectorAll(
-    '.fish-school .fish, .anglerfish, .deep-decor img, .space-decor img, .dawn-decor img, .prelude-floater.pf-duck, .sf-shell, .sf-shell-2, .sf-girl-donut'
+    '.fish-school .fish, .anglerfish, .deep-decor img, .space-decor img, .dawn-decor img, .prelude-floater.pf-duck, .prelude-floater.pf-flyingfish, .sf-shell, .sf-shell-2, .sf-girl-donut'
   )];
   safe('creatures-setup', () => {
   creatureEls.forEach(el => {
@@ -703,7 +710,7 @@ function sayakaInit() {
         const lureY = startY + (endY - startY) * eased;
 
         scrollLureTop = lureY;
-        canCatch = progress > 0.1; // 海中に入ったら釣れる
+        canCatch = (progress > 0.05) && (currentZone() !== null); // 釣りゾーン上にいる時だけ釣れる
 
         if (isReeling) return; // 巻き上げ中は見た目を動かさない
 
