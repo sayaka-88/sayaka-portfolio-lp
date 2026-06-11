@@ -948,29 +948,25 @@ ul { list-style: none; padding: 0; margin: 0; }
   animation: floatBob 4.5s var(--ease-soft) infinite 0.6s;
   filter: drop-shadow(0 4px 8px rgba(0, 30, 60, 0.18));
 }
-/* 飛魚：左向き → 右から左へ、ぴょんぴょん跳ねながら進む（釣れる） */
+/* 飛魚：アヒル・椰子と同じくその場に。波からピョンッと飛び出して着水する（釣れる） */
 .pf-flyingfish {
-  top: 58%; bottom: auto;
-  right: -220px; left: auto;
+  bottom: 4px; top: auto;
+  left: 16%; right: auto;
   width: 110px; height: 76px;
   z-index: 3;
-  animation: fishLeap 19s linear infinite 3s;
+  animation: fishHop 5.5s ease-in-out infinite 2s;
   filter: drop-shadow(0 4px 8px rgba(0, 30, 60, 0.18));
 }
-/* ぴょんぴょん：左へ進みながら何度も跳ねる弧を描く */
-@keyframes fishLeap {
-  0%   { transform: translate(0, 0) rotate(8deg); }
-  12%  { transform: translate(-12vw, -54px) rotate(-16deg); }
-  25%  { transform: translate(-25vw, 0) rotate(10deg); }
-  37%  { transform: translate(-37vw, -54px) rotate(-16deg); }
-  50%  { transform: translate(-50vw, 0) rotate(10deg); }
-  62%  { transform: translate(-62vw, -54px) rotate(-16deg); }
-  75%  { transform: translate(-75vw, 0) rotate(10deg); }
-  87%  { transform: translate(-87vw, -48px) rotate(-15deg); }
-  100% { transform: translate(calc(-100vw - 300px), 0) rotate(10deg); }
+/* ピョン：ふだんは波の中、ときどき飛び出して弧を描き着水する */
+@keyframes fishHop {
+  0%, 48%   { transform: translateY(22px) rotate(6deg); }   /* 波の中でじっと（下が水色塗りに隠れる） */
+  60%       { transform: translateY(-40px) rotate(-12deg); } /* ピョンッと飛び出す */
+  68%       { transform: translateY(-50px) rotate(-18deg); } /* 頂点 */
+  80%       { transform: translateY(-36px) rotate(-8deg); }
+  92%, 100% { transform: translateY(22px) rotate(6deg); }    /* 着水して波の中へ */
 }
 @media (max-width: 720px) {
-  .pf-flyingfish { width: 74px; height: 51px; top: 54%; }
+  .pf-flyingfish { width: 74px; height: 51px; bottom: 2px; top: auto; left: 10%; }
 }
 @media (max-width: 720px) {
   .pf-palm { width: 110px; height: 110px; right: 3%; }
@@ -1149,7 +1145,7 @@ ul { list-style: none; padding: 0; margin: 0; }
 /* 奥（小さく・淡く・ぼかし・遅い）→ 手前（大きく・濃く・速い）で奥行き */
 /* 横位置(left)を散らし＋速度差をつけて、3つが固まって動かないように */
 .cloud-layer.-far  { top: 28px;  left: -6vw; opacity: 0.5;  filter: blur(1.6px); animation: cloudBandDrift 110s linear infinite; animation-delay: -8s; }
-.cloud-layer.-mid  { top: 120px; left: 32vw; opacity: 0.72; filter: blur(0.7px); animation: cloudBandDrift 72s linear infinite; animation-delay: -50s; }
+.cloud-layer.-mid  { display: none; } /* 雲が多いので1層削除（流れている中層） */
 .cloud-layer.-near { top: 235px; left: 60vw; opacity: 0.92; animation: cloudBandDrift 52s linear infinite; animation-delay: -20s; }
 .cloud-layer.-far  img { width: 130px; margin-right: 1500px; }
 .cloud-layer.-mid  img { width: 185px; margin-right: 1350px; }
@@ -1969,8 +1965,8 @@ ul { list-style: none; padding: 0; margin: 0; }
   opacity: 0.85;
   filter: drop-shadow(0 5px 12px rgba(0, 0, 30, 0.25));
 }
-.space-crown         { top: 16%; right: var(--side-mid);  left: auto;  width: 72px;  height: 72px;  animation: crownBob 6s var(--ease-soft) infinite; }
-.space-moon-rainbow  { top: 58%; left:  calc(50% + 530px); right: auto; width: 100px; height: 100px; animation: planetSpin 16s linear infinite reverse; }
+.space-crown         { top: 36%; right: var(--side-mid);  left: auto;  width: 72px;  height: 72px;  animation: crownBob 6s var(--ease-soft) infinite; }
+.space-moon-rainbow  { top: 70%; left:  calc(50% + 530px); right: auto; width: 100px; height: 100px; animation: planetSpin 16s linear infinite reverse; }
 .space-planet-pink   { top: 24%; left:  var(--side-near); right: auto; width: 110px; height: 88px;  animation: planetSpin 18s linear infinite; }
 .space-planet-striped{ top: 56%; right: var(--side-mid);  left: auto;  width: 86px;  height: 86px;  animation: planetSpin 20s linear infinite reverse; }
 .space-laptop        { bottom: 10%; right: var(--side-near); left: auto; width: 110px; height: 90px;  animation: laptopFloat 7s var(--ease-soft) infinite; }
@@ -2346,11 +2342,11 @@ ul { list-style: none; padding: 0; margin: 0; }
 .dawn-cloud-pastel-1 { bottom: 12%; right: var(--side-near); left: auto; width: 170px; height: 95px; animation: cloudDrift 22s ease-in-out infinite; }
 /* 釣れる素材（ボイス＝朝の空ゾーン）：それぞれの動き。釣ると消える */
 /* オウム：右向き → パタパタ羽ばたきながら右へ飛ぶ */
-.dawn-parrot   { top: 12%; left: -200px; right: auto; width: 120px; height: 108px; animation: birdFlyRight 24s linear infinite; }
-/* 絨毯の女の子：左の雲の位置で、その場でふわふわ（大きめ） */
-.dawn-carpet   { top: 14%; left: 6%; right: auto; width: 210px; height: 171px; animation: floatBob 5s var(--ease-soft) infinite; }
-/* 紙飛行機：移動はやめて、その場でふわふわ */
-.dawn-plane    { top: 22%; right: 30%; left: auto; width: 96px;  height: 63px;  animation: floatBob 5.5s var(--ease-soft) infinite .4s; }
+.dawn-parrot   { display: none; }
+/* 絨毯の女の子：右の雲と同じ高さ（bottom:14%）で、その場でふわふわ（大きめ） */
+.dawn-carpet   { bottom: 14%; top: auto; left: 6%; right: auto; width: 210px; height: 171px; animation: floatBob 5s var(--ease-soft) infinite; }
+/* 紙飛行機：削除（非表示） */
+.dawn-plane    { display: none; }
 /* チョウチョ：ひらひら（ふわふわ） */
 .dawn-butterfly{ top: 30%; right: 15%; left: auto; width: 78px; height: 69px; animation: butterflyFlutter 6s ease-in-out infinite; }
 /* チョコミントアイス：ふわふわ浮かぶ */
@@ -2392,7 +2388,7 @@ ul { list-style: none; padding: 0; margin: 0; }
 }
 @media (max-width: 720px) {
   .dawn-parrot   { width: 76px;  height: 68px; top: 9%; }
-  .dawn-carpet   { width: 130px; height: 106px; top: 12%; left: 4%; }
+  .dawn-carpet   { width: 130px; height: 106px; bottom: 14%; top: auto; left: 4%; }
   .dawn-plane    { width: 62px;  height: 41px; top: 20%; right: 26%; }
   .dawn-butterfly{ width: 52px;  height: 46px; top: 24%; right: 8%; }
   .dawn-ice      { width: 36px;  height: 73px; top: 32%; left: 6%; }

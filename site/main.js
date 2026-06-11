@@ -279,8 +279,6 @@ function sayakaInit() {
 
     // ▼ ボイス（朝の空）ゾーンの追加アイテム
     { img: 'carpet-girl.png',          name: '絨毯の女の子',       emoji: '🪄', rank: 'SS', zone: 'dawn',                    desc: '魔法のじゅうたんで空をかける女の子。自由に飛びまわる。' },
-    { img: 'parrot.png',               name: 'オウム',             emoji: '🦜', rank: 'S',  zone: 'dawn',    size: [25, 40],     desc: '色あざやかなオウム。元気いっぱい空を飛びまわる。' },
-    { img: 'paper-plane.png',          name: '紙飛行機',           emoji: '✈️', rank: 'A',  zone: 'dawn',    size: [15, 30],     desc: 'ヒュンッと空をかける紙飛行機。だれが飛ばしたのかな。' },
     { img: 'butterfly.png',            name: 'チョウチョ',         emoji: '🦋', rank: 'B',  zone: 'dawn',    size: [3, 8],       desc: 'ひらひら舞う、朝の蝶。' },
     { img: 'ice-chocomint.png',        name: 'チョコミントアイス', emoji: '🍦', rank: 'C',  zone: 'dawn',    size: [8, 15],      desc: '空に浮かぶチョコミントアイス。さわやかな甘さ。' },
   ];
