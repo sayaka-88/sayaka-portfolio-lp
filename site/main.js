@@ -272,6 +272,11 @@ function sayakaInit() {
     { img: 'space-laptop.png',         name: 'ノートパソコン',     emoji: '💻', rank: 'B',  zone: 'space',   size: [25, 40],     desc: '宇宙を漂うデザイナーの相棒。どこでもお仕事。' },
     { img: 'space-macaron-yellow.png', name: 'マカロン',           emoji: '🟡', rank: 'C',  zone: 'space',   size: [3, 6],       desc: '宇宙に浮かぶ甘いお菓子。ふんわり食感。' },
     { img: 'space-lollipop-spiral.png',name: 'ペロペロキャンディ', emoji: '🍭', rank: 'C',  zone: 'space',   size: [8, 15],      desc: 'くるくる模様の甘いキャンディ。' },
+
+    // ▼ ボイス（朝の空）ゾーンの追加アイテム
+    { img: 'sky-seagull.png',          name: 'カモメ',             emoji: '🐦', rank: 'S',  zone: 'dawn',    size: [40, 60],     desc: '朝の海を見にきたカモメ。すばしっこくてなかなか釣れない。' },
+    { img: 'sky-sun-pink.png',         name: 'ちいさな太陽',       emoji: '🌸', rank: 'B',  zone: 'dawn',                    desc: 'ぽかぽか暖かい、朝のちいさな太陽。' },
+    { img: 'sky-icecream.png',         name: 'アイスクリーム',     emoji: '🍦', rank: 'C',  zone: 'dawn',    size: [8, 15],      desc: '空に浮かぶ甘いごほうび。溶ける前にどうぞ。' },
   ];
 
   // いま釣れるゾーン＝ルアーの中心がどのセクション上にあるか
@@ -280,6 +285,7 @@ function sayakaInit() {
     ['undersea', '.stage-undersea'],
     ['deep',     '.stage-deep'],
     ['space',    '.stage-space'],
+    ['dawn',     '.stage-dawn'],
   ];
   const currentZone = () => {
     if (!lure) return null;
@@ -315,7 +321,7 @@ function sayakaInit() {
 
   // ===== シーンの生き物：釣ったら消える / 海に逃がすと戻る =====
   const creatureEls = [...document.querySelectorAll(
-    '.fish-school .fish, .anglerfish, .deep-decor img, .space-decor img, .prelude-floater.pf-duck, .sf-shell, .sf-shell-2, .sf-girl-donut'
+    '.fish-school .fish, .anglerfish, .deep-decor img, .space-decor img, .dawn-decor img, .prelude-floater.pf-duck, .sf-shell, .sf-shell-2, .sf-girl-donut'
   )];
   safe('creatures-setup', () => {
   creatureEls.forEach(el => {
