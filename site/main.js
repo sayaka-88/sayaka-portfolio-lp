@@ -262,6 +262,16 @@ function sayakaInit() {
     { img: 'deep-star.png',          name: 'ヒトデ',             emoji: '⭐', rank: 'C',  zone: 'deep',    size: [10, 30],     desc: '海の底でのんびり過ごす星の形のいきもの。' },
     { img: 'treat-cake.png',         name: 'ケーキ',             emoji: '🍰', rank: 'C',  zone: 'surface', size: [10, 25],     desc: '海で見つけた甘い誘惑。だれのお祝いだったのかな？' },
     { img: 'treat-donut.png',        name: 'ドーナツ',           emoji: '🍩', rank: 'C',  zone: 'surface', size: [8, 15],      desc: 'ぷかぷか流れてきた輪っかのおやつ。だれの落としもの？' },
+
+    // ▼ 宇宙ゾーンの追加アイテム
+    { img: 'space-earth.png',          name: '地球',               emoji: '🌍', rank: 'SS', zone: 'space',                   desc: '青く輝く水の惑星。まさかの大物が釣れた…！' },
+    { img: 'space-ufo.png',            name: 'UFO',                emoji: '🛸', rank: 'S',  zone: 'space',   size: [200, 600],   desc: '宇宙をびゅんびゅん飛ぶ円盤。中に誰かいる…？' },
+    { img: 'space-moon-rainbow.png',   name: '虹色の月',           emoji: '🌙', rank: 'A',  zone: 'space',                   desc: '七色にきらめく不思議な月。眺めると願いが叶うかも。' },
+    { img: 'space-planet-saturn.png',  name: '土星',               emoji: '🪐', rank: 'A',  zone: 'space',                   desc: '美しい環をもつ惑星。宇宙のアイドル的存在。' },
+    { img: 'space-planet-pink.png',    name: 'ピンクの惑星',       emoji: '🪐', rank: 'B',  zone: 'space',                   desc: 'ふんわりピンクに輝く、かわいい惑星。' },
+    { img: 'space-laptop.png',         name: 'ノートパソコン',     emoji: '💻', rank: 'B',  zone: 'space',   size: [25, 40],     desc: '宇宙を漂うデザイナーの相棒。どこでもお仕事。' },
+    { img: 'space-macaron-yellow.png', name: 'マカロン',           emoji: '🟡', rank: 'C',  zone: 'space',   size: [3, 6],       desc: '宇宙に浮かぶ甘いお菓子。ふんわり食感。' },
+    { img: 'space-lollipop-spiral.png',name: 'ペロペロキャンディ', emoji: '🍭', rank: 'C',  zone: 'space',   size: [8, 15],      desc: 'くるくる模様の甘いキャンディ。' },
   ];
 
   // いま釣れるゾーン＝ルアーの中心がどのセクション上にあるか
@@ -305,7 +315,7 @@ function sayakaInit() {
 
   // ===== シーンの生き物：釣ったら消える / 海に逃がすと戻る =====
   const creatureEls = [...document.querySelectorAll(
-    '.fish-school .fish, .anglerfish, .deep-decor img, .prelude-floater.pf-duck, .sf-shell, .sf-shell-2, .space-crown, .sf-girl-donut'
+    '.fish-school .fish, .anglerfish, .deep-decor img, .space-decor img, .prelude-floater.pf-duck, .sf-shell, .sf-shell-2, .sf-girl-donut'
   )];
   safe('creatures-setup', () => {
   creatureEls.forEach(el => {
