@@ -20,7 +20,7 @@
   --mizuiro:      #8FCEDB;
   --mizuiro-deep: #6BB8C8;
 
-  --font-jp: 'AXIS Std', 'AxisStd', 'AXIS', 'Noto Sans JP', 'Hiragino Sans', 'YuGothic', sans-serif;
+  --font-jp: 'Jost', 'AXIS Std', 'AxisStd', 'AXIS', 'Noto Sans JP', 'Hiragino Sans', 'YuGothic', sans-serif;
   --font-en: 'Jost', 'Futura', 'Century Gothic', 'Helvetica Neue', sans-serif;
 
   --fs-display: clamp(2.6rem, 6.5vw, 5.0rem);

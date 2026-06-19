@@ -281,6 +281,11 @@ function sayakaInit() {
     { img: 'carpet-girl.png',          name: '絨毯の女の子',       emoji: '🪄', rank: 'SS', zone: 'dawn',                    desc: '魔法のじゅうたんで空をかける女の子。自由に飛びまわる。' },
     { img: 'butterfly.png',            name: 'チョウチョ',         emoji: '🦋', rank: 'B',  zone: 'dawn',    size: [3, 8],       desc: 'ひらひら舞う、朝の蝶。' },
     { img: 'ice-chocomint.png',        name: 'チョコミントアイス', emoji: '🍦', rank: 'C',  zone: 'dawn',    size: [8, 15],      desc: '空に浮かぶチョコミントアイス。さわやかな甘さ。' },
+
+    // ▼ お問い合わせ（地上）ゾーンの追加アイテム
+    { img: 'land-chick-ufo.png',       name: 'ひよこUFO',          emoji: '🐤', rank: 'SS', zone: 'landing',                 desc: 'ひよこが操縦する小さなUFO。地上をのぞきにきたのかな？' },
+    { img: 'land-cat-rainbow.png',     name: '虹色のねこ',         emoji: '🐱', rank: 'S',  zone: 'landing', size: [25, 45],    desc: '虹色のしっぽをもつふしぎな猫。地上でのんびり日向ぼっこ。' },
+    { img: 'bee.png',                  name: 'ハチ',               emoji: '🐝', rank: 'B',  zone: 'landing', size: [1, 3],      desc: 'ブンブン飛び回るはたらきもの。お花の蜜を集めて大忙し。' },
   ];
 
   // いま釣れるゾーン＝ルアーの中心がどのセクション上にあるか
@@ -291,6 +296,7 @@ function sayakaInit() {
     ['deep',     '.stage-deep'],
     ['space',    '.stage-space'],
     ['dawn',     '.stage-dawn'],
+    ['landing',  '.stage-landing'],
   ];
   const currentZone = () => {
     if (!lure) return null;
@@ -326,7 +332,7 @@ function sayakaInit() {
 
   // ===== シーンの生き物：釣ったら消える / 海に逃がすと戻る =====
   const creatureEls = [...document.querySelectorAll(
-    '.fish-school .fish, .anglerfish, .deep-decor img, .space-decor img, .dawn-decor img, .prelude-floater.pf-duck, .prelude-floater.pf-flyingfish, .sf-shell, .sf-shell-2, .sf-girl-donut'
+    '.fish-school .fish, .anglerfish, .deep-decor img, .space-decor img, .dawn-decor img, .prelude-floater.pf-duck, .prelude-floater.pf-flyingfish, .sf-shell, .sf-shell-2, .sf-girl-donut, .ld-bee, .ld-cat-rainbow, .ld-chick-ufo'
   )];
   safe('creatures-setup', () => {
   creatureEls.forEach(el => {
