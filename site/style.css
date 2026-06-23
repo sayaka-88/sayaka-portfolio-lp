@@ -2157,6 +2157,10 @@ ul { list-style: none; padding: 0; margin: 0; }
   font-size: 0.88rem;
   color: rgba(255, 255, 255, 0.7);
 }
+.works-list-sub li.works-li-emph {
+  font-size: 1.05rem;
+  color: #FFFFFF;
+}
 .works-note-inline {
   margin-left: 4px;
   font-size: 0.82em;
