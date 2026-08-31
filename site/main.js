@@ -684,7 +684,11 @@ function sayakaInit() {
     }
   };
 
-  safe('lure-click', () => { if (lure) lure.addEventListener('click', startCatch); });
+  safe('lure-click', () => {
+    if (lure) lure.addEventListener('click', startCatch);
+    // 吹き出し（タップして釣る🎣）もルアー同様タップで釣れるように
+    if (hintEl) hintEl.addEventListener('click', startCatch);
+  });
 
   // ---- ルアー＋糸: scroll進捗で落ちていく ＋ 着水splashトリガー ----
   safe('lure-scroll', () => {
